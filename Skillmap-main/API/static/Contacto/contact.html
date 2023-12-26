@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
+    <title>Contacto</title>
+    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Contacto/style.css">
+    <style>body{display: none;}</style>
+</head>
+<body>
+  <header>
+    <a href="http://127.0.0.1:8000/Skillmap/Inicio"><img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png"></a>
+    <span class="logo">Skillmap</span>
+    <nav>
+        <div id="navbar">
+            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+        </div>
+    </nav>
+  </header>
+  <br>
+  <div class="container">
+    <section class="contact-form">
+      <h2>Contacta con nosotros</h2>
+      <form id="messageForm">
+        <label for="message">Mensaje:</label>
+        <textarea id="message" name="message" placeholder="Escribe tu mensaje" required></textarea>
+        
+        <input type="submit" value="Enviar Mensaje">
+      </form>
+    </section>
+  </div>
+  <br><br><br><br><br><br>
+  <footer>
+    <p>
+        <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+        <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+    </p>
+    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+</footer>
+<div class="custom-popup" id="customPopup">
+  <span class="popup-message" id="popupMessage"></span>
+</div>
+</body>
+<script>
+  async function verificarAutenticacion() {
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+    });
+    window.data = await response.json();
+    data = window.data
+    if (!response.ok || data.error) {
+        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+        document.body.style.display = 'block';
+    }
+  }
+  verificarAutenticacion();
+  document.getElementById('messageForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    send_message();
+  });
+  document.getElementById('cerrar_sesion').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+  });
+  async function send_message(){
+    const messageInput = document.getElementById('message');
+    const message = document.getElementById('message').value;
+    const usuario = window.data
+    const mensajeU = {
+      user_email: usuario.correo,
+      mensaje: message
+    };
+    try {
+      const response = await fetch('http://127.0.0.1:8000/user/comentario', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(mensajeU),
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Registration successful:', data);
+      if (data.error){
+        setTimeout(() => {
+          showCustomPopup(data.error,2000,"#ec5353")
+        }, 1800);
+      }else{
+        setTimeout(() => {
+          messageInput.value = '';
+          showCustomPopup(data.exito,2000,"#12a14b")
+        }, 1800);
+      }
+
+    } catch (error) {
+        console.error('Error during registration:', error);
+    }
+  }
+  function showCustomPopup(message, duration, backgroundColor) {
+    const customPopup = document.getElementById('customPopup');
+    const popupMessage = document.getElementById('popupMessage');
+
+    customPopup.style.backgroundColor = backgroundColor;
+
+    popupMessage.textContent = message;
+    customPopup.style.display = 'block';
+
+    // Animación de desplazamiento hacia abajo
+    customPopup.style.animation = 'slideDown 0.5s';
+
+    // Ocultar el pop-up después del tiempo especificado
+    setTimeout(() => {
+        customPopup.style.animation = 'slideUp 0.5s'; // Detener la animación
+        setTimeout(() => {
+            customPopup.style.display = 'none';
+            customPopup.style.animation = ''; // Resetear la animación
+        }, 500); // 500 milisegundos es la duración de la animación 'slideUp'
+    }, duration);
+  }
+</script>
+</html>

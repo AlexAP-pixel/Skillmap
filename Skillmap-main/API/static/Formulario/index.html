@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
+    <link rel="shortcut icon" href="/API/static/Logo.ico"> 
+    <title>Opcion</title>
+    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Formulario/styles.css">
+    <style>body{display: none;}</style>
+</head>
+<body>
+  <header>
+    <img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png">
+    <span class="logo">Skillmap</span>
+    <nav>
+        <div id="navbar">
+            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+        </div>
+    </nav>
+  </header>
+  <br>
+  <div class="centered-container">
+    <div class="form-container">
+        <form id="vocational-form">
+            <h1>Formulario de Orientación Vocacional</h1>
+            <div class="questions-container">
+                
+                <!-- Pregunta 1 -->
+                <label for="question1">1. ¿Cuáles son tus pasatiempos o actividades favoritas en tu tiempo libre?</label>
+                <textarea id="question1" name="question1" rows="2" required></textarea>
+                <br><br>
+                <!-- Pregunta 2 -->
+                <label for="question2">2. ¿Cuáles son tus materias favoritas en la escuela?</label>
+                <textarea id="question2" name="question2" rows="2" required></textarea>
+                <br><br>
+                
+                <!-- Pregunta 3 -->
+                <label for="question3">3. ¿Cuáles son tus materias menos favoritas en la escuela?</label>
+                <textarea id="question3" name="question3" rows="2" required></textarea>
+                <br><br>
+
+                <!-- Pregunta 4 -->
+                <label for="question4">4. ¿Cuáles son tus habilidades o talentos?</label>
+                <textarea id="question4" name="question4" rows="2" required></textarea>
+                <br><br>
+
+                <!-- Pregunta 5 -->
+                <label for="question5">5.¿Cómo te sientes en relación con el cambio y la adaptación a nuevas circunstancias?</label>
+                <div class="options-group">
+                  <br>
+                    <input type="radio" id="visual" name="question5" value="visual" required>
+                    <label for="visual">Me siento incómodo/a ante el cambio.</label>
+                    <br>
+                    
+                    <input type="radio" id="auditory" name="question5" value="auditory">
+                    <label for="auditory">Estoy dispuesto/a a adaptarme a nuevas situaciones.</label>
+                    <br>
+                    
+                    <input type="radio" id="kinesthetic" name="question5" value="kinesthetic">
+                    <label for="kinesthetic">Me emociona la idea de enfrentar nuevos desafíos constantemente.</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 6 -->
+                <label for="question6">6. ¿Cómo te sientes en relación con el cambio y la adaptación a nuevas circunstancias?</label>
+                <div class="options-group">
+                  <br>
+                    <input type="radio" id="visual" name="question6" value="visual" required>
+                    <label for="visual">Me siento incómodo/a ante el cambio.</label>
+                    <br>
+                    
+                    <input type="radio" id="auditory" name="question6" value="auditory">
+                    <label for="auditory">Estoy dispuesto/a a adaptarme a nuevas situaciones.</label>
+                    <br>
+                    
+                    <input type="radio" id="kinesthetic" name="question6" value="kinesthetic">
+                    <label for="kinesthetic">Me emociona la idea de enfrentar nuevos desafíos constantemente.</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 7 -->
+                <label for="question7">7. ¿Qué habilidades o talentos consideras que posees y te gustaría aprovechar en tu carrera?</label>
+                <textarea id="question7" name="question7" rows="2" required></textarea>
+                <br><br>
+                <!-- Pregunta 8 -->
+                <label for="question8">8. ¿Qué tareas o proyectos has realizado con entusiasmo en el pasado?</label>
+                <textarea id="question8" name="question8" rows="2" required></textarea>
+                <br><br>
+
+                <!-- Pregunta 9 -->
+                <label for="question9">9. ¿Cuál de las siguientes afirmaciones describe mejor tu estilo de aprendizaje?</label>
+                <div class="options-group">
+                  <br>
+                    <input type="radio" id="visual" name="question9" value="visual" required>
+                    <label for="visual">Aprendo mejor visualmente (gráficos, diagramas).</label>
+                    <br>
+                    
+                    <input type="radio" id="auditory" name="question9" value="auditory">
+                    <label for="auditory">Aprendo mejor a través del oído (conferencias, podcasts).</label>
+                    <br>
+                    
+                    <input type="radio" id="kinesthetic" name="question9" value="kinesthetic">
+                    <label for="kinesthetic">Aprendo mejor haciendo (actividades prácticas).</label>
+                    <br>
+                    
+                    <input type="radio" id="reading-writing" name="question9" value="reading-writing">
+                    <label for="reading-writing">Aprendo mejor leyendo y escribiendo.</label>
+                </div>
+            </div>
+            <button type="submit">Enviar Respuestas</button>
+        </form>
+    </div>
+  </div>
+  <br><br><br><br><br><br>
+  <footer>
+      <p>
+          <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+          <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+      </p>
+      <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+  </footer>
+</body>
+<script>
+  async function verificarAutenticacion() {
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) {
+      window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+      document.body.style.display = 'block';
+    }
+  }
+  verificarAutenticacion();
+  document.getElementById('cerrar_sesion').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+  });
+</script>
+</html>

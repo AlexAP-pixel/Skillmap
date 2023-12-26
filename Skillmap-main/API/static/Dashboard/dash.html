@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
+    <title>Mi cuenta</title>
+    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Dashboard/style.css">
+    <style>body{display: none;}</style>
+</head>
+
+<body>
+  <header>
+    <img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png">
+    <span class="logo">Skillmap</span>
+    <nav>
+        <div id="navbar">
+            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+        </div>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="dashboard-main">
+      <div class="dashboard-section profile-info">
+        <h2>Información de Perfil</h2>
+        <p id="nombre"></p>
+        <p id="email"></p>
+        <p></p>
+        <div class="profile-actions">
+          <a href="edit-profile.html" class="cta-button">Editar Perfil</a>
+        </div>
+      </div>
+
+      <div class="dashboard-section recommendations">
+        <h2>Recomendaciones de Carrera</h2>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <div class="dashboard-section education-pathways">
+        <h2>Rutas Educativas Sugeridas</h2>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>
+        <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+        <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+    </p>
+    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+  </footer>
+</body>
+<script>
+  async function verificarAutenticacion() {
+    const nombre = document.getElementById('nombre');
+    const correo = document.getElementById('email');
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) {
+        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+        document.body.style.display = 'block';
+        console.log(data.name)
+        nombretxt = "Nombre: "+data.name+" "+data.surname
+        correotxt = "Correo: "+data.correo
+        nombre.textContent = nombretxt
+        correo.textContent = correotxt
+    }
+  }
+  verificarAutenticacion();
+  document.getElementById('cerrar_sesion').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+  });
+</script>
+</html>

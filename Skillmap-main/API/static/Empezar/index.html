@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
+    <title>Opcion</title>
+    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Empezar/styles.css">
+    <style>body{display: none;}</style>
+</head>
+<body>
+  <header>
+    <img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png">
+    <span class="logo">Skillmap</span>
+    <nav>
+        <div id="navbar">
+            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+        </div>
+    </nav>
+  </header>
+  <br><br>
+    <div class="centered-container">
+      <div class="options-container">
+          <h1>Elige una opción</h1>
+          <section class="options">
+            <div class="options-section">
+                <div class="options-member" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Form')">
+                    <img src="http://127.0.0.1:8000/static/test.png" alt="Test" class="options-member-icon">
+                    <h3 class="options-member-name">Test</h3>
+                    <p class="options-member-title">Tomate tu tiempo respondiendo las preguntas</p>
+                </div>
+    
+                <div class="options-member" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Form')">
+                    <img src="http://127.0.0.1:8000/static/activity.png" alt="Activity" class="options-member-icon">
+                    <h3 class="options-member-name">Actividades</h3>
+                    <p class="options-member-title">Resuelve las actividades y dinos que te parecieron</p>
+                </div>
+    
+                <div class="options-member" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Form')">
+                    <img src="http://127.0.0.1:8000/static/result.png" alt="Results" class="options-member-icon">
+                    <h3 class="options-member-name">Resultados</h3>
+                    <p class="options-member-title">Conoce las carreras que te recomendamos</p>
+                </div>
+            </div>   
+        </section>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+          <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+          <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+      </p>
+      <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+  </footer>
+</body>
+<script>
+  async function verificarAutenticacion() {
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) {
+      window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+      document.body.style.display = 'block';
+    }
+  }
+  function redirigir(url){
+    window.location.href = url
+  }
+  verificarAutenticacion();
+  document.getElementById('cerrar_sesion').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+  });
+</script>
+</html>

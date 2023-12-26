@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
+    <title>Registro en Skillmap</title>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Registro/style.css">
+</head>
+<body>
+    <div class="register-container">
+        <h1>Regístrate</h1>
+        <p>Es rápido y fácil.</p>
+        <form id="register-form">
+            <div class="form-group">
+                <input type="text" id="first-name" name="first-name" placeholder="Nombre" required>
+                <input type="text" id="last-name" name="last-name" placeholder="Apellido" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="new-password" name="new-password" placeholder="Contraseña" required oninput="actpassStr(this.value)">
+                <p id="passStrength"></p>
+            </div>
+            <button type="submit" id="register-button">Registrarse</button>
+        </form>
+        <p>¿Ya tienes una cuenta? <a href="http://127.0.0.1:8000/Skillmap/">Inicia sesión</a></p>
+        <div class="custom-popup" id="customPopup">
+            <span class="popup-message" id="popupMessage"></span>
+        </div>
+        <script>
+            async function verificarAutenticacion() {
+                const response = await fetch('http://127.0.0.1:8000/user/me', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    }
+                });
+                const data = await response.json();
+                if (!response.ok || data.error) {
+                    //document.body.style.display = 'block';
+                }else{
+                    window.location.href = 'http://127.0.0.1:8000/Skillmap/Inicio';
+                }
+            }
+            verificarAutenticacion();
+            document.getElementById('register-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const password = document.getElementById('new-password').value; // Corregido: 'password' a 'new-password'
+                if(passwordStrength(password) === "La contraseña es segura"){ // Corregido: comparación con '==='
+                    registerUser();
+                } else {
+                    event.preventDefault();
+                }
+            });
+
+            function actpassStr(pass){
+                const stIndicator = document.getElementById('passStrength')
+                stIndicator.innerText = passwordStrength(pass);
+            }
+
+            function passwordStrength(pass){
+                let stText = ''
+                const passlength = pass.length >= 7;
+                const passUpperCase = /[A-Z]/.test(pass);
+                const passLowerCase = /[a-z]/.test(pass);
+                const passNumbers = /\d/.test(pass);
+                const passSpecialChar = /[!¡@#$%^&*,.?:|<>{}()'"]/.test(pass);
+                if (passlength && passUpperCase && passLowerCase && passNumbers && passSpecialChar){
+                    stText = "La contraseña es segura"
+                }else{
+                    stText = "La contraseña deberá tener"
+                    if(!passlength){
+                        stText += "\n- al menos 7 caracteres"
+                    }
+                    if(!passUpperCase){
+                        stText += "\n- al menos una mayúscula"
+                    }
+                    if(!passLowerCase){
+                        stText += "\n- al menos una minúscula"
+                    }
+                    if(!passNumbers){
+                        stText += "\n- al menos un número"
+                    }
+                    if(!passSpecialChar){
+                        stText += "\n- al menos 1 caracter especial"
+                    }
+                }
+                return stText
+            }
+
+            async function registerUser() {
+                const firstName = document.getElementById('first-name').value;
+                const lastName = document.getElementById('last-name').value;
+                const email = document.getElementById('email').value;
+                const newPassword = document.getElementById('new-password').value;
+
+                const userData = {
+                    name: firstName,
+                    surname: lastName,
+                    correo: email,
+                    password: newPassword
+                };
+
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/user', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(userData),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Registration successful:', data);
+                    if (data.error){
+                        showCustomPopup(data.error,2000,"#ec5353")
+                    }else{
+                        showCustomPopup("Usuario creado",2000,"#12a14b")
+                        mail(email);
+                    }
+
+                } catch (error) {
+                    console.error('Error during registration:', error);
+                }
+            }
+
+            async function mail(correo) {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8000/user/correo?correo=${encodeURIComponent(correo)}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ correo: correo }),
+                    });                    
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    console.log('Correo enviado');
+                    window.location.href = "http://127.0.0.1:8000/Skillmap/Autenticar";
+
+                } catch (error) {
+                    console.error('Error during registration:', error);
+                }
+            }
+
+            function showCustomPopup(message, duration, backgroundColor) {
+                const customPopup = document.getElementById('customPopup');
+                const popupMessage = document.getElementById('popupMessage');
+            
+                customPopup.style.backgroundColor = backgroundColor;
+
+                popupMessage.textContent = message;
+                customPopup.style.display = 'block';
+            
+                // Animación de desplazamiento hacia abajo
+                customPopup.style.animation = 'slideDown 0.5s';
+            
+                // Ocultar el pop-up después del tiempo especificado
+                setTimeout(() => {
+                    customPopup.style.animation = 'slideUp 0.5s'; // Detener la animación
+                    setTimeout(() => {
+                        customPopup.style.display = 'none';
+                        customPopup.style.animation = ''; // Resetear la animación
+                    }, 500); // 500 milisegundos es la duración de la animación 'slideUp'
+                }, duration);
+            }
+        </script>
+    </div>
+</body>
+</html>
