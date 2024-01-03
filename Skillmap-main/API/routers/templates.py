@@ -41,6 +41,10 @@ async def read_aboutUs():
 async def read_Empezar():
     return FileResponse("static/Empezar/index.html")
 
-@router.get("/Form")
+@router.get("/Empezar/Form")
 async def read_Form():
     return FileResponse("static/Formulario/index.html")
+
+@router.get("/Empezar/Activity")
+async def read_Activity():
+    return FileResponse("static/Actividades/index.html")
