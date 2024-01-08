@@ -77,6 +77,26 @@
                 const data = await response.json();
                 if (data.error){
                     showCustomPopup(data.error,2000,"#ec5353")
+                    if(data.error == "Usuario no autenticado"){
+                        try {
+                            const response = await fetch(`http://127.0.0.1:8000/user/correo?correo=${encodeURIComponent(correo)}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ correo: correo }),
+                            });                    
+        
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            console.log('Correo enviado');
+                            window.location.href = "http://127.0.0.1:8000/Skillmap/Autenticar";
+        
+                        } catch (error) {
+                            console.error('Error during registration:', error);
+                        }
+                    }
                 }else{
                     setTimeout(() => {
                         localStorage.setItem('access_token', data.access_token);
@@ -87,7 +107,6 @@
                 console.error('Error login:', error);
             }
         }
-
         function showCustomPopup(message, duration, backgroundColor) {
             const customPopup = document.getElementById('customPopup');
             const popupMessage = document.getElementById('popupMessage');
