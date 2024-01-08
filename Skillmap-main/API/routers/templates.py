@@ -48,3 +48,7 @@ async def read_Form():
 @router.get("/Empezar/Activity")
 async def read_Activity():
     return FileResponse("static/Actividades/index.html")
+
+@router.get("/Edit")
+async def read_edit():
+    return FileResponse("static/Actualizar/index.html")

@@ -3,13 +3,23 @@ from typing import Optional
 
 class Answers(BaseModel):
     id: Optional[str] = None
-    user_id: str
+    user_email: str
     res1: str
     res2: str
     res3: str
     res4: str
-    res5: int
-    res6: int
+    res5: str
+    res6: str
     res7: str
     res8: str
-    res9: int
+    res9: str
+    res10: str
+    res11: str
+    res12: str
+    res13: str
+    act1: int
+    act2: int
+    act3: int
+    formulario: Optional[bool] = None
+    actividades: Optional[bool] = None
+    

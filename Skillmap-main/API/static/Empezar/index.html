@@ -29,19 +29,19 @@
           <h1>Elige una opción</h1>
           <section class="options">
             <div class="options-section">
-                <div class="options-member" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Form')">
+                <div class="options-member-test" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Form')">
                     <img src="http://127.0.0.1:8000/static/test.png" alt="Test" class="options-member-icon">
                     <h3 class="options-member-name">Test</h3>
                     <p class="options-member-title">Tomate tu tiempo respondiendo las preguntas</p>
                 </div>
     
-                <div class="options-member" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Activity')">
+                <div class="options-member-activities" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Activity')">
                     <img src="http://127.0.0.1:8000/static/activity.png" alt="Activity" class="options-member-icon">
                     <h3 class="options-member-name">Actividades</h3>
                     <p class="options-member-title">Resuelve las actividades y dinos que te parecieron</p>
                 </div>
     
-                <div class="options-member" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Form')">
+                <div class="options-member-results" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Form')">
                     <img src="http://127.0.0.1:8000/static/result.png" alt="Results" class="options-member-icon">
                     <h3 class="options-member-name">Resultados</h3>
                     <p class="options-member-title">Conoce las carreras que te recomendamos</p>
@@ -72,6 +72,39 @@
       window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
       document.body.style.display = 'block';
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(data.correo)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          }
+        });
+        const respuestasUsuario = await response.json();
+        if (respuestasUsuario.formulario == false){
+          var activitiesOptions = document.querySelector('.options-member-activities');
+          activitiesOptions.style.transform = 'none'
+          activitiesOptions.style.border ='#333';
+          activitiesOptions.style.boxShadow = '0 4px 8px #666';
+          activitiesOptions.style.cursor = 'default';
+          var acitivitiesName = activitiesOptions.querySelector('.options-member-name');
+          acitivitiesName.style.color = '#333';
+          var acitivitiesTitle = activitiesOptions.querySelector('.options-member-title');
+          acitivitiesTitle.style.color = '#666';
+        }
+        if (respuestasUsuario.actividades == false){
+          var resultsOptions = document.querySelector('.options-member-results');
+          resultsOptions.style.transform = 'none'
+          resultsOptions.style.border ='#333';
+          resultsOptions.style.boxShadow = '0 4px 8px #666';
+          resultsOptions.style.cursor = 'default';
+          var resultsName = resultsOptions.querySelector('.options-member-name');
+          resultsName.style.color = '#333';
+          var resultsTitle = resultsOptions.querySelector('.options-member-title');
+          resultsTitle.style.color = '#666';
+        }
+      } catch (error) {
+        console.error('Error al cargar respuestas:', error.message);
+      }
     }
   }
   function redirigir(url){

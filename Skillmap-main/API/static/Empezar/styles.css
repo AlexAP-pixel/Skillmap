@@ -167,7 +167,9 @@ footer a {
   padding: 20px;
 }
 
-.options-member {
+.options-member-activities,
+.options-member-test,
+.options-member-results {
   background-color: #fff; /* Fondo blanco para los recuadros */
   border-radius: 20px; /* Bordes redondeados */
   border: 2px solid #6ed48c;
@@ -180,7 +182,9 @@ footer a {
   cursor: pointer;
 }
 
-.options-member:hover {
+.options-member-activities:hover,
+.options-member-test:hover,
+.options-member-results:hover {
   transform: translateY(-5px); /* Elevación sutil al pasar el mouse */
 }
 
@@ -199,4 +203,16 @@ footer a {
 .options-member-title {
   color: #666; /* Color del texto */
   font-size: 1em; /* Tamaño del texto */
+}
+
+.options-member-activities:hover .options-member-name,
+.options-member-test:hover .options-member-name,
+.options-member-results:hover .options-member-name {
+  color: #269e42;
+}
+
+.options-member-activities:hover .options-member-title,
+.options-member-test:hover .options-member-title,
+.options-member-results:hover .options-member-title {
+  color: #66d186;
 }

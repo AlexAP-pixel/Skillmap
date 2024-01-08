@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
+    <title>Mi cuenta</title>
+    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Actualizar/style.css">
+    <style>body{display: none;}</style>
+</head>
+
+<body>
+  <header>
+    <img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png">
+    <span class="logo">Skillmap</span>
+    <nav>
+        <div id="navbar">
+            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+        </div>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="dashboard-main">
+      <div class="dashboard-section profile-info">
+        <h2>Información de Perfil</h2>
+        <label for="nombre">Nombre: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp</label>
+        <input type="text" id="nombre" required><br><br>
+        <label for="apellido">Apellido:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp</label>
+        <input type="text" id="apellido" required><br><br>
+        <label for="email">Correo: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
+        <input type="email" id="email" required><br><br>
+        <label for="password">Contraseña: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
+        <input type="password" id="password" required><br><br>
+        <label for="newPassword">Nueva Contraseña:</label>
+        <input type="password" id="newPassword" required><br><br>
+        <p></p>
+        <div class="profile-actions">
+          <button id="guardarCambiosButton" class="cta-button" >Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>
+        <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+        <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+    </p>
+    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+  </footer>
+</body>
+<script>
+  async function verificarAutenticacion() {
+    const nombre = document.getElementById('nombre');
+    const apellido = document.getElementById('apellido');
+    const correo = document.getElementById('email');
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) {
+        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+      document.body.style.display = 'block';
+      nombretxt = data.name
+      apellidotxt = data.surname
+      correotxt = data.correo
+      nombre.value = nombretxt
+      apellido.value = apellidotxt
+      correo.value = correotxt
+    }
+  }
+  verificarAutenticacion();
+  document.getElementById('guardarCambiosButton').addEventListener('click', async function() {
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const correo = document.getElementById('email').value;
+    const contrasena = document.getElementById('password').value;
+    const nuevaContrasena = document.getElementById('newPassword').value;
+    const userData = {
+      name: nombre,
+      surname: apellido,
+      correo: correo,
+      password: contrasena
+    };
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/user/update?newPass=${nuevaContrasena}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Registration successful:', data);
+      if (data.error){
+      }else{
+      }
+  } catch (error) {
+      console.error('Error during registration:', error);
+  }
+  });
+  document.getElementById('cerrar_sesion').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+  });
+</script>
+</html>

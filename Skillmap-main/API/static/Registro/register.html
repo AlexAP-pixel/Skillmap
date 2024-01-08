@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
     <title>Registro en Skillmap</title>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Registro/style.css">
 </head>
@@ -103,6 +103,26 @@
                     password: newPassword
                 };
 
+                const userForm = {
+                    user_email: email,
+                    res1: " ",
+                    res2: " ",
+                    res3: " ",
+                    res4: " ",
+                    res5: " ",
+                    res6: " ",
+                    res7: " ",
+                    res8: " ",
+                    res9: " ",
+                    res10: " ",
+                    res11: " ",
+                    res12: " ",
+                    res13: " ",
+                    act1: 0,
+                    act2: 0,
+                    act3: 0
+                }
+
                 try {
                     const response = await fetch('http://127.0.0.1:8000/user', {
                         method: 'POST',
@@ -121,6 +141,21 @@
                     if (data.error){
                         showCustomPopup(data.error,2000,"#ec5353")
                     }else{
+                        try {
+                            const response = await fetch('http://127.0.0.1:8000/answers', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(userForm),
+                            });
+        
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                        } catch (error) {
+                            console.error('Error during registration:', error);
+                        }
                         showCustomPopup("Usuario creado",2000,"#12a14b")
                         mail(email);
                     }

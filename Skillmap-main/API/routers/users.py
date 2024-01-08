@@ -58,7 +58,6 @@ def send_mail(correo, subject, body):
             smtp.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
             print("Correo enviado con éxito.")
     except Exception as e:
-        print(f"Error al enviar el correo: {str(e)}")
         return {"error": f"Error al enviar el correo: {str(e)}"}
 
 async def auth_user(token: str = Depends(oauth2)):
@@ -189,3 +188,24 @@ async def coment(mensaje: mensajesU):
     id = db_client.mesajesU.insert_one(mensaje_dict).inserted_id
     new_mensaje = mensajesU_schema(db_client.mesajesU.find_one({"_id": id}))
     return {"exito": "Mensaje enviado, te responderemos lo mas pronto posible"}
+
+@router.post("/update")
+async def updateUser(newUser: User, newPass: str):
+    user = search_user("correo", newUser.correo)
+    if newUser.correo != user.correo:
+        if type(search_user("correo", user.correo)) == User:
+            return {"error": "El correo ya está registrado"}
+    if not crypt.verify(newUser.password, user.password):
+        return {"error": "Contraseña incorrecta"}
+    user_dict = dict(user)
+    if newPass != "":
+        user_dict["password"] = crypt.hash(newPass)
+    user_dict["name"] = newUser.name
+    user_dict["surname"] = newUser.surname
+    user_dict["correo"] = newUser.correo
+    user_dict.pop("id", None)
+    try:
+        db_client.users.find_one_and_replace({"_id": ObjectId(user.id)}, user_dict)
+    except:
+        return {"error": "No se ha actualizado el usuario"}
+    return {"exito": "Datos actualizados"}

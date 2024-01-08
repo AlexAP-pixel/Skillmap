@@ -75,7 +75,6 @@
                 }
 
                 const data = await response.json();
-                console.log('Login correcto:', data);
                 if (data.error){
                     showCustomPopup(data.error,2000,"#ec5353")
                 }else{
@@ -96,6 +95,7 @@
             customPopup.style.backgroundColor = backgroundColor;
 
             popupMessage.textContent = message;
+            customPopup.style.display = 'block';
         
             // Animación de desplazamiento hacia abajo
             customPopup.style.animation = 'slideDown 0.5s';

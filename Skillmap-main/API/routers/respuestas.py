@@ -8,30 +8,40 @@ router = APIRouter(prefix="/answers")
 
 def search_answers(field: str, key):
     try:
-        user = db_client.answers.find_one({field: key})
-        return Answers(**answers_schema(user))
+        answer = db_client.answers.find_one({field: key})
+        return Answers(**answers_schema(answer))
     except:
         return False
 
 @router.post("/")
-async def createBDans(answer: Answers):
+async def createDBans(answer: Answers):
     answer_dict = dict(answer)
     answer_dict.pop("id", None)
-    id = db_client.answers.insert_one().inserted_id
+    answer_dict["formulario"] = False
+    answer_dict["actividades"] = False
+    
+    id = db_client.answers.insert_one(answer_dict).inserted_id
     new_answers = answers_schema(db_client.answers.find_one({"_id": id}))
+    print("Formato de respuestas creado")
     return {"exito": "Datos guardados"}
 
-@router.put("/")
-async def updateDBans(answer: Answers):
+@router.patch("/")
+async def updateDBans(correo:str, parametro:str, valor):
+    if valor == "true":
+        valor = True
+    elif valor == "false":
+        valor = False
+    answer = search_answers("user_email",correo)
     answer_dict = dict(answer)
-    answer_dict.pop("id", None)
+    answer_dict[parametro] = valor
+    answer_id = ObjectId(answer.id)
     try:
-        db_client.users.find_one_and_replace({"_id": ObjectId(answer.id)}, answer_dict)
-    except:
-        return {"error": "No se han actualizado las respuestas"}
-    return {"exito": "Respuestas guardadas"}
+        db_client.answers.update_one({"_id": answer_id}, {"$set": answer_dict})
+    except Exception as e:
+        return {"error": f"No se han actualizado las respuestas. Detalles del error: {str(e)}"}
+    return {"exito": "Respuestas actualizadas exitosamente"}
 
-router.get("/")
-async def answers():
-    answer_dict = dict(search_answers("_id", ObjectId(id)))
+@router.get("/")
+async def answers(correo):
+    answer_dict = dict(search_answers("user_email", correo))
     return answer_dict

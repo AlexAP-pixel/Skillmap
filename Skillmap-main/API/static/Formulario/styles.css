@@ -2,6 +2,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
+  display: flex;
   box-sizing: border-box;
 }
 
@@ -197,4 +198,42 @@ button {
 
 button:hover {
   background-color: #4cae4c;
+}
+
+.custom-popup {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #991b12ab; /* Color de fondo del pop-up */
+  color: f44336; /* Color del texto del pop-up */
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+}
+
+.popup-message {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@keyframes slideDown {
+  from {
+      top: -50px;
+  }
+  to {
+      top: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+      top: 0;
+  }
+  to {
+      top: -50px;
+  }
 }
