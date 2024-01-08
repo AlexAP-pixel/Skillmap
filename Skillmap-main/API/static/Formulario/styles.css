@@ -205,14 +205,13 @@ button:hover {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #991b12ab; /* Color de fondo del pop-up */
-  color: f44336; /* Color del texto del pop-up */
+  background-color: #f44336;
+  color: white; /* Color del texto del pop-up */
   padding: 10px;
   text-align: center;
   width: 100%;
   z-index: 1000;
   display: none;
-  align-items: center;
 }
 
 .popup-message {
