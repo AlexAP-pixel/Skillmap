@@ -25,20 +25,22 @@
         </div>
     </nav>
   </header>
-
+  <div class="custom-popup" id="customPopup" style="color: white">
+    <span class="popup-message" id="popupMessage"></span>
+  </div>
   <div class="dashboard-container">
     <div class="dashboard-main">
       <div class="dashboard-section profile-info">
         <h2>Información de Perfil</h2>
-        <label for="nombre">Nombre: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp</label>
+        <label for="nombre">*Nombre: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp</label>
         <input type="text" id="nombre" required><br><br>
-        <label for="apellido">Apellido:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp</label>
+        <label for="apellido">*Apellido:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp</label>
         <input type="text" id="apellido" required><br><br>
-        <label for="email">Correo: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
+        <label for="email">*Correo: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
         <input type="email" id="email" required><br><br>
-        <label for="password">Contraseña: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
+        <label for="password">*Contraseña: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
         <input type="password" id="password" required><br><br>
-        <label for="newPassword">Nueva Contraseña:</label>
+        <label for="newPassword">&nbspNueva Contraseña:</label>
         <input type="password" id="newPassword" required><br><br>
         <p></p>
         <div class="profile-actions">
@@ -46,6 +48,8 @@
         </div>
       </div>
     </div>
+    <div style="font-size: 11px">*Valores obligatorios.</div>
+    <div style="font-size: 11px">&nbspSi desea cambiar la contraseña rellene el campo "Nueva contraseña"</div>
   </div>
   <footer>
     <p>
@@ -66,7 +70,8 @@
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
     });
-    const data = await response.json();
+    window.data = await response.json();
+    data = window.data
     if (!response.ok || data.error) {
         window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
@@ -86,6 +91,15 @@
     const correo = document.getElementById('email').value;
     const contrasena = document.getElementById('password').value;
     const nuevaContrasena = document.getElementById('newPassword').value;
+    if (!nombre || !apellido || !correo || !contrasena) {
+      showCustomPopup("Rellena los campos obligatorios para continuar",2000,"#ec5353")
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+      showCustomPopup("Ingrese un correo electrónico válido",2000,"#ec5353")
+      return;
+    }
     const userData = {
       name: nombre,
       surname: apellido,
@@ -93,14 +107,14 @@
       password: contrasena
     };
     try {
-      const response = await fetch(`http://127.0.0.1:8000/user/update?newPass=${nuevaContrasena}`, {
+      const response = await fetch(`http://127.0.0.1:8000/user/update?userCorreo=${encodeURIComponent(window.data.correo)}&newPass=${nuevaContrasena}`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
           body: JSON.stringify(userData),
       });
-
+      console.log("Pasamos del update")
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -108,7 +122,12 @@
       const data = await response.json();
       console.log('Registration successful:', data);
       if (data.error){
+        showCustomPopup(data.error,2000,"#ec5353")
       }else{
+        showCustomPopup(data.exito,2000,"#12a14b")
+        setTimeout(() => {
+          window.location.href = 'http://127.0.0.1:8000/Skillmap/Dashboard';
+        }, 1500);
       }
   } catch (error) {
       console.error('Error during registration:', error);
@@ -118,5 +137,24 @@
     localStorage.removeItem('access_token');
     window.location.href = 'http://127.0.0.1:8000/Skillmap/';
   });
+  function showCustomPopup(message, duration, backgroundColor) {
+    const customPopup = document.getElementById('customPopup');
+    const popupMessage = document.getElementById('popupMessage');
+
+    customPopup.style.backgroundColor = backgroundColor;
+
+    popupMessage.textContent = message;
+    customPopup.style.display = 'block';
+
+    customPopup.style.animation = 'slideDown 0.5s';
+
+    setTimeout(() => {
+        customPopup.style.animation = 'slideUp 0.5s';
+        setTimeout(() => {
+            customPopup.style.display = 'none';
+            customPopup.style.animation = '';
+        }, 500);
+    }, duration);
+  }
 </script>
 </html>

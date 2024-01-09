@@ -207,3 +207,40 @@ footer a {
 .profile-actions a:hover {
   background: #0056b3; /* Un verde más claro para el hover */
 }
+
+.custom-popup {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f44336;
+  color: white; /* Color del texto del pop-up */
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+}
+
+.popup-message {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@keyframes slideDown {
+  from {
+      top: -50px;
+  }
+  to {
+      top: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+      top: 0;
+  }
+  to {
+      top: -50px;
+  }
+}

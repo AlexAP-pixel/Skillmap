@@ -76,7 +76,7 @@
 
                 const data = await response.json();
                 if (data.error){
-                    showCustomPopup(data.error,2000,"#ec5353")
+                    showCustomPopup(data.error,2500,"#ec5353")
                     if(data.error == "Usuario no autenticado"){
                         try {
                             const response = await fetch(`http://127.0.0.1:8000/user/correo?correo=${encodeURIComponent(correo)}`, {

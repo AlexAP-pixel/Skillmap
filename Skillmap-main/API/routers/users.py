@@ -36,11 +36,18 @@ def remove_password_field(user_dict):
     user_dict_copy.pop("password", None)
     return user_dict_copy
 
-def send_mail(correo, subject, body):
+def send_mail(correo, subject, body, attemp):
     HOST = "smtp-mail.outlook.com"
     PORT = 587
 
-    FROM_EMAIL = "skillmap2024@outlook.com"
+    if attemp == 1:
+        FROM_EMAIL = "skillmap2024@outlook.com"
+    elif attemp == 2:
+        FROM_EMAIL = "skillmap2025@outlook.com"
+    elif attemp == 3:
+        FROM_EMAIL = "skillmap2026@outlook.com"
+    elif attemp == 4:
+        FROM_EMAIL = "skillmap2027@outlook.com"
     TO_EMAIL = correo
     PASSWORD = "Tarjetasfunables3420"
 
@@ -58,6 +65,7 @@ def send_mail(correo, subject, body):
             smtp.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
             print("Correo enviado con éxito.")
     except Exception as e:
+        send_mail(correo, subject, body, attemp+1)
         return {"error": f"Error al enviar el correo: {str(e)}"}
 
 async def auth_user(token: str = Depends(oauth2)):
@@ -115,7 +123,7 @@ async def mail(correo: str):
     
     subject = "Bienvenido"
     body = f" Hola {user.name} gracias por registrarte en SkillMap\n\nEste es tu código de verificación: {code}"
-    send_mail(user.correo, subject, body)
+    send_mail(user.correo, subject, body, 1)
     return {"Correo enviado"}
 
 @router.put("/contraseña")
@@ -128,7 +136,7 @@ async def update_pass(correo: str):
         
         subject = "Recuperacion de contraseña"
         body = f" Hola {user.name} \n\nEste es tu nueva contraseña {password}, te recomendamos cambiarla tras ingresar en el apartado de Mi cuenta"
-        send_mail(user.correo, subject, body)
+        send_mail(user.correo, subject, body, 1)
     else:
         return {"error":"Correo no registrado"}
     return {"exito":"Contraseña restaurada"}
@@ -190,10 +198,11 @@ async def coment(mensaje: mensajesU):
     return {"exito": "Mensaje enviado, te responderemos lo mas pronto posible"}
 
 @router.post("/update")
-async def updateUser(newUser: User, newPass: str):
+async def updateUser(newUser: User, userCorreo:str, newPass: str):
     user = search_user("correo", newUser.correo)
-    if newUser.correo != user.correo:
-        if type(search_user("correo", user.correo)) == User:
+    if newUser.correo != userCorreo:
+        if type(search_user("correo", userCorreo)) == User:
+            print("Correo ya registrado")
             return {"error": "El correo ya está registrado"}
     if not crypt.verify(newUser.password, user.password):
         return {"error": "Contraseña incorrecta"}
