@@ -19,18 +19,18 @@ body {
   }
 
   button {
-    background: #007B7F; 
+    background: #ec5353; 
     color: #ffffff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px; /* borde de boton*/
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
+    margin-right: 4%;
   }
 
   button:hover {
-    background: #005a68; /* Un color mas tranqui */
-    transform: translateY(-2px); /* eleva ligeramente el botón */
+    background: #ce4242; /* Un color mas tranqui */
   }
 
   button.enviar {
@@ -43,13 +43,13 @@ body {
     cursor: pointer; 
     border: none; 
     border-radius: 25px; 
-    background-color: #007B7F; 
-    color: white; 
+    background-color: #5cb85c; 
+    color: rgba(255, 255, 255, 0.87);
     transition: background-color 0.3s ease-in-out; 
 }
 
 button.enviar:hover {
-    background-color: #005a68; 
+    background-color: #0056b3; 
 }
 
   .drop_element button{
