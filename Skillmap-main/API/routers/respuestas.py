@@ -15,15 +15,19 @@ def search_answers(field: str, key):
 
 @router.post("/")
 async def createDBans(answer: Answers):
-    answer_dict = dict(answer)
-    answer_dict.pop("id", None)
-    answer_dict["formulario"] = False
-    answer_dict["actividades"] = False
-    
-    id = db_client.answers.insert_one(answer_dict).inserted_id
-    new_answers = answers_schema(db_client.answers.find_one({"_id": id}))
-    print("Formato de respuestas creado")
-    return {"exito": "Datos guardados"}
+    try:
+        answer_dict = dict(answer)
+        answer_dict.pop("id", None)
+        answer_dict["formulario"] = False
+        answer_dict["actividades"] = False
+        
+        id = db_client.answers.insert_one(answer_dict).inserted_id
+        new_answers = answers_schema(db_client.answers.find_one({"_id": id}))
+        print("Formato de respuestas creado")
+        return {"exito": "Datos guardados"}
+    except Exception as e:
+        print("Error creating answers:", str(e))
+        return {"error": f"Error creating answers: {str(e)}", "validation_error": answer.errors()}
 
 @router.patch("/")
 async def updateDBans(correo:str, parametro:str, valor):

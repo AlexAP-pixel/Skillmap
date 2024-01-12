@@ -17,5 +17,6 @@ def answers_schema(answers) -> dict:
            "act1": answers["act1"],
            "act2": answers["act2"],
            "act3": answers["act3"],
+           "act4": answers["act4"],
            "formulario": answers["formulario"],
            "actividades": answers["actividades"]}

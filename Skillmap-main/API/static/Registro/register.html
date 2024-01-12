@@ -95,7 +95,8 @@
                 const lastName = document.getElementById('last-name').value;
                 const email = document.getElementById('email').value;
                 const newPassword = document.getElementById('new-password').value;
-
+                const respuestasgral = " ";
+                const actividadesgral = 0;
                 const userData = {
                     name: firstName,
                     surname: lastName,
@@ -105,22 +106,23 @@
 
                 const userForm = {
                     user_email: email,
-                    res1: " ",
-                    res2: " ",
-                    res3: " ",
-                    res4: " ",
-                    res5: " ",
-                    res6: " ",
-                    res7: " ",
-                    res8: " ",
-                    res9: " ",
-                    res10: " ",
-                    res11: " ",
-                    res12: " ",
-                    res13: " ",
-                    act1: 0,
-                    act2: 0,
-                    act3: 0
+                    res1: respuestasgral,
+                    res2: respuestasgral,
+                    res3: respuestasgral,
+                    res4: respuestasgral,
+                    res5: respuestasgral,
+                    res6: respuestasgral,
+                    res7: respuestasgral,
+                    res8: respuestasgral,
+                    res9: respuestasgral,
+                    res10: respuestasgral,
+                    res11: respuestasgral,
+                    res12: respuestasgral,
+                    res13: respuestasgral,
+                    act1: actividadesgral,
+                    act2: actividadesgral,
+                    act3: actividadesgral,
+                    act4: actividadesgral
                 }
 
                 try {
@@ -137,7 +139,6 @@
                     }
 
                     const data = await response.json();
-                    console.log('Registration successful:', data);
                     if (data.error){
                         showCustomPopup(data.error,2000,"#ec5353")
                     }else{
@@ -149,15 +150,21 @@
                                 },
                                 body: JSON.stringify(userForm),
                             });
-        
                             if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            console.log('Registration successful:', data);
+                            console.log(data)
+                            if (data.error){
+                                showCustomPopup(data.error,2000,"#ec5353")
+                            }else{
+                                showCustomPopup("Usuario creado",2000,"#12a14b")
+                                mail(email);
                             }
                         } catch (error) {
                             console.error('Error during registration:', error);
                         }
-                        showCustomPopup("Usuario creado",2000,"#12a14b")
-                        mail(email);
                     }
 
                 } catch (error) {

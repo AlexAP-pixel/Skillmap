@@ -20,6 +20,7 @@ class Answers(BaseModel):
     act1: int
     act2: int
     act3: int
+    act4: int
     formulario: Optional[bool] = None
     actividades: Optional[bool] = None
     
