@@ -53,6 +53,6 @@ async def read_Activity():
 async def read_edit():
     return FileResponse("static/Actualizar/index.html")
 
-@router.get("/Resultados")
-async def read_edit():
+@router.get("/Empezar/Resultados")
+async def read_Results():
     return FileResponse("static/Resultados/index.html")

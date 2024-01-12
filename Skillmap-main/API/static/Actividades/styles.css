@@ -15,15 +15,19 @@ body {
     align-items: center;
     justify-content: space-between;
   }
-  
-  .drop_element {
+
+  .drop_element button{
+    background: #f44336;
+    color: rgba(255, 255, 255, 0.87);
+    margin-right: 4%;
+  }
+
+  .dorpClass{
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 150px; /* ajusta según tus necesidades */
-    background-size: cover;
-    background-position: center;
-    border: 2px dashed #ccc; /* o el estilo de borde que prefieras */
+  }
+
+  .adropClass div{
+    flex:1;
   }
 
   nav {
@@ -105,7 +109,8 @@ body {
     cursor: move;
   }
 
-  .drop_element {
+  .drop_element1,
+  .drop_element2 {
     display: flex;
     justify-content: space-around;
     align-items: center;

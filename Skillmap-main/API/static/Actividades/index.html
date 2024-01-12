@@ -27,30 +27,72 @@
     </header>
 
     <div class="activity1">
-        <h1>Actividad de la carrera 1</h1>
+        <section id="hero">
+            <h1>Actividad 1</h1>
+            <p>Clasifica los elementos mostrados en software y hardware.</p>
+        </section>
         <div class="dragg_element">
             <div class="element"  id="element1" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/1.png" alt="elemento">
+                <img class="image" src="http://127.0.0.1:8000/static/Antivirus.jpg" alt="elemento">
             </div>
             <div class="element" id="element2" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/2.png" alt="elemento">
+                <img class="image" src="http://127.0.0.1:8000/static/Camara.jpg" alt="elemento">
             </div>
             <div class="element" id="element3" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/3.png" alt="elemento">
+                <img class="image" src="http://127.0.0.1:8000/static/Chrome.jpg" alt="elemento">
+            </div>
+            <div class="element" id="element4" draggable="true" ondragstart="drag(event)">
+                <img class="image" src="http://127.0.0.1:8000/static/Excel.jpg" alt="elemento">
+            </div>
+            <div class="element" id="element5" draggable="true" ondragstart="drag(event)">
+                <img class="image" src="http://127.0.0.1:8000/static/Impresora.jpg" alt="elemento">
+            </div>
+            <div class="element" id="element6" draggable="true" ondragstart="drag(event)">
+                <img class="image" src="http://127.0.0.1:8000/static/Linux.jpg" alt="elemento">
+            </div>
+            <div class="element" id="element7" draggable="true" ondragstart="drag(event)">
+                <img class="image" src="http://127.0.0.1:8000/static/Monitor.jpg" alt="elemento">
+            </div>
+            <div class="element" id="element8" draggable="true" ondragstart="drag(event)">
+                <img class="image" src="http://127.0.0.1:8000/static/Procesador.jpg" alt="elemento">
+            </div>
+            <div class="element" id="element9" draggable="true" ondragstart="drag(event)">
+                <img class="image" src="http://127.0.0.1:8000/static/Ram.jpg" alt="elemento">
+            </div>
+            <div class="element" id="element10" draggable="true" ondragstart="drag(event)">
+                <img class="image" src="http://127.0.0.1:8000/static/Windows.jpg" alt="elemento">
             </div>
         </div>
-        <h2>Arrastra y suelta</h2>
-        <div class="drop_element">
-            <div class="names" id="uno" ondrop="drop(event)" ondragover="allowDrop(event)">
-                
+        <div class="droppClass">
+            <div class="drop_element1">
+                <h2>Software</h2>
+                <div class="names" id="sw1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('sw1')">X</button>
+                <div class="names" id="sw2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('sw2')">X</button>
+                <div class="names" id="sw3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('sw3')">X</button>
+                <div class="names" id="sw4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('sw4')">X</button>
+                <div class="names" id="sw5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('sw5')">X</button>
             </div>
-            <div class="names" id="dos" ondrop="drop(event)" ondragover="allowDrop(event)">
-                
+            <div class="drop_element2">
+                <h2>Hardware</h2>
+                <div class="names" id="hw1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('hw1')">X</button>
+                <div class="names" id="hw2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('hw2')">X</button>
+                <div class="names" id="hw3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('hw3')">X</button>
+                <div class="names" id="hw4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('hw4')">X</button>
+                <div class="names" id="hw5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <button onclick="resetBackground('hw5')">X</button>
             </div>
-            <div class="names" id="tres" ondrop="drop(event)" ondragover="allowDrop(event)">
-                
-            </div>
+            <br>
         </div>
+        <button onclick="terminarActividad1()">Enviar</button>
     </div>
     <footer>
         <p>
@@ -96,9 +138,85 @@
         const data = event.dataTransfer.getData("text/plain");
         const draggedElement = document.getElementById(data);
         const dropZone = event.target;
+        console.log(dropZone.class)
+        const draggElements = document.querySelectorAll('.dragg_element .element');
+        draggElements.forEach(element => {
+            textInside =element.innerHTML
+            if (textInside.includes(data)){
+                element.style.display = 'none';
+            }
+        });
         dropZone.style.cssText = `background-image: url('${data}'); background-repeat: no-repeat; background-size: cover;`;
     }
-    
+    function resetBackground(dropElementId) {
+        const dropZone = document.getElementById(dropElementId);
+        const backgroundImage = dropZone.style.backgroundImage;
+        const draggElements = document.querySelectorAll('.dragg_element .element');
+        const imageUrl = backgroundImage.replace('url("', '').replace('")', '');
+        draggElements.forEach(element => {
+            textInside =element.innerHTML
+            if (textInside.includes(imageUrl)){
+                element.style.display = 'inline-block';
+            }
+        });
+        dropZone.style.cssText = '';
+    }
+    function terminarActividad1(){
+        const sw1 = document.getElementById('sw1').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const sw2 = document.getElementById('sw2').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const sw3 = document.getElementById('sw3').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const sw4 = document.getElementById('sw4').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const sw5 = document.getElementById('sw5').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const hw1 = document.getElementById('hw1').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const hw2 = document.getElementById('hw2').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const hw3 = document.getElementById('hw3').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const hw4 = document.getElementById('hw4').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        const hw5 = document.getElementById('hw5').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
+        let result = 0
+        if (software(sw1)){
+            result += 1
+        }
+        if (software(sw2)){
+            result += 1
+        }
+        if (software(sw3)){
+            result += 1
+        }
+        if (software(sw4)){
+            result += 1
+        }
+        if (software(sw5)){
+            result += 1
+        }
+        if (hardware(hw1)){
+            result += 1
+        }
+        if (hardware(hw2)){
+            result += 1
+        }
+        if (hardware(hw3)){
+            result += 1
+        }
+        if (hardware(hw4)){
+            result += 1
+        }
+        if (hardware(hw5)){
+            result += 1
+        }
+        console.log(result)
+    }
+    function software(sw){
+        if(sw=="Antivirus" || sw=="Chrome" || sw=="Excel" || sw=="Linux" || sw=="Windows"){
+            return true
+        }
+        return false
+    }
+    function hardware(hw){
+        if(hw=="Camara" || hw=="Impresora" || hw=="Monitor" || hw=="Procesador" || hw=="Ram"){
+            return true
+        }
+        return false
+    }
 </script>
 
 </html>
