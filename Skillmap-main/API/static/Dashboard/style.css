@@ -101,6 +101,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px 0;
+  animation: entradas 1250ms linear 1 forwards;
 }
 
 footer a {
@@ -167,16 +168,23 @@ footer a {
 }
 .dashboard-section {
   margin-bottom: 20px;
+  padding: 10px;
+  background: #f4f4f4;
+  border: 1px solid #ccc;
 }
 .dashboard-section h2 {
   border-bottom: 2px solid #28a745; /* Borde cambiado a verde */
   color: #333;
   padding-bottom: 5px;
 }
-.profile-info, .recommendations, .education-pathways {
-  padding: 10px;
-  background: #f4f4f4; /* Fondo ligeramente gris para contraste */
-  border: 1px solid #ccc;
+.dashboard-section.profile-info{
+  animation: entrada1 500ms linear 1 forwards;
+}
+.dashboard-section.recommendations{
+  animation: entradas 750ms linear 1 forwards;
+}
+.dashboard-section.education-pathways{
+  animation: entradas 1s linear 1 forwards;
 }
 .profile-info p, .recommendations div, .education-pathways div {
   margin-bottom: 10px;
@@ -193,4 +201,25 @@ footer a {
 }
 .profile-actions a:hover {
   background: #0056b3; /* Un verde más claro para el hover */
+}
+
+@keyframes entrada1{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
+  }
+}
+
+@keyframes entradas{
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
+  }
 }

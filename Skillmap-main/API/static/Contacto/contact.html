@@ -1,135 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
-    <title>Contacto</title>
-    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Contacto/style.css">
-    <style>body{display: none;}</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
+  <title>Contacto</title>
+  <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="http://127.0.0.1:8000/static/Contacto/style.css">
 </head>
 <body>
   <header>
     <a href="http://127.0.0.1:8000/Skillmap/Inicio"><img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png"></a>
     <span class="logo">Skillmap</span>
     <nav>
-        <div id="navbar">
-            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
-            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
-            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
-            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
-            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
-        </div>
+      <div id="navbar">
+        <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+        <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+        <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+        <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+        <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+      </div>
     </nav>
   </header>
   <br>
   <div class="container">
     <section class="contact-form">
-      <h2>Contacta con nosotros</h2>
       <form id="messageForm">
-        <label for="message">Mensaje:</label>
-        <textarea id="message" name="message" placeholder="Escribe tu mensaje" required></textarea>
-        
-        <input type="submit" value="Enviar Mensaje">
+        <div class="conversation" id="conversation">
+          <!-- Los mensajes se insertarán aquí -->
+        </div>
+        <div class="input-group">
+          <input type="number" id="message" name="message" required>
+          <input type="submit" value="Enviar">
+        </div>
       </form>
     </section>
   </div>
   <br><br><br><br><br><br>
   <footer>
     <p>
-        <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
-        <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+      <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com">skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+      <i class="fa fa-phone"></i> <a href="tel:5611670871">5611670871</a>
     </p>
     <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
-</footer>
-<div class="custom-popup" id="customPopup">
-  <span class="popup-message" id="popupMessage"></span>
-</div>
-</body>
-<script>
-  async function verificarAutenticacion() {
-    const response = await fetch('http://127.0.0.1:8000/user/me', {
+  </footer>
+  <div class="custom-popup" id="customPopup">
+    <span class="popup-message" id="popupMessage"></span>
+  </div>
+  <script>
+    let ultimaPregunta = 0;
+    let ultimaRespuesta = 0;
+    let nombreCompleto = "";
+
+    async function verificarAutenticacion() {
+      const response = await fetch('http://127.0.0.1:8000/user/me', {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
-    });
-    window.data = await response.json();
-    data = window.data
-    if (!response.ok || data.error) {
-        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-    }else{
-        document.body.style.display = 'block';
-    }
-  }
-  verificarAutenticacion();
-  document.getElementById('messageForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    send_message();
-  });
-  document.getElementById('cerrar_sesion').addEventListener('click', function() {
-    localStorage.removeItem('access_token');
-    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-  });
-  async function send_message(){
-    const messageInput = document.getElementById('message');
-    const message = document.getElementById('message').value;
-    const usuario = window.data
-    const mensajeU = {
-      user_email: usuario.correo,
-      mensaje: message
-    };
-    try {
-      const response = await fetch('http://127.0.0.1:8000/user/comentario', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(mensajeU),
       });
-
-      if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const data = await response.json();
-      console.log('Registration successful:', data);
-      if (data.error){
-        setTimeout(() => {
-          showCustomPopup(data.error,2000,"#ec5353")
-        }, 1800);
-      }else{
-        setTimeout(() => {
-          messageInput.value = '';
-          showCustomPopup(data.exito,2000,"#12a14b")
-        }, 1800);
+      if (!response.ok || data.error) {
+        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+      } else {
+        document.querySelector('header').style.opacity = 1;
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message', 'bot');
+
+        function mostrarMensaje() {
+          nombreCompleto = data.name + " " + data.surname;
+          const mensaje = "Hola " + nombreCompleto + ", ¿en qué te puedo ayudar el día de hoy?<br><br>" +
+                          "1. Acerca de Skillmap<br>" +
+                          "2. Acerca de los desarrolladores<br>" +
+                          "3. Acerca de mis resultados";
+          messageContainer.innerHTML = '<div class="avatar-container"><img src="http://127.0.0.1:8000/static/Login/logo.png" class="avatar"></div><div class="message-content">' + mensaje + '</div>';
+          document.getElementById('conversation').appendChild(messageContainer);
+        }
+
+        setTimeout(mostrarMensaje, 700);
       }
-
-    } catch (error) {
-        console.error('Error during registration:', error);
     }
-  }
-  function showCustomPopup(message, duration, backgroundColor) {
-    const customPopup = document.getElementById('customPopup');
-    const popupMessage = document.getElementById('popupMessage');
 
-    customPopup.style.backgroundColor = backgroundColor;
+    function scrollToBottom() {
+      const conversation = document.getElementById('conversation');
+      conversation.scrollTop = conversation.scrollHeight;
+    }
 
-    popupMessage.textContent = message;
-    customPopup.style.display = 'block';
+    async function respuesta(uPregunta, uRespuesta) {
+      let respuesta = "";
+      if (uRespuesta === 0) {
+        switch(uPregunta) {
+          case 1:
+            respuesta = "SkillMap es la respuesta ante la problemática de la falta de preparación y orientación adecuada para los estudiantes en México al enfrentar la decisión de elegir una carrera.<br>"+
+                        "El presente sistema web educativo para orientación vocacional se alinea con investigaciones que destacan la importancia de la tecnología en este campo.<br><br>"+
+                        "1. ¿Por que usar SkillMap?<br>" +
+                        "2. ¿Que tiene de innovador SkillMap?<br>" +
+                        "3. ¿Como funciona la plataforma?<br>"+
+                        "4. Misión, visión, valores<br>"+
+                        "5. Regresar a la bienvenida";
+            ultimaRespuesta = 1;
+            break;
+          case 2:
+            respuesta = "Estos son los desarrolladores de Skillmap, puedes saber más de ellos seleccionando su opción: <br><br>"+
+                        "1. Aguilar Perez Alejandro.<br>" +
+                        "2. López González César Alexander.<br>" +
+                        "3. Moreno Saucedo Oscar Samuel.<br>"+
+                        "4. Ramirez Bermidez Alan Rodrigo.<br>"+
+                        "5. Regresar a la bienvenida";
+            ultimaRespuesta = 2;
+            break;
+          case 3:
+            respuesta = "Tus resultados en Skillmap los obtendrás tras realizar el cuestionario y actividades.<br><br>"+
+                        "1. ¿Que tan certeros son los resultados?<br>"+
+                        "2. ¿Como puedo descargar mis resultados?<br>"+
+                        "3. Tengo duda sobre mis resultados<br>"+
+                        "4. Regresar a la bienvenida";
+            ultimaRespuesta = 3;
+            break;
+          default:
+            respuesta = "Lo siento, intenta responder nuevamente.";
+        }
+      } else if (uRespuesta === 1) {
+        switch (uPregunta) {
+          case 1:
+            respuesta = "Con Skillmap, podrás obtener resultados más certeros gracias a una combinación de formularios y actividades diseñadas específicamente para evaluar tus intereses y aptitudes. Además, incorporamos el uso de la banda sensorial Neurosky Mindwave, que mide la actividad cerebral en tiempo real para proporcionar una evaluación más precisa. Esta tecnología permite capturar datos sobre tu estado mental y emocional durante las actividades, mejorando así la precisión de los resultados que obtienes en Skillmap.";
+            break;
+          case 2:
+            respuesta = "La innovación de Skillmap radica en la integración de inteligencia artificial con la información recabada de la banda sensorial Neurosky Mindwave. La IA analiza los datos recopilados sobre la actividad cerebral y el estado emocional del usuario para ajustar y personalizar los resultados obtenidos en los formularios y actividades. Este enfoque permite una mayor asertividad en las recomendaciones, ya que combina información objetiva y subjetiva para ofrecerte sugerencias más alineadas con tus características personales y emocionales.";
+            break;
+          case 3:
+            respuesta = "Mientras estás resolviendo tus actividades en Skillmap, la banda sensorial Neurosky Mindwave mide constantemente los valores de tus ondas cerebrales, proporcionando datos sobre tu estado emocional y nivel de concentración. Esta información se combina con los resultados de las actividades realizadas para ofrecer una evaluación integral. De esta manera, Skillmap no solo considera tus respuestas a las preguntas y actividades, sino también tu estado emocional en el momento, lo que permite generar una recomendación más precisa sobre las carreras que mejor se ajustan a tu perfil.";
+            break;
+          case 4:
+            respuesta = "Mision: Nuestra misión es ayudarte a descubrir y mapear tu camino profesional con las herramientas y el asesoramiento más innovadores.<br><br>"+
+                        "Vision: Aspiramos a ser la plataforma líder en orientación profesional, facilitando el desarrollo y crecimiento continuo de nuestros usuarios.<br><br>"+
+                        "Valores:<br>"+
+                        "   ·Innovación: Constantemente buscamos formas de mejorar nuestra plataforma.<br>"+
+                        "   ·Integridad: Operamos con transparencia y honestidad.<br>"+
+                        "   ·Compromiso: Estamos dedicados al éxito de nuestros usuarios.<br>";
+            break;
+          case 5:
+            respuesta = "Hola " + nombreCompleto + ", ¿en qué te puedo ayudar el día de hoy?<br><br>" +
+                        "1. Acerca de Skillmap<br>" +
+                        "2. Acerca de los desarrolladores<br>" +
+                        "3. Acerca de mis resultados";
+            ultimaRespuesta = 0;
+            break;
+          default:
+            respuesta = "Lo siento, intenta responder nuevamente.";
+        }
+      } else if (uRespuesta === 2) {
+        switch (uPregunta) {
+          case 1:
+            respuesta = "Aguilar Perez Alejandro:<br>"+
+                        "Informacion de Alejandro...";
+            break;
+          case 2:
+            respuesta = "López González César Alexander:<br>"+
+                        "Informacion de César Alexander...";
+            break;
+          case 3:
+            respuesta = "Moreno Saucedo Oscar Samuel:<br>"+
+                        "Informacion de Oscar Samuel...";
+            break;
+          case 4:
+            respuesta = "Ramirez Bermudez Alan Rodrigo:<br>"+
+                        "Informacion de Alan Rodrigo..";
+            break;
+          case 5:
+            respuesta = "Hola " + nombreCompleto + ", ¿en qué te puedo ayudar el día de hoy?<br><br>" +
+                        "1. Acerca de Skillmap<br>" +
+                        "2. Acerca de los desarrolladores<br>" +
+                        "3. Acerca de mis resultados";
+            ultimaRespuesta = 0;
+            break;
+          default:
+            respuesta = "Lo siento, intenta responder nuevamente.";
+        }
+      } else if (uRespuesta === 3) {
+        switch (uPregunta) {
+          case 1:
+            respuesta = "Los resultados tienen una certeza de ...";
+            break;
+          case 2:
+            respuesta = "En el apartado de resultados en la parte inferior de la pagina podras encontrar un boton para obtener tus resultados en PDF ya sea descargandolos o enviados a tu correo registrado"
+            break;
+          case 3:
+            resouesta = "Ante cualquier duda puedes mandarnos un correo a skillmap2024@outlook.com o marcandonos al 5611670871"
+            break;
+          case 4:
+            respuesta = "Hola " + nombreCompleto + ", ¿en qué te puedo ayudar el día de hoy?<br><br>" +
+                        "1. Acerca de Skillmap<br>" +
+                        "2. Acerca de los desarrolladores<br>" +
+                        "3. Acerca de mis resultados";
+            ultimaRespuesta = 0;
+            break;
+          default:
+            respuesta = "Lo siento, intenta responder nuevamente.";
+        }
+      } else {
+        respuesta = "Lo siento, no entiendo tu pregunta.";
+      }
+      return respuesta;
+    }
 
-    // Animación de desplazamiento hacia abajo
-    customPopup.style.animation = 'slideDown 0.5s';
+    document.getElementById('messageForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const message = parseInt(document.getElementById('message').value);
+      const messageContainer = document.createElement('div');
+      messageContainer.classList.add('message', 'user');
+      messageContainer.innerHTML = '<div class="message-content">' + message + '</div><div class="avatar-container"><img src="http://127.0.0.1:8000/static/Contacto/user.png" class="avatar"></div>';
+      document.getElementById('conversation').appendChild(messageContainer);
+      document.getElementById('message').value = '';
+      ultimaPregunta = message;
+      const thinkingContainer = document.createElement('div');
+      thinkingContainer.classList.add('message', 'bot');
+      scrollToBottom();
+      thinkingContainer.innerHTML = '<div class="avatar-container"><img src="http://127.0.0.1:8000/static/Login/logo.png" class="avatar"></div><div class="message-content"><span class="thinking-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+      document.getElementById('conversation').appendChild(thinkingContainer);
+      scrollToBottom();
+      const botResponse = await respuesta(ultimaPregunta, ultimaRespuesta);
+      setTimeout(() => {
+        thinkingContainer.innerHTML = '<div class="avatar-container"><img src="http://127.0.0.1:8000/static/Login/logo.png" class="avatar"></div><div class="message-content">' + botResponse + '</div>';
+      }, 1000);
+      scrollToBottom();
+    });
+    
 
-    // Ocultar el pop-up después del tiempo especificado
-    setTimeout(() => {
-        customPopup.style.animation = 'slideUp 0.5s'; // Detener la animación
-        setTimeout(() => {
-            customPopup.style.display = 'none';
-            customPopup.style.animation = ''; // Resetear la animación
-        }, 500); // 500 milisegundos es la duración de la animación 'slideUp'
-    }, duration);
-  }
-</script>
+    document.getElementById('cerrar_sesion').addEventListener('click', function() {
+      localStorage.removeItem('access_token');
+      window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    });
+
+    verificarAutenticacion();
+  </script>
+</body>
 </html>

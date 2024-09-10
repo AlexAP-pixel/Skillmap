@@ -99,6 +99,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px 0;
+  animation: entradas 750ms linear 1 forwards;
 }
 
 footer a {
@@ -138,6 +139,7 @@ footer a {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: entradas 500ms linear 1 forwards;
 }
 
 .questions-container {
@@ -234,5 +236,26 @@ button:hover {
   }
   to {
       top: -50px;
+  }
+}
+
+@keyframes entrada1{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
+  }
+}
+
+@keyframes entradas{
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
   }
 }

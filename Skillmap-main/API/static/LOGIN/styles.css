@@ -6,16 +6,14 @@ body {
   height: 100vh;
   align-items: center;
   justify-content: center;
-  background-image: url('http://127.0.0.1:8000/static/LOGIN/fondo.png');
+  background-image: url('http://127.0.0.1:8000/static/LOGIN/fondo.gif');
+  animation: entrada_difuminada 700ms linear 1 forwards;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .logo{
-  width: 230px;
-  height: 230px;
-  margin-left: 120px;
-  margin-top: 40px;
+  animation: entrada_logo 1s linear 1 forwards;
 }
 
 
@@ -36,15 +34,23 @@ body {
   justify-content: center;
 }
 
-.login-content {
-  background: #273C75; /* Fondo del lado izquierdo */
-  min-width: 200px; /* Ajusta según el diseño */
-
+.login-content{
+  background: #273C75;
+  min-width: 500px;
+  animation: entrada_difuminada2 1s linear 1 forwards;
 }
 
 .login-form {
-  background: #38456a; /* Fondo del lado derecho */
-  min-width: 390px; /* Ajusta según el diseño */
+  background: #38456a;
+  min-width: 390px;
+}
+
+.login-form  h2 {
+  animation: entrada_difuminada2 1s linear 1 forwards;
+}
+
+form {
+  animation: entrada_difuminada2 1s linear 1 forwards;
 }
 
 h1, h2 {
@@ -119,6 +125,7 @@ a:hover {
   font-weight: bold;
 }
 
+
 @keyframes slideDown {
   from {
       top: -50px;
@@ -134,5 +141,52 @@ a:hover {
   }
   to {
       top: -50px;
+  }
+}
+
+@keyframes entrada_logo {
+  0%{
+    width: 0px;
+    height: 0px;
+    margin-left: 235px;
+    margin-top: 155px;
+    margin-bottom: 115px;
+  }
+  50%{
+    width: 0px;
+    height: 0px;
+    margin-left: 235px;
+    margin-top: 155px;
+    margin-bottom: 115px;
+    opacity: 0;
+  }
+  100%{
+    width: 230px;
+    height: 230px;
+    margin-left: 120px;
+    margin-top: 40px;
+    margin-bottom: 0px;
+    opacitu: 1;
+  }
+}
+
+@keyframes entrada_difuminada {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@keyframes entrada_difuminada2 {
+  0%{
+    opacity: 0;
+  }
+  30%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
   }
 }

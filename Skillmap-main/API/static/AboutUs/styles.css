@@ -94,6 +94,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px 0;
+  animation: entradas 1750ms linear 1 forwards;
 }
 
 footer a {
@@ -134,6 +135,7 @@ footer a {
 .about-us h1 {
   font-size: 2.5em; /* Tamaño grande para el encabezado principal */
   margin-bottom: 0.5em;
+  animation: entrada1 500ms linear 1 forwards;
 }
 
 .about-us p {
@@ -150,6 +152,18 @@ footer a {
   border-radius: 10px; /* Bordes redondeados para los artículos */
   box-shadow: 0 6px 10px #363636; /* Sombra sutil para los artículos */
   max-width: 300px; /* Ancho máximo para cada artículo */
+}
+
+#mision{
+  animation: entradas 750ms linear 1 forwards;
+}
+
+#vision{
+  animation: entradas 1s linear 1 forwards;
+}
+
+#valores{
+  animation: entradas 1250ms linear 1 forwards;
 }
 
 .mission-vision-values h2{
@@ -172,6 +186,7 @@ footer a {
   display: flex;
   justify-content: space-around;
   padding: 20px;
+  animation: entradas 1500ms linear 1 forwards;
 }
 
 .team-member {
@@ -205,4 +220,25 @@ footer a {
 .team-member-title {
   color: #666; /* Color del texto */
   font-size: 1em; /* Tamaño del texto */
+}
+
+@keyframes entrada1{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
+  }
+}
+
+@keyframes entradas{
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
+  }
 }

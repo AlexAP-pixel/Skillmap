@@ -21,6 +21,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
+  margin-left: auto;
 }
 
 .logo {
@@ -28,14 +29,6 @@ nav {
   font-weight: bold;
   color: #fff;
   margin-left: 10px;
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  margin-left: auto;
 }
 
 nav #navbar a {
@@ -53,99 +46,141 @@ nav #navbar a:hover {
   background-color: #005a68;
 }
 
-#hero {
-  background-color: #eee;
-  text-align: center;
-  padding: 50px 20px;
-}
-
-#hero h1 {
-  color: #333;
-}
-
-#hero p {
-  color: #555;
-}
-
-#hero .cta-button {
-  padding: 10px 30px;
-  background-color: #5cb85c;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-#hero .cta-button:hover {
-  background-color: #0056b3;
-}
-
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px 0;
-}
-
-footer a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.logoimg{
-  width: 100px; /* Puedes ajustar el ancho según tus necesidades */
-  height: auto
-}
-
-@media (max-width: 600px) {
-  .service-container {
-      flex-direction: column;
-  }
-
-  .service {
-      flex-basis: 100%;
-  }
-}
 .container {
-  padding: 20px;
+  padding: 10px;
   width: 90%;
   max-width: 1200px;
   margin: auto;
 }
+
 .contact-form {
-  background: #f4f4f4;
+  background: #cccccc;
   padding: 15px;
   margin-top: 15px;
-  border: 1px solid #cccccc;
+  border: 1px solid #7e7e7e;
+  animation: entrada1 500ms linear 1 forwards;
 }
+
 .contact-form label {
   display: block;
   margin-bottom: 5px;
 }
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form textarea {
-  width: 98%;
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.contact-form input[type="number"] {
+  flex: 1;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #cccccc;
 }
+
 .contact-form input[type="submit"] {
-  background: #28a745; /* Fondo cambiado a verde */
+  background: #28a745;
   color: white;
-  padding: 10px 15px;
+  padding: 10px;
+  margin-bottom: 15px;
   text-decoration: none;
   border-radius: 5px;
-}
-
-h2 {
-  border-bottom: 2px solid #28a745; /* Borde cambiado a verde */
-  color: #333;
-  padding-bottom: 5px;
+  margin-left: 10px;
 }
 
 .contact-form input[type="submit"]:hover {
-  background: #0056b3; /* A lighter green for hover */
+  background: #0056b3;
+}
+
+.conversation {
+  min-height: 50vh;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  background-color: #fff;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.bot {
+  justify-content: flex-start;
+}
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.message.user .message-content {
+  background-color: #caf8ff;
+  color: #003840;
+  margin-left: 10px;
+  animation: entrada1 500ms linear;
+}
+
+.message.bot .message-content {
+  background-color: #003840;
+  color: #fff;
+  margin-right: 10px;
+  animation: entrada1 500ms linear;
+}
+
+.thinking-dots {
+  display: inline-block;
+  font-size: 1.5rem;
+}
+
+.thinking-dots span {
+  animation: bounce 1s infinite;
+  display: inline-block;
+}
+
+.thinking-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.thinking-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes entrada1 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
 }
 
 .custom-popup {
@@ -153,8 +188,8 @@ h2 {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #f44336; /* Color de fondo del pop-up */
-  color: white; /* Color del texto del pop-up */
+  background-color: #f44336;
+  color: white;
   padding: 10px;
   text-align: center;
   width: 100%;
@@ -167,20 +202,30 @@ h2 {
   font-weight: bold;
 }
 
-@keyframes slideDown {
-  from {
-      top: -50px;
-  }
-  to {
-      top: 0;
-  }
+.logoimg {
+  width: 100px;
+  height: auto;
 }
 
-@keyframes slideUp {
-  from {
-      top: 0;
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  animation: entradas 750ms linear 1 forwards;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .service-container {
+    flex-direction: column;
   }
-  to {
-      top: -50px;
+
+  .service {
+    flex-basis: 100%;
   }
 }

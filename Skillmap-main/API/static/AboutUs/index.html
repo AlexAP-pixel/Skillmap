@@ -7,7 +7,7 @@
     <title>Acerca de nosotros</title>
     <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/AboutUs/styles.css">
-    <style>body{display: none;}</style>
+    <style>header{opacity: 0;}</style>
 </head>
 <body>
     <header>
@@ -28,15 +28,15 @@
     <section class="about-us">
         <h1>Conoce más sobre Skillmap</h1>        
         <div class="mission-vision-values">
-            <article>
+            <article id="mision">
                 <h2>Misión</h2>
                 <p>Nuestra misión es ayudarte a descubrir y mapear tu camino profesional con las herramientas y el asesoramiento más innovadores.</p>
             </article>
-            <article>
+            <article id="vision">
                 <h2>Visión</h2>
                 <p>Aspiramos a ser la plataforma líder en orientación profesional, facilitando el desarrollo y crecimiento continuo de nuestros usuarios.</p>
             </article>
-            <article>
+            <article id="valores">
                 <h2>Valores</h2>
                 <ul>
                     <li>Innovación: Constantemente buscamos formas de mejorar nuestra plataforma.</li>
@@ -66,7 +66,13 @@
             <div class="team-member">
                 <img src="http://127.0.0.1:8000/static/AboutUs/imagen1.png" alt="Rodrigo" class="team-member-icon">
                 <h3 class="team-member-name">Rodrigo</h3>
-                <p class="team-member-title">Desarrollador backend</p>
+                <p class="team-member-title">Maquina Vector Soporte</p>
+            </div>
+
+            <div class="team-member">
+                <img src="http://127.0.0.1:8000/static/AboutUs/imagen1.png" alt="Rodrigo" class="team-member-icon">
+                <h3 class="team-member-name">Sammy</h3>
+                <p class="team-member-title">Inserte Texto</p>
             </div>
 
         </div>   
@@ -94,7 +100,7 @@
         if (!response.ok || data.error) {
             window.location.href = 'http://127.0.0.1:8000/Skillmap/';
         }else{
-            document.body.style.display = 'block';
+            document.querySelector('header').style.opacity = 1;
         }
     }
     verificarAutenticacion();

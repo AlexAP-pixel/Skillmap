@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
-from db.models.user import User
-from db.schemas.user import user_schema
+##from db.models.user import User
+##from db.schemas.user import user_schema
 
 router = APIRouter(prefix="/Skillmap")
 
@@ -56,3 +56,36 @@ async def read_edit():
 @router.get("/Empezar/Resultados")
 async def read_Results():
     return FileResponse("static/Resultados/index.html")
+
+###################
+@router.get("/Admin")
+async def read_login_admin():
+    return FileResponse("static/admin_LOGIN/index.html")
+
+@router.get("/Admin/Autenticar")
+async def read_login_admin():
+    return FileResponse("static/admin_Autenticacion/Auth.html")
+
+@router.get("/Admin/Inicio")
+async def read_inicio_admin():
+    return FileResponse("static/admin_Inicio/index.html")
+
+@router.get("/Admin/Dashboard")
+async def read_dashboard_admin():
+    return FileResponse("static/admin_Dashboard/dash.html")
+
+@router.get("/Admin/RecuperarContraseña")
+async def read_recuperarContraseña_admin():
+    return FileResponse("static/admin_Contraseña/contraseña.html")
+
+@router.get("/Admin/Edit")
+async def read_edit_admin():
+    return FileResponse("static/admin_Actualizar/index.html")
+
+@router.get("/Admin/Crear")
+async def read_crear_usuario_admin():
+    return FileResponse("static/admin_Crear/index.html")
+
+@router.get("/Admin/Modificar")
+async def read_editar_usuario_admin():
+    return FileResponse("static/admin_Modificar/index.html")

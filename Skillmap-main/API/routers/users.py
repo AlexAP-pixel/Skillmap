@@ -10,8 +10,6 @@ from db.models.user import User
 from db.schemas.user import user_schema
 from db.models.codes import Codes
 from db.schemas.codes import codes_schema
-from db.models.mensajesU import mensajesU
-from db.schemas.mensajesU import mensajesU_schema
 from db.client import db_client
 from bson import ObjectId
 from datetime import datetime, timedelta
@@ -30,6 +28,7 @@ def search_user(field: str, key):
         return User(**user_schema(user))
     except:
         return False
+    
 
 def remove_password_field(user_dict):
     user_dict_copy = user_dict.copy()
@@ -162,6 +161,21 @@ async def validar_usuario(code:int):
     else:
         return {"error":"Codigo invalido"}
 
+@router.get("/codigoValido")
+async def existencia_codigo(correo:str):
+    user = search_user("correo", correo)
+    try:
+        code = db_client.codes.find_one({"user_id": user.id})
+    except:
+        print("Usuario no encontrado")
+    if code.get("expiration_time") > datetime.utcnow():
+        print("codigo activo")
+        return {"exito": "Codigo activo"}
+    else:
+        code = db_client.codes.find_one_and_delete({"user_id": user.id})
+        print("codigo inactivo")
+        return {"error":"Codigo inactivo"}
+
 @router.delete("/")
 async def delete_user(id: str):
     found = db_client.users.find_one_and_delete({"_id": ObjectId(id)})
@@ -186,16 +200,6 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
 @router.get("/me")
 async def me(user: User = Depends(current_user)):
     return user
-
-@router.post("/comentario")
-async def coment(mensaje: mensajesU):
-    date_time = datetime.utcnow()
-    mensaje_dict = dict(mensaje)
-    mensaje_dict["date_time"] = date_time
-    mensaje_dict.pop('id',None)
-    id = db_client.mesajesU.insert_one(mensaje_dict).inserted_id
-    new_mensaje = mensajesU_schema(db_client.mesajesU.find_one({"_id": id}))
-    return {"exito": "Mensaje enviado, te responderemos lo mas pronto posible"}
 
 @router.post("/update")
 async def updateUser(newUser: User, userCorreo:str, newPass: str):

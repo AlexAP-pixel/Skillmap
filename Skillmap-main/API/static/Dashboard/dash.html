@@ -8,7 +8,7 @@
     <title>Mi cuenta</title>
     <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Dashboard/style.css">
-    <style>body{display: none;}</style>
+    <style>header{opacity: 0;}</style>
 </head>
 
 <body>
@@ -125,7 +125,7 @@
     if (!response.ok || data.error) {
         window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
-        document.body.style.display = 'block';
+        document.querySelector('header').style.opacity = 1;
         nombretxt = "Nombre: "+data.name+" "+data.surname
         correotxt = "Correo: "+data.correo
         nombre.textContent = nombretxt

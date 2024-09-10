@@ -16,13 +16,9 @@
         </div>
         <div class="login-form">
             <h2>Iniciar Sesión</h2>
-            <form id="loginForm"> <!-- Agregado el ID al formulario -->
+            <form id="loginForm">
                 <input type="email" id="correo" placeholder="Correo" required>
                 <input type="password" id="password" placeholder="Contraseña" required>
-                <!--<div class="remember-me">
-                    <input type="checkbox" id="remember-me-checkbox">
-                    <label for="remember-me-checkbox">Recuérdame</label>
-                </div>-->
                 <button type="submit" class="login-button">Acceder</button>
                 <div class="login-links">
                     <a href="http://127.0.0.1:8000/Skillmap/Registro">Crear una cuenta</a>
@@ -44,17 +40,20 @@
             });
             const data = await response.json();
             if (!response.ok || data.error) {
-                //document.body.style.display = 'block';
-            }else{
+                // Puedes manejar el error aquí, si es necesario
+            } else {
                 window.location.href = 'http://127.0.0.1:8000/Skillmap/Inicio';
             }
         }
+
         verificarAutenticacion();
+
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
             login();
         });
-        async function login(){
+
+        async function login() {
             var correo = document.getElementById('correo').value;
             var password = document.getElementById('password').value;
 
@@ -62,57 +61,83 @@
             formData.append('username', correo);
             formData.append('password', password);
             
-            try{
+            try {
                 const response = await fetch('http://127.0.0.1:8000/user/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: formData,
-                })
+                    body: formData.toString(), 
+                });
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
                 const data = await response.json();
-                if (data.error){
-                    showCustomPopup(data.error,2500,"#ec5353")
-                    if(data.error == "Usuario no autenticado"){
+
+                if (data.error) {
+                    showCustomPopup(data.error, 2500, "#ec5353");
+                    
+                    if (data.error === "Usuario no autenticado") {
                         try {
-                            const response = await fetch(`http://127.0.0.1:8000/user/correo?correo=${encodeURIComponent(correo)}`, {
-                                method: 'POST',
+                            const response = await fetch(`http://127.0.0.1:8000/user/codigoValido?correo=${encodeURIComponent(correo)}`, {
+                                method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ correo: correo }),
-                            });                    
-        
+                                }
+                            });
+
                             if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                             }
-                            console.log('Correo enviado');
-                            window.location.href = "http://127.0.0.1:8000/Skillmap/Autenticar";
-        
+
+                            const data = await response.json();
+
+                            if (data.error) {
+                                console.log("Codigo expirado");
+                                try {
+                                    const response = await fetch(`http://127.0.0.1:8000/user/correo?correo=${encodeURIComponent(correo)}`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ correo: correo }),
+                                    });
+
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    console.log('Correo enviado');
+                                    window.location.href = "http://127.0.0.1:8000/Skillmap/Autenticar";
+
+                                } catch (error) {
+                                    console.error('Error during registration:', error);
+                                }
+                            }else {
+                                console.log("Codigo activo")
+                                window.location.href = "http://127.0.0.1:8000/Skillmap/Autenticar";
+                            }
                         } catch (error) {
-                            console.error('Error during registration:', error);
+                            console.error('Error during validation:', error);
                         }
                     }
-                }else{
+                } else {
                     setTimeout(() => {
                         localStorage.setItem('access_token', data.access_token);
                         window.location.href = "http://127.0.0.1:8000/Skillmap/Inicio";
                     }, 1000);
                 }
-            }catch (error) {
+            } catch (error) {
                 console.error('Error login:', error);
             }
         }
+
         function showCustomPopup(message, duration, backgroundColor) {
             const customPopup = document.getElementById('customPopup');
             const popupMessage = document.getElementById('popupMessage');
         
             customPopup.style.backgroundColor = backgroundColor;
-
             popupMessage.textContent = message;
             customPopup.style.display = 'block';
         

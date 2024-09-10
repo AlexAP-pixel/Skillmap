@@ -114,6 +114,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px 0;
+  animation: entrada1 1s linear 1 forwards;
 }
 
 footer a {
@@ -141,7 +142,13 @@ footer a {
   width: 90%;
   max-width: 1200px;
   margin: auto;
+  animation: entrada1 500ms linear 1 forwards;
 }
+
+#indicacion1, #indicacion2{
+  animation: entradas 750ms linear 1 forwards;
+}
+
 .dashboard-header {
   background: #d3d3d3; /* Fondo cambiado a gris */
   color: #333;
@@ -242,5 +249,26 @@ footer a {
   }
   to {
       top: -50px;
+  }
+}
+
+@keyframes entrada1{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
+  }
+}
+
+@keyframes entradas{
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
   }
 }

@@ -50,6 +50,7 @@ nav #navbar a:hover {
   background-color: #eee;
   text-align: center;
   padding: 50px 20px;
+  animation: entrada1 500ms linear 1 forwards;
 }
 
 #hero h1 {
@@ -98,6 +99,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px 0;
+  animation: entradas 750ms linear 1 forwards;
 }
 
 footer a {
@@ -117,5 +119,30 @@ footer a {
 
   .service {
       flex-basis: 100%;
+  }
+}
+
+#services {
+  animation: entradas 800ms linear 1 forwards;
+}
+
+@keyframes entrada1{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
+  }
+}
+
+@keyframes entradas{
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100;
   }
 }
