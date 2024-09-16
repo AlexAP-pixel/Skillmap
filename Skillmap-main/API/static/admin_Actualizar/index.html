@@ -105,14 +105,17 @@
       password: contrasena
     };
     try {
-      const response = await fetch(`http://127.0.0.1:8000/admin/update?admin_correo=${encodeURIComponent(window.data.correo)}&new_pass=${nuevaContrasena}`, {
+      const response = await fetch(`http://127.0.0.1:8000/admin/update`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userData),
+          body: JSON.stringify({
+            correo: window.data.correo,
+            newPass: nuevaContrasena,
+            ...userData
+          }),
       });
-      console.log("Pasamos del update")
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }

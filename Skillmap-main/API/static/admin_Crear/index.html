@@ -41,6 +41,8 @@
           <option value="usuario">Usuario Regular</option>
           <option value="administrador">Administrador</option>
         </select><br><br>
+        <label for="contrasena">Ingresa tu contraseña para el cambio:</label>
+        <input type="password" id="contrasena" required><br><br>
         <p></p>
         <div class="profile-actions">
           <button id="crearUsuarioButton" class="cta-button" >Crear Usuario</button>
@@ -81,6 +83,7 @@
     const apellido = document.getElementById('apellido').value;
     const correo = document.getElementById('email').value;
     const tipo = document.getElementById('tipoUsuario').value;
+    const editor_contrasena = document.getElementById('contrasena').value;
     if (!nombre || !apellido || !correo) {
       showCustomPopup("Rellena los campos obligatorios para continuar",2000,"#ec5353")
       return;
@@ -96,21 +99,46 @@
       correo: correo,
       password: " "
     };
+    const userForm = {
+      user_email: email,
+      res1: respuestasgral,
+      res2: respuestasgral,
+      res3: respuestasgral,
+      res4: respuestasgral,
+      res5: respuestasgral,
+      res6: respuestasgral,
+      res7: respuestasgral,
+      res8: respuestasgral,
+      res9: respuestasgral,
+      res10: respuestasgral,
+      res11: respuestasgral,
+      res12: respuestasgral,
+      res13: respuestasgral,
+      act1: actividadesgral,
+      act2: actividadesgral,
+      act3: actividadesgral,
+      act4: actividadesgral
+    }
     if(tipo === "usuario"){
       try {
-        const response = await fetch('http://127.0.0.1:8000/admin/createUser', {
+        const response = await fetch(`http://127.0.0.1:8000/admin/createUser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userData),
+          body: JSON.stringify({
+            editorPass: editor_contrasena,
+            editorCorreo: window.data.correo,
+            ...userData
+          }),
         });
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
+        window.data = await response.json();
+        data = window.data;
         if (data.error){
           showCustomPopup(data.error,2000,"#ec5353")
         }else{

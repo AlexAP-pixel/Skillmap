@@ -107,12 +107,16 @@
       password: contrasena
     };
     try {
-      const response = await fetch(`http://127.0.0.1:8000/user/update?userCorreo=${encodeURIComponent(window.data.correo)}&newPass=${nuevaContrasena}`, {
+      const response = await fetch(`http://127.0.0.1:8000/user/update`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userData),
+          body: JSON.stringify({
+            correo: window.data.correo,
+            newPass: nuevaContrasena,
+            ...userData
+          }),
       });
       console.log("Pasamos del update")
       if (!response.ok) {

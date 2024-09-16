@@ -119,8 +119,6 @@ th {
 
 .form-container {
   padding: 20px;
-  width: 90%;
-  max-width: 1200px;
   margin: auto;
   animation: entrada1 500ms linear 1 forwards;
 }
@@ -129,6 +127,9 @@ th {
   background: #fff;
   padding: 20px;
   margin-top: 15px;
+  margin-left: 31vw;
+  width: 38vw;
+  animation: entrada1 500ms linear 1 forwards;
 }
 .edit-section {
   margin-bottom: 20px;
@@ -189,6 +190,25 @@ footer a {
 .logoimg{
   width: 100px; /* Puedes ajustar el ancho según tus necesidades */
   height: auto
+}
+
+.custom-popup {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f44336; /* Color de fondo del pop-up */
+  color: white; /* Color del texto del pop-up */
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+}
+
+.popup-message {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 @keyframes entrada1{

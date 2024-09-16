@@ -3,6 +3,7 @@ import random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from fastapi import APIRouter, Depends
+from fastapi import Request
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -202,7 +203,12 @@ async def me(user: User = Depends(current_user)):
     return user
 
 @router.post("/update")
-async def updateUser(newUser: User, userCorreo:str, newPass: str):
+async def updateUser(request: Request):
+    req_data = await request.json()
+    userCorreo = req_data.get("correo")
+    newPass = req_data.get("newPass")
+    newUser = User(**req_data)
+    
     user = search_user("correo", newUser.correo)
     if newUser.correo != userCorreo:
         if type(search_user("correo", userCorreo)) == User:
