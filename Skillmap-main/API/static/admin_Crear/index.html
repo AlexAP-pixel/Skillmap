@@ -176,7 +176,12 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userData),
+          
+          body: JSON.stringify({
+            editorPass: editor_contrasena,
+            editorCorreo: window.data.correo,
+            ...userData
+          }),
         });
 
         if (!response.ok) {

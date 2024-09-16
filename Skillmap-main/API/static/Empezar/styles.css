@@ -111,6 +111,11 @@ footer a {
   height: auto
 }
 
+.video{
+  width: 80vw; 
+  animation: entradas 2s linear 1 forwards;
+}
+
 @media (max-width: 600px) {
   .service-container {
       flex-direction: column;
@@ -123,7 +128,7 @@ footer a {
 .centered-container {
   justify-content: center;
   align-items: center;
-  height: 70vh; /* Asumiendo que quieres que el contenedor tome toda la altura de la ventana */
+  min-height: calc(100vh + 10vw);
 }
 
 .options-container {

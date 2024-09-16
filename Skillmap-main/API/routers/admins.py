@@ -146,13 +146,11 @@ async def create_user(request: Request):
     editor = search_admin("correo", editor_correo)
     if not crypt.verify(editor_pass, editor.password):
         return {"error": "Contraseña incorrecta"}
-    print("Contraseña correcta")
     if type(search_user("correo", user.correo)) == User:
         return {"error": "El correo ya está registrado"}
     if type(search_admin("correo", user.correo)) == Admin:
         return {"error": "El correo ya está registrado"}
     
-    print("Iniciamos creacion de usuario")
     password = "SkillMap." + str(random.randint(1000000, 9999999))
     hashed_password = crypt.hash(password)
     user_dict = dict(user)
@@ -160,7 +158,6 @@ async def create_user(request: Request):
     user_dict.pop("id", None)
     user_dict["autenticado"] = False
     id = db_client.users.insert_one(user_dict).inserted_id
-    print("Terminamos creacion de usuario")
     
     user = search_user("correo", user.correo)
     code = str(random.randint(10000, 99999))
@@ -179,7 +176,15 @@ async def create_user(request: Request):
     return "Usuario creado"
 
 @router.post("/createAdmin")     
-async def create_admin(admin: Admin):
+async def create_admin(request: Request):
+    req_data = await request.json()
+    editor_pass = req_data.get("editorPass")
+    editor_correo = req_data.get("editorCorreo")
+    admin = Admin(**req_data)
+    
+    editor = search_admin("correo", editor_correo)
+    if not crypt.verify(editor_pass, editor.password):
+        return {"error": "Contraseña incorrecta"}
     if type(search_user("correo", admin.correo)) == User:
         return {"error": "El correo ya está registrado"}
     if type(search_admin("correo", admin.correo)) == Admin:

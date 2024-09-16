@@ -41,9 +41,21 @@ async def read_aboutUs():
 async def read_Empezar():
     return FileResponse("static/Empezar/index.html")
 
-@router.get("/Empezar/Form")
-async def read_Form():
-    return FileResponse("static/Formulario/index.html")
+@router.get("/Empezar/Evaluaciones")
+async def read_Evaluaciones():
+    return FileResponse("static/Evaluaciones/index.html")
+
+@router.get("/Empezar/Evaluaciones/Chaside")
+async def read_FormC():
+    return FileResponse("static/Formulario_Chaside/index.html")
+
+@router.get("/Empezar/Evaluaciones/Kuder")
+async def read_FormK():
+    return FileResponse("static/Formulario_Kuder/index.html")
+
+@router.get("/Empezar/Evaluaciones/Holland")
+async def read_FormH():
+    return FileResponse("static/Formulario_Holland/index.html")
 
 @router.get("/Empezar/Activity")
 async def read_Activity():
