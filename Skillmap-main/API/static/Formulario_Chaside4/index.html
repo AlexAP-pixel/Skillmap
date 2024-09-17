@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
+    <title>Test</title>
+    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Formulario_Chaside/styles.css">
+    <style>
+      body{display: block;}
+      header{opacity: 0;}
+    </style>
+</head>
+<body>
+  <header>
+    <img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png">
+    <span class="logo">Skillmap</span>
+    <nav>
+        <div id="navbar">
+            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+        </div>
+    </nav>
+  </header>
+  <br>
+  <div class="centered-container">
+    <div class="form-container">
+        <form id="vocational-form">
+            <h1>Test De Orientación Vocacional Chaside</h1>
+            <div class="questions-container">
+              <!--
+                Mayoría de 1: Carreras como Ingeniería e n Computación, Ingeniería en Informática, Licenciatura en Ciencia de Datos.
+                Mayoría de 2: Ingeniería Ambiental, Ingeniería en Energía, Ingeniería en Negocios Energéticos Sustentables.
+                Mayoría de 3: Ingeniería Civil, Ingeniero Arquitecto, Ingeniería Topográfica y Fotogramétrica.
+                Mayoría de 4: Licenciatura en Física y Matemáticas, Ingeniería Matemática, Ingeniería Mecánica.
+              -->
+
+                <!-- Pregunta 67 -->
+                <label for="res67">67.  ¿La libertad y la justicia son valores fundamentales en tu vida? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res67" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res67" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 68 -->
+                <label for="res68">68.  ¿Aceptarías hacer una práctica rentada en una industria de productos alimenticios en el sector de control de calidad? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res68" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res68" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 69 -->
+                <label for="res69">69.  ¿Consideras que la salud pública debe ser prioritaria, gratuita y eficiente para todos? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res69" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res69" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+
+                <!-- Pregunta 70 -->
+                <label for="res70">70.  ¿Te interesaría investigar sobre alguna nueva vacuna? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res70" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res70" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 71 -->
+                <label for="res71">71.  ¿En un equipo de trabajo, preferís el rol de coordinador?</label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res71" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res71" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 72 -->
+                <label for="res72">72.  ¿En un equipo de trabajo, preferís el rol de coordinador?</label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res72" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res72" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 73 -->
+                <label for="res73">73.  ¿Estás de acuerdo con la formación de un cuerpo de soldados profesionales? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res73" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res73" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 74 -->
+                <label for="res74">74.  ¿Lucharías por una causa justa hasta las últimas consecuencias? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res74" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res74" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 75 -->
+                <label for="res75">75.   ¿Te gustaría investigar científicamente sobre cultivos agrícolas?</label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res75" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res75" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 76 -->
+                <label for="res76">76.  ¿Harías un nuevo diseño de una prenda pasada de moda, ante una reunión imprevista? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res76" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res76" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 77 -->
+                <label for="res77">77.  ¿Visitarías un observatorio astronómico para conocer en acción el funcionamiento de los aparatos?</label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res77" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res77" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 78 -->
+                <label for="res78">78.  ¿Dirigirías el área de importación y exportación de una empresa? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res78" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res78" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 79 -->
+                <label for="res79">79.  ¿Te inhibís al entrar a un lugar nuevo con gente desconocida?  </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res79" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res79" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 80 -->
+                <label for="res80">80.  ¿Te gratificaría el trabajar con niños? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res80" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res80" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 81 -->
+                <label for="res81">81.  ¿Harías el diseño de un afiche para una campaña contra el sida? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res81" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res81" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 82 -->
+                <label for="res82">82.  ¿Dirigirías un grupo de teatro independiente? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res82" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res82" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 83 -->
+                <label for="res83">83.  ¿Enviarías tu curriculum a una empresa automotriz que solicita gerente para su área de producción? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res83" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res83" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 84 -->
+                <label for="res84">84.  ¿Enviarías tu curriculum a una empresa automotriz que solicita gerente para su área de producción? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res84" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res84" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 85 -->
+                <label for="res85">85.  ¿Te costearías tus estudios trabajando en una auditoría? </label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res85" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res85" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 86 -->
+                <label for="res86">86.  ¿Te costearías tus estudios trabajando en una auditoría?</label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res86" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res86" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 87 -->
+                <label for="res87">87.  ¿Ante una emergencia epidémica participarías en una campaña brindando tu ayuda?</label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res87" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res87" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Pregunta 88 -->
+                <label for="res88">88.  ¿Ante una emergencia epidémica participarías en una campaña brindando tu ayuda?</label>
+                <div class="options-group">
+                  <br>
+                  <input type="radio" id="areaA" name="res88" value="A">                    
+                  <label for="areaA">Si</label>
+                    <br>
+                    
+                    <input type="radio" id="areaB" name="res88" value="B">                    
+                    <label for="areaB">No</label>
+                </div>
+                <br><br>
+
+                <!-- Final de preguntas-->
+            </div>
+            <div class="custom-popup" id="customPopup" style="color: white">
+              <span class="popup-message" id="popupMessage"></span>
+            </div>
+            <!-- Boton para pasar a las siguientes preguntas-->
+            <a href="http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones/Chaside5">
+              <button type="button">Siguiente</button>
+            </a>          
+        </form>
+    </div>
+  </div>
+  <br><br><br><br><br><br><br><br><br>
+  <footer>
+      <p>
+          <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+          <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+      </p>
+      <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+  </footer>
+</body>
+<script>
+  async function verificarAutenticacion() {
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    });
+    window.data = await response.json();
+    data = window.data
+    if (!response.ok || data.error) {
+      window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+      document.querySelector('header').style.opacity = 1;
+      cargarRespuestas();
+    }
+  }
+  async function cargarRespuestas() {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(data.correo)}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      });
+      const respuestasUsuario = await response.json();
+      for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
+        const radioButton = document.querySelector(`input[name="${pregunta}"][value="${respuesta}"]`);
+        if (radioButton) {
+          radioButton.checked = true;
+        }
+      }
+    } catch (error) {
+      console.error('Error al cargar respuestas:', error.message);
+    }
+  }
+  verificarAutenticacion();
+  document.getElementById('cerrar_sesion').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("vocational-form");
+
+    const radioButtons = form.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(function(radioButton) {
+      radioButton.addEventListener("change", function() {
+        const pregunta = radioButton.getAttribute("name");
+        const respuesta = radioButton.value;
+        actualizarBaseDeDatos(pregunta, respuesta);
+      });
+    });
+  });
+
+  async function actualizarBaseDeDatos(parametro, valor) {
+    correo = (window.data).correo
+    const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
+      method: 'PATCH',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  }
+  document.getElementById('enviarRespuestas').addEventListener('click', async function() {
+    let formLleno = true
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(data.correo)}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      });
+      const respuestasUsuario = await response.json();
+      for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
+        if (respuesta === " "){
+          formLleno = false;
+          break;
+        }
+      }
+      if (!formLleno){
+        showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
+      }else{
+        console.log("form_completo")
+        actualizarBaseDeDatos("formulario", true)
+        setTimeout(() => {
+          window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
+      }, 1000);
+      }
+    } catch (error) {
+      console.error('Error al cargar respuestas:', error.message);
+    }
+  });
+  function showCustomPopup(message, duration, backgroundColor) {
+    const customPopup = document.getElementById('customPopup');
+    const popupMessage = document.getElementById('popupMessage');
+
+    customPopup.style.backgroundColor = backgroundColor;
+
+    popupMessage.textContent = message;
+    customPopup.style.display = 'block';
+
+    customPopup.style.animation = 'slideDown 0.5s';
+
+    setTimeout(() => {
+        customPopup.style.animation = 'slideUp 0.5s';
+        setTimeout(() => {
+            customPopup.style.display = 'none';
+            customPopup.style.animation = '';
+        }, 500);
+    }, duration);
+  }
+</script>
+</html>
