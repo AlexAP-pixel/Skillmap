@@ -49,6 +49,22 @@ async def read_Evaluaciones():
 async def read_FormC():
     return FileResponse("static/Formulario_Chaside/index.html")
 
+@router.get("/Empezar/Evaluaciones/Chaside2")
+async def read_FormC():
+    return FileResponse("static/Formulario_Chaside2/index.html")
+
+@router.get("/Empezar/Evaluaciones/Chaside3")
+async def read_FormC():
+    return FileResponse("static/Formulario_Chaside3/index.html")
+
+@router.get("/Empezar/Evaluaciones/Chaside4")
+async def read_FormC():
+    return FileResponse("static/Formulario_Chaside4/index.html")
+
+@router.get("/Empezar/Evaluaciones/Chaside5")
+async def read_FormC():
+    return FileResponse("static/Formulario_Chaside5/index.html")
+
 @router.get("/Empezar/Evaluaciones/Kuder")
 async def read_FormK():
     return FileResponse("static/Formulario_Kuder/index.html")
