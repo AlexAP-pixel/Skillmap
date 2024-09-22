@@ -95,8 +95,6 @@
                 const lastName = document.getElementById('last-name').value;
                 const email = document.getElementById('email').value;
                 const newPassword = document.getElementById('new-password').value;
-                const respuestasgral = " ";
-                const actividadesgral = 0;
                 const userData = {
                     name: firstName,
                     surname: lastName,
@@ -104,26 +102,31 @@
                     password: newPassword
                 };
 
-                const userForm = {
+                const userTestC = {
                     user_email: email,
-                    res1: respuestasgral,
-                    res2: respuestasgral,
-                    res3: respuestasgral,
-                    res4: respuestasgral,
-                    res5: respuestasgral,
-                    res6: respuestasgral,
-                    res7: respuestasgral,
-                    res8: respuestasgral,
-                    res9: respuestasgral,
-                    res10: respuestasgral,
-                    res11: respuestasgral,
-                    res12: respuestasgral,
-                    res13: respuestasgral,
-                    act1: actividadesgral,
-                    act2: actividadesgral,
-                    act3: actividadesgral,
-                    act4: actividadesgral
-                }
+                    ...Object.fromEntries(
+                        Array.from({ length: 98 }, (_, i) => [`res${i + 1}`, null])
+                    ),
+                    formularioC: null
+                };
+
+                const userTestK = {
+                    user_email: email,
+                    ...Object.fromEntries(
+                        Array.from({ length: 168 * 2 }, (_, i) => [`res${Math.floor(i / 2) + 1}_${i % 2 + 1}`, " "])
+                    ),
+                    formularioK: null
+                };
+                
+
+                const userTestH = {
+                    user_email: email,
+                    ...Object.fromEntries(
+                        Array.from({ length: 86 }, (_, i) => [`res${i + 1}`, " "])
+                    ),
+                    formularioH: null
+                };
+                
 
                 try {
                     const response = await fetch('http://127.0.0.1:8000/user', {
@@ -143,24 +146,60 @@
                         showCustomPopup(data.error,2000,"#ec5353")
                     }else{
                         try {
-                            const response = await fetch('http://127.0.0.1:8000/answers', {
+                            const response = await fetch('http://127.0.0.1:8000/answersC', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
-                                body: JSON.stringify(userForm),
+                                body: JSON.stringify(userTestC),
                             });
                             if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                             }
                             const data = await response.json();
-                            console.log('Registration successful:', data);
-                            console.log(data)
                             if (data.error){
                                 showCustomPopup(data.error,2000,"#ec5353")
                             }else{
-                                showCustomPopup("Usuario creado",2000,"#12a14b")
-                                mail(email);
+                                try {
+                                    const response = await fetch('http://127.0.0.1:8000/answersK', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify(userTestK),
+                                    });
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    const data = await response.json();
+                                    if (data.error){
+                                        showCustomPopup(data.error,2000,"#ec5353")
+                                    }else{
+                                        try {
+                                            const response = await fetch('http://127.0.0.1:8000/answersH', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(userTestH),
+                                            });
+                                            if (!response.ok) {
+                                                throw new Error(`HTTP error! Status: ${response.status}`);
+                                            }
+                                            const data = await response.json();
+                                            if (data.error){
+                                                showCustomPopup(data.error,2000,"#ec5353")
+                                            }else{
+                                                showCustomPopup("Usuario creado",2000,"#12a14b")
+                                                mail(email);
+                                            }
+                                        } catch (error) {
+                                            console.error('Error during registration:', error);
+                                        }
+                                    }
+                                } catch (error) {
+                                    console.error('Error during registration:', error);
+                                }
                             }
                         } catch (error) {
                             console.error('Error during registration:', error);
@@ -185,7 +224,6 @@
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                    console.log('Correo enviado');
                     window.location.href = "http://127.0.0.1:8000/Skillmap/Autenticar";
 
                 } catch (error) {

@@ -1,29 +1,27 @@
 from fastapi import APIRouter
-from db.models.answers import Answers
-from db.schemas.answers import answers_schema
+from db.models.answersK import AnswersK
+from db.schemas.answersK import answersK_schema
 from db.client import db_client
 from bson import ObjectId
 
-router = APIRouter(prefix="/answers")
+router = APIRouter(prefix="/answersK")
 
 def search_answers(field: str, key):
     try:
-        answer = db_client.answers.find_one({field: key})
-        return Answers(**answers_schema(answer))
+        answer = db_client.answersK.find_one({field: key})
+        return AnswersK(**answersK_schema(answer))
     except:
         return False
 
 @router.post("/")
-async def createDBans(answer: Answers):
+async def createDBans(answer: AnswersK):
     try:
         answer_dict = dict(answer)
         answer_dict.pop("id", None)
-        answer_dict["formulario"] = False
-        answer_dict["actividades"] = False
+        answer_dict["formularioK"] = False
         
-        id = db_client.answers.insert_one(answer_dict).inserted_id
-        new_answers = answers_schema(db_client.answers.find_one({"_id": id}))
-        print("Formato de respuestas creado")
+        id = db_client.answersK.insert_one(answer_dict).inserted_id
+        new_answers = answersK_schema(db_client.answersK.find_one({"_id": id}))
         return {"exito": "Datos guardados"}
     except Exception as e:
         print("Error creating answers:", str(e))
@@ -40,7 +38,7 @@ async def updateDBans(correo:str, parametro:str, valor):
     answer_dict[parametro] = valor
     answer_id = ObjectId(answer.id)
     try:
-        db_client.answers.update_one({"_id": answer_id}, {"$set": answer_dict})
+        db_client.answersK.update_one({"_id": answer_id}, {"$set": answer_dict})
     except Exception as e:
         return {"error": f"No se han actualizado las respuestas. Detalles del error: {str(e)}"}
     return {"exito": "Respuestas actualizadas exitosamente"}

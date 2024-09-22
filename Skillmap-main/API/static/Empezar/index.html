@@ -75,25 +75,65 @@
       window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
       document.querySelector('header').style.opacity = 1;
+      let chaside = true;
+      let kuder = true;
+      let holland = true;
       try {
-        const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(data.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
           method: 'GET',
           headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
           }
         });
         const respuestasUsuario = await response.json();
-        if (respuestasUsuario.formulario == false){
-          var activitiesOptions = document.querySelector('.options-member-activities');
-          activitiesOptions.style.transform = 'none'
-          activitiesOptions.style.border ='#333';
-          activitiesOptions.style.boxShadow = '0 4px 8px #666';
-          activitiesOptions.style.cursor = 'default';
-          var acitivitiesName = activitiesOptions.querySelector('.options-member-name');
-          acitivitiesName.style.color = '#333';
-          var acitivitiesTitle = activitiesOptions.querySelector('.options-member-title');
-          acitivitiesTitle.style.color = '#666';
-        }
+        const chaside = respuestasUsuario.formulario;
+      } catch (error) {
+        console.error('Error al cargar respuestas: ', error.message);
+      }
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          }
+        });
+        const respuestasUsuario = await response.json();
+        kuder = respuestasUsuario.formularioK;
+      } catch (error) {
+        console.error('Error al cargar respuestas: ', error.message);
+      }
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          }
+        });
+        const respuestasUsuario = await response.json();
+        holland = respuestasUsuario.formularioH;
+      } catch (error) {
+        console.error('Error al cargar respuestas: ', error.message);
+      }
+      if (!chaside || !kuder || !holland){
+        var activitiesOptions = document.querySelector('.options-member-activities');
+        activitiesOptions.style.transform = 'none'
+        activitiesOptions.style.border ='#333';
+        activitiesOptions.style.boxShadow = '0 4px 8px #666';
+        activitiesOptions.style.cursor = 'default';
+        var acitivitiesName = activitiesOptions.querySelector('.options-member-name');
+        acitivitiesName.style.color = '#333';
+        var acitivitiesTitle = activitiesOptions.querySelector('.options-member-title');
+        acitivitiesTitle.style.color = '#666';
+        var resultsOptions = document.querySelector('.options-member-results');
+        resultsOptions.style.transform = 'none'
+        resultsOptions.style.border ='#333';
+        resultsOptions.style.boxShadow = '0 4px 8px #666';
+        resultsOptions.style.cursor = 'default';
+        var resultsName = resultsOptions.querySelector('.options-member-name');
+        resultsName.style.color = '#333';
+        var resultsTitle = resultsOptions.querySelector('.options-member-title');
+        resultsTitle.style.color = '#666';
+      }else {
         if (respuestasUsuario.actividades == false){
           var resultsOptions = document.querySelector('.options-member-results');
           resultsOptions.style.transform = 'none'
@@ -105,8 +145,6 @@
           var resultsTitle = resultsOptions.querySelector('.options-member-title');
           resultsTitle.style.color = '#666';
         }
-      } catch (error) {
-        console.error('Error al cargar respuestas:', error.message);
       }
     }
   }
