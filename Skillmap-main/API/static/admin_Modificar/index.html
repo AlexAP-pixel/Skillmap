@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
     <title>Modificar Usuarios</title>
-    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/admin_Modificar/style.css">
 </head>
 <body>
@@ -80,11 +79,11 @@
       </div>
     </div>
   </div>
-
   <footer>
     <p>
-        <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
-        <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
+        </i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+        </i> <a href="tel:5611670871"> 5611670871</a>
+        
     </p>
     <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
   </footer>
@@ -220,6 +219,67 @@
         showCustomPopup(data.error,2000,"#ec5353")
       }else{
         showCustomPopup(data.exito,2000,"#12a14b")
+        if (endpoint === '/updateUsers') {
+          if (userCorreo != correo) {
+            try {
+              const response = await fetch(`http://127.0.0.1:8000/answersC/updateCorreo`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    userCorreo: window.data.correo,
+                    newCorreo: correo
+                  }),
+              });
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+        
+              await response.json();
+            } catch (error) {
+              console.error('Error during registration:', error);
+            }
+            try {
+              const response = await fetch(`http://127.0.0.1:8000/answersK/updateCorreo`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    userCorreo: window.data.correo,
+                    newCorreo: correo
+                  }),
+              });
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+        
+              await response.json();
+            } catch (error) {
+              console.error('Error during registration:', error);
+            }
+            try {
+              const response = await fetch(`http://127.0.0.1:8000/answersH/updateCorreo`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    userCorreo: window.data.correo,
+                    newCorreo: correo
+                  }),
+              });
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+        
+              await response.json();
+            } catch (error) {
+              console.error('Error during registration:', error);
+            }
+          }
+        }
         setTimeout(() => {
           window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin/Modificar';
         }, 1500);

@@ -24,6 +24,10 @@ header {
   margin-left: 10px;
 }
 
+.hidden {
+  display:none;
+}
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -195,7 +199,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   margin-top: 30px; /* Más espacio antes del botón enviar */
-  width: 100%;
+  width: 32%;
 }
 
 button:hover {

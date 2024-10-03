@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
-    <title>Test Holland</title>
-    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
+    <title>Test</title>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Formulario_Holland/styles.css">
     <style>
       body{display: block;}
@@ -30,312 +29,323 @@
   <div class="centered-container">
     <div class="form-container">
         <form id="vocational-form">
-            <h1>Formulario de Orientación Vocacional</h1>
-            <div class="questions-container">
-              <!--
-                Mayoría de 1: Carreras como Ingeniería e n Computación, Ingeniería en Informática, Licenciatura en Ciencia de Datos.
-                Mayoría de 2: Ingeniería Ambiental, Ingeniería en Energía, Ingeniería en Negocios Energéticos Sustentables.
-                Mayoría de 3: Ingeniería Civil, Ingeniero Arquitecto, Ingeniería Topográfica y Fotogramétrica.
-                Mayoría de 4: Licenciatura en Física y Matemáticas, Ingeniería Matemática, Ingeniería Mecánica.
-              -->
-                
-                <!-- Pregunta 1 -->
-                <label for="res1">1. ¿Qué área de estudio te parece más interesante?</label>
-                <div class="options-group">
-                  <br>
-                    <input type="radio" id="areaA" name="res1" value="A">
-                    <label for="areaA">Tecnología y Computación</label>
-                    <br>
-                    
-                    <input type="radio" id= "areaB" name="res1" value="B">
-                    <label for="areaB">Ciencias Naturales y Medio Ambiente</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res1" value="C">
-                    <label for="areaC">Diseño y Arquitectura</label>
-
-                    <br>
-                  
-                    <input type="radio" id="areaD" name="res1" value="D">
-                    <label for="areaD">Diseño y Arquitectura</label>
-                </div>
-
-                <br><br>
-
-                <!-- Pregunta 2 -->
-                <label for="res2">2. ¿Prefieres trabajar en...?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res2" value="A">
-                    <label for="areaA">Laboratorios o entornos controlados</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res2" value="B">
-                    <label for="areaB">Oficinas o entornos de desarrollo de software</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res2" value="C">
-                    <label for="areaC">Ambientes al aire libre o en la naturaleza</label>
-
-                    <br>
-                  
-                    <input type="radio" id="areaD" name="res2" value="D">                    
-                    <label for="areaD">Industria y manufactura</label>
-                </div>
-                <br><br>
-                
-                <!-- Pregunta 3 -->
-                <label for="res3">3. ¿Qué tipo de problemas te gusta resolver?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res3" value="A">
-                    <label for="areaA">Problemas complejos de computación</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res3" value="B">
-                    <label for="areaB">Desafíos relacionados con la energía y el medio ambiente</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res3" value="C">
-                    <label for="areaC">Cuestiones de diseño y construcción</label>
-
-                    <br>
-                  
-                    <input type="radio" id="areaD" name="res3" value="D">
-                    <label for="areaD">Problemas matemáticos o físicos</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 4 -->
-                <label for="res4">4. ¿Qué materias escolares te interesan más?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res4" value="A">                    
-                  <label for="areaA">Biología y Química</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res4" value="B">                    
-                    <label for="areaB">Informática y Tecnología</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res4" value="C">                    
-                    <label for="areaC">Arte y Diseño</label>
-
-                    <br>
-                  
-                    <input type="radio" id="areaD" name="res4" value="D">                    
-                    <label for="areaD">Física y Matemáticas</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 5 -->
-                <label for="res5">5. ¿Te consideras una persona que...?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res5" value="A">                    
-                  <label for="areaA">Disfruta innovando y creando nuevas tecnologías</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res5" value="B">                    
-                    <label for="areaB">Se preocupa por el medio ambiente y la sostenibilidad</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res5" value="C">                    
-                    <label for="areaC">Es detallista y disfruta del diseño y la construcción</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res5" value="D">                    
-                    <label for="areaD">Ama los números y los análisis complejos</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 6 -->
-                <label for="res6">6. ¿Qué te gustaría mejorar o cambiar en el mundo?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res6" value="A">                    
-                  <label for="areaA">Avances tecnológicos y digitales</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res6" value="B">                    
-                    <label for="areaB">Protección ambiental y uso de energías renovables</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res6" value="C">                    
-                    <label for="areaC">Diseño urbano y arquitectura</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res6" value="D">                    
-                    <label for="areaD">Descubrimientos científicos y matemáticos</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 7 -->
-                <label for="res7">7. ¿Prefieres trabajar...?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res7" value="A">                    
-                  <label for="areaA">Solo, enfocado en tareas específicas</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res7" value="B">                    
-                    <label for="areaB">En equipo, colaborando en proyectos</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res7" value="C">                    
-                    <label for="areaC">En el campo, interactuando con el entorno</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res7" value="D">                    
-                    <label for="areaD">En un laboratorio o entorno de investigación</label>
-                </div>
-                <br><br>
-                <!-- Pregunta 8 -->
-                <label for="res8">8. ¿Qué tipo de tecnología te interesa más?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res8" value="A">                    
-                  <label for="areaA">Software y programación</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res8" value="B">                    
-                    <label for="areaB">Energías renovables y sostenibles</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res8" value="C">                    
-                    <label for="areaC">Máquinas y mecanismos</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res8" value="D">                    
-                    <label for="areaD">Robótica y automatización</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 9 -->
-                <label for="res9">9. ¿Cómo te gustaría aplicar tus conocimientos?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res9" value="A">                    
-                  <label for="areaA">Desarrollando nuevas aplicaciones o software</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res9" value="B">                    
-                    <label for="areaB">Contribuyendo a proyectos de energía sostenible</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res9" value="C">                    
-                    <label for="areaC">Diseñando estructuras o productos</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res9" value="D">                    
-                    <label for="areaD">Realizando investigaciones científicas</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 10 -->
-                <label for="res10">10. ¿Qué importancia le das a la innovación en tu carrera?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res10" value="A">                    
-                  <label for="areaA">Alta, quiero estar en el frente de la innovación tecnológica</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res10" value="B">                    
-                    <label for="areaB">Moderada, prefiero mejorar y optimizar lo existente</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res10" value="C">                    
-                    <label for="areaC">Variable, depende del proyecto en el que trabaje</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res10" value="D">                    
-                    <label for="areaD">Baja, me enfoco más en la aplicación práctica de conocimientos existentes</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 11 -->
-                <label for="res11">11. Cuando piensas en un proyecto ideal, ¿qué elemento es más importante para ti?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res11" value="A">                    
-                  <label for="areaA">Que involucre la última tecnología y software</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res11" value="B">                    
-                    <label for="areaB">Que tenga un impacto positivo en el medio ambiente</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res11" value="C">                    
-                    <label for="areaC">Que requiera diseño creativo y práctico</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res11" value="D">                    
-                    <label for="areaD">Que esté basado en principios científicos y matemáticos</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 12 -->
-                <label for="res12">12. ¿Qué te motiva más a aprender algo nuevo?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res12" value="A">                    
-                  <label for="areaA">La posibilidad de crear o mejorar tecnologías digitales</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res12" value="B">                    
-                    <label for="areaB">La oportunidad de hacer un cambio significativo en el mundo</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res12" value="C">                    
-                    <label for="areaC">El desafío de resolver problemas de diseño estructural</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res12" value="D">                    
-                    <label for="areaD">El interés en teorías científicas y descubrimientos</label>
-                </div>
-                <br><br>
-
-                <!-- Pregunta 13 -->
-                <label for="res13">13. ¿Cómo describirías tu enfoque para resolver problemas?</label>
-                <div class="options-group">
-                  <br>
-                  <input type="radio" id="areaA" name="res13" value="A">                    
-                  <label for="areaA">Innovador y centrado en la tecnología</label>
-                    <br>
-                    
-                    <input type="radio" id="areaB" name="res13" value="B">                    
-                    <label for="areaB">Consciente del medio ambiente y orientado a la sostenibilidad</label>
-                    <br>
-                    
-                    <input type="radio" id="areaC" name="res13" value="C">                    
-                    <label for="areaC">Práctico y basado en principios de diseño</label>
-                    <br>
-
-                    <input type="radio" id="areaD" name="res13" value="D">                    
-                    <label for="areaD">Analítico y basado en principios matemáticos</label>
-                </div>
-                <br><br>
-
-                <!-- Final de preguntas-->
+            <h1>Test De Orientación Vocacional Holland</h1>
+            <div class="questions-container" id="questions-container">
             </div>
             <div class="custom-popup" id="customPopup" style="color: white">
               <span class="popup-message" id="popupMessage"></span>
-            </div>
-            <!-- Boton para enviar las respuestas-->
-            <button type="button" id="enviarRespuestas">Enviar Respuestas</button>
+            </div>  
         </form>
+        <div class="button-container" id="buttonContainer">
+          <button type="button" id="enviarRespuestasPRE" style="opacity: 0;"></button> 
+          <button type="button" id="enviarRespuestas">Enviar Respuestas</button>    
+          <button type="button" id="enviarRespuestasPOS" style="opacity: 0;"></button>   
+          <button type="button" id="anterior" class="hidden">Anterior</button>
+          <button type="button" id="regresar" class="hidden">Regresar a seleccion</button>
+          <button type="button" id="siguiente" class="hidden">Siguiente</button>
+        </div>
     </div>
   </div>
   <br><br><br><br><br><br><br><br><br>
   <footer>
-      <p>
-          <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
-          <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
-      </p>
-      <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+    <p>
+        </i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+        </i> <a href="tel:5611670871"> 5611670871</a>
+        
+    </p>
+    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
   </footer>
 </body>
 <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    await cargarPreguntas();
+    mostrarPagina(0);
+  });
+
+  const preguntasPorPagina =45;
+  let paginaActual = 0;
+  const totalPaginas = 4;
+
+  async function cargarPreguntas() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/answersH/preguntas', {
+            method: 'GET'
+        });
+
+        const data = await response.json(); 
+        
+        const questionsContainer = document.getElementById('questions-container');
+        questionsContainer.innerHTML = '';
+        let preguntas;
+        let numPregunta;
+        let numRespuesta = 97;
+        preguntas = Object.keys(data).filter(key => key.startsWith('ques')).map((key, index) => {
+          let commonHTML
+          if(index === 0) {
+            commonHTML = `
+                <div class="options-group">
+                    <label style = "color: black">Marque todos los adjetivos que describan su personalidad. Señale tantos como desee.</label><br>
+                    <label style = "color: black">Trate de definirse tal como es, no como le gustaría ser.</label>
+                    <br><br>
+                    <input type="checkbox" name="res${index+1}" value="true">
+                    <label>${data[key]}</label>
+                </div>
+            `;
+          }else if(index < 45) {
+            commonHTML = `
+                <div class="options-group">
+                    <input type="checkbox" name="res${index+1}" value="true">
+                    <label>${data[key]}</label>
+                </div>
+            `;
+          } else if(index < 63) {
+            if (index === 45) {
+              commonHTML = `
+                <div>
+                  <label style = "color: black">Califíquese de acuerdo con las siguientes características tal como considera ser en comparación con otras personas de su edad.</label><br>
+                  <label style = "color: black">Seleccione la respuesta que más se ajuste a sí mismo.</label><br><br>
+                </div>
+                <div class='questions-options'>
+                  <div class='questions'>
+                      <label>${data[key]}</label>
+                  </div>
+                  <div class="options-group">
+                    <input type="radio" name="res${index+1}" value="a">
+                    <label for="res${index+1}">Más que los demás </label>
+                    <input type="radio" name="res${index+1}" value="b">
+                    <label for="res${index+1}">Igual que los demás</label>
+                    <input type="radio" name="res${index+1}" value="c">
+                    <label for="res${index+1}">Menos que los demás</label>
+                  </div>
+                </div>
+              `;
+            } else {
+              commonHTML = `
+                <div class='questions-options'>
+                  <div class='questions'>
+                      <label>${data[key]}</label>
+                  </div>
+                  <div class="options-group">
+                    <input type="radio" name="res${index+1}" value="a">
+                    <label for="res${index+1}">Más que los demás </label>
+                    <input type="radio" name="res${index+1}" value="b">
+                    <label for="res${index+1}">Igual que los demás</label>
+                    <input type="radio" name="res${index+1}" value="c">
+                    <label for="res${index+1}">Menos que los demás</label>
+                  </div>
+                </div>
+              `;
+            }
+          }else if(index < 81) {
+            if (index === 63) {
+              commonHTML = `
+                <div>
+                  <label>Indique qué importancia da a las siguientes clases de logros, aspiraciones y metas.</label><br><br>
+                </div>
+                <div class='questions-options'>
+                  <div class='questions'>
+                      <label>${data[key]}</label>
+                  </div>
+                  <div class="options-group">
+                    <input type="radio" name="res${index+1}" value="a">
+                    <label for="res${index+1}">Más que los demás </label>
+                    <input type="radio" name="res${index+1}" value="b">
+                    <label for="res${index+1}">Igual que los demás</label>
+                    <input type="radio" name="res${index+1}" value="c">
+                    <label for="res${index+1}">Menos que los demás</label>
+                  </div>
+                </div>
+              `;
+            } else {
+              commonHTML = `
+                <div class='questions-options'>
+                  <div class='questions'>
+                      <label>${data[key]}</label>
+                  </div>
+                  <div class="options-group">
+                    <input type="radio" name="res${index+1}" value="a">
+                    <label for="res${index+1}">Más que los demás </label>
+                    <input type="radio" name="res${index+1}" value="b">
+                    <label for="res${index+1}">Igual que los demás</label>
+                    <input type="radio" name="res${index+1}" value="c">
+                    <label for="res${index+1}">Menos que los demás</label>
+                  </div>
+                </div>
+              `;
+            }
+          } else {
+            if (index === 81) {
+              commonHTML = `
+                <label style = "color: black">Para las siguientes preguntas escoja una sola alternativa, según lo que más se ajuste a usted.</label><br>
+                <br><br>
+                <label>${data[key]}</label>
+              `;
+              numPregunta = index + 1;
+            } else {
+              const val = (index + 3) % 7;
+              if (val != 0){
+                commonHTML = `
+                <div class="options-group">
+                    <br>
+                    <input type="radio" name="res${numPregunta}" value="${String.fromCharCode(numRespuesta)}">
+                    <label for="true">${data[key]}</label>
+                </div>
+                `;
+                numRespuesta += 1;
+              } else {
+                commonHTML = `
+                <br>
+                <label>${data[key]}</label>
+                `;
+                numPregunta += 1;
+                numRespuesta = 97;
+              }
+            }
+          }
+          return commonHTML;
+        });
+        window.preguntasTotales = preguntas;
+
+        mostrarPagina(paginaActual);
+    } catch (error) {
+        console.error("Error cargando preguntas:", error);
+    }
+  }
+
+  async function mostrarPagina(pagina) {
+    cargarRespuestas();
+    const questionsContainer = document.getElementById('questions-container');
+    questionsContainer.innerHTML = '';
+
+    let inicio, fin;
+
+    if (pagina === 0) {
+        inicio = 0;
+        fin = 45;
+    } else if (pagina === 1) {
+        inicio = 45;
+        fin = 63;
+    } else if (pagina === 2) {
+        inicio = 63;
+        fin = 81;
+    } else {
+        inicio = 81;
+        fin = window.preguntasTotales.length;
+    }
+
+    const preguntasPagina = window.preguntasTotales.slice(inicio, fin);
+    questionsContainer.innerHTML = preguntasPagina.join('');
+
+    agregarEventosGuardado();
+    
+    const botonEnviar = document.getElementById('enviarRespuestas');
+    if (pagina === totalPaginas - 1) {
+      botonEnviar.textContent = "Terminar Formulario";
+      botonEnviar.onclick = enviarFormulario;
+    } else {
+      botonEnviar.textContent = "Siguiente Página";
+      if (pagina === 0) {
+        botonEnviar.onclick = () =>cambiarPagina(1);
+      }else {
+        botonEnviar.onclick = () => verificarRespuestasPaginaActual() &&  cambiarPagina(1);
+      }
+    }
+    
+  }
+
+  function agregarEventosGuardado() {
+    const form = document.getElementById("vocational-form");
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const radioButtons = form.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(function(radioButton) {
+      radioButton.addEventListener("change", function() {
+        const pregunta = radioButton.getAttribute("name");
+        const respuesta = radioButton.value;
+        actualizarBaseDeDatos(pregunta, respuesta);
+      });
+    });
+    checkboxes.forEach(function(checkBox) {
+      checkBox.addEventListener("change", function() {
+        const pregunta = checkBox.getAttribute("name");
+        let respuesta = checkBox.value;
+        if (!checkBox.checked){
+          respuesta = "false";
+        }
+        actualizarBaseDeDatos(pregunta, respuesta);
+      });
+    });
+  }
+
+  function verificarRespuestasPaginaActual() {
+    const form = document.getElementById("vocational-form");
+    if (paginaActual + 1 === totalPaginas){
+      const preguntaIds = ["res82", "res83", "res84", "res85", "res86"];
+    
+      for (const preguntaId of preguntaIds) {
+          const radios = form.querySelectorAll(`input[name="${preguntaId}"]`);
+          const algunaSeleccionada = [...radios].some(radio => radio.checked);
+          if (!algunaSeleccionada) {
+              showCustomPopup("Completa todas las preguntas antes de continuar", 2000, "#ec5353");
+              return false;
+          }
+      }
+      return true;
+    }
+    const radioGroups = form.querySelectorAll('.options-group');
+
+    for (const group of radioGroups) {
+      const radios = group.querySelectorAll('input[type="radio"]');
+      const algunaSeleccionada = [...radios].some(radio => radio.checked);
+      if (!algunaSeleccionada) {
+        showCustomPopup("Completa todas las preguntas antes de continuar", 2000, "#ec5353");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function cambiarPagina(incremento) {
+    paginaActual += incremento;
+
+    if (paginaActual < 0) {
+      paginaActual = 0;
+    } else if (paginaActual >= totalPaginas) {
+      paginaActual = totalPaginas - 1;
+    }
+    mostrarPagina(paginaActual);
+  }
+
+  async function enviarFormulario() {
+    if (verificarRespuestasPaginaActual()) {
+      let formLleno = true
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          }
+        });
+        const respuestasUsuario = await response.json();
+        for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
+          if (respuesta === " "){
+            formLleno = false;
+            break;
+          }
+        }
+        if (!formLleno){
+          showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
+        }else{
+          actualizarBaseDeDatos("formularioH", true)
+          setTimeout(() => {
+            window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
+        }, 1000);
+        }
+      } catch (error) {
+        console.error('Error al cargar respuestas:', error.message);
+      }
+    }
+  }
+
   async function verificarAutenticacion() {
     const response = await fetch('http://127.0.0.1:8000/user/me', {
       method: 'GET',
@@ -349,12 +359,13 @@
       window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
       document.querySelector('header').style.opacity = 1;
+      verificarFormularioH();
       cargarRespuestas();
     }
   }
   async function cargarRespuestas() {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(data.correo)}`, {
+      const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -362,9 +373,9 @@
       });
       const respuestasUsuario = await response.json();
       for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
-        const radioButton = document.querySelector(`input[name="${pregunta}"][value="${respuesta}"]`);
-        if (radioButton) {
-          radioButton.checked = true;
+        const checkBox = document.querySelector(`input[name="${pregunta}"][value="${respuesta}"]`);
+        if (checkBox) {
+          checkBox.checked = true;
         }
       }
     } catch (error) {
@@ -377,22 +388,48 @@
     window.location.href = 'http://127.0.0.1:8000/Skillmap/';
   });
 
-  document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById("vocational-form");
-
-    const radioButtons = form.querySelectorAll('input[type="radio"]');
-    radioButtons.forEach(function(radioButton) {
-      radioButton.addEventListener("change", function() {
-        const pregunta = radioButton.getAttribute("name");
-        const respuesta = radioButton.value;
-        actualizarBaseDeDatos(pregunta, respuesta);
+  async function verificarFormularioH() {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
       });
-    });
-  });
+      const respuestasUsuario = await response.json();
+      if (respuestasUsuario.formularioH === true) {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        const checkBoxes = document.querySelectorAll('input[type="checkbox"]');
+        const botonAnterior = document.getElementById('anterior');
+        const botonSiguiente = document.getElementById('siguiente');
+        const botonRegresar = document.getElementById('regresar');
+        const botonEnviar = document.getElementById('enviarRespuestas');
+        const botonEnviarPre = document.getElementById('enviarRespuestasPRE');
+        const botonEnviarPos = document.getElementById('enviarRespuestasPOS');
+        checkBoxes.forEach(check => {
+          check.disabled = true;
+        });
+        radioButtons.forEach(radioButton => {
+          radioButton.disabled = true; 
+        });
+        botonEnviar.classList.add('hidden');
+        botonEnviarPre.classList.add('hidden');
+        botonEnviarPos.classList.add('hidden');
+        botonAnterior.onclick = () => verificarFormularioH() && cambiarPagina(-1);
+        botonSiguiente.onclick = () => verificarFormularioH() && cambiarPagina(1);
+        botonRegresar.onclick = () => window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones'; 
+        botonAnterior.classList.remove('hidden');        
+        botonSiguiente.classList.remove('hidden');       
+        botonRegresar.classList.remove('hidden');
+      }
+    } catch (error) {
+      console.error('Error al verificar formularioK:', error.message);
+    }
+  }
 
   async function actualizarBaseDeDatos(parametro, valor) {
     correo = (window.data).correo
-    const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
+    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
       method: 'PATCH',
       headers: {
           'Content-Type': 'application/json',
@@ -402,35 +439,7 @@
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   }
-  document.getElementById('enviarRespuestas').addEventListener('click', async function() {
-    let formLleno = true
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(data.correo)}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-        }
-      });
-      const respuestasUsuario = await response.json();
-      for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
-        if (respuesta === " "){
-          formLleno = false;
-          break;
-        }
-      }
-      if (!formLleno){
-        showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
-      }else{
-        console.log("form_completo")
-        actualizarBaseDeDatos("formulario", true)
-        setTimeout(() => {
-          window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
-      }, 1000);
-      }
-    } catch (error) {
-      console.error('Error al cargar respuestas:', error.message);
-    }
-  });
+
   function showCustomPopup(message, duration, backgroundColor) {
     const customPopup = document.getElementById('customPopup');
     const popupMessage = document.getElementById('popupMessage');

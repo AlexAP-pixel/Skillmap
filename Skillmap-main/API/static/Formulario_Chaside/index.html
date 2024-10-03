@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
     <title>Test</title>
-    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Formulario_Chaside/styles.css">
     <style>
       body{display: block;}
@@ -36,18 +35,26 @@
             </div>
             <div class="custom-popup" id="customPopup" style="color: white">
               <span class="popup-message" id="popupMessage"></span>
-            </div>
-            <button type="button" id="enviarRespuestas">Enviar Respuestas</button>        
+            </div>  
         </form>
+        <div class="button-container" id="buttonContainer">
+          <button type="button" id="enviarRespuestasPRE" style="opacity: 0;"></button> 
+          <button type="button" id="enviarRespuestas">Enviar Respuestas</button>    
+          <button type="button" id="enviarRespuestasPOS" style="opacity: 0;"></button>   
+          <button type="button" id="anterior" class="hidden">Anterior</button>
+          <button type="button" id="regresar" class="hidden">Regresar a seleccion</button>
+          <button type="button" id="siguiente" class="hidden">Siguiente</button>
+        </div>
     </div>
   </div>
   <br><br><br><br><br><br><br><br><br>
   <footer>
-      <p>
-          <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
-          <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
-      </p>
-      <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+    <p>
+        </i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+        </i> <a href="tel:5611670871"> 5611670871</a>
+        
+    </p>
+    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
   </footer>
 </body>
 <script>
@@ -97,9 +104,10 @@
     }
   }
 
-  function mostrarPagina(pagina) {
+  async function mostrarPagina(pagina) {
+    cargarRespuestas();
     const questionsContainer = document.getElementById('questions-container');
-    questionsContainer.innerHTML = '';  // Limpiar el contenedor
+    questionsContainer.innerHTML = ''; 
 
     const inicio = pagina * preguntasPorPagina;
     const fin = inicio + preguntasPorPagina;
@@ -107,17 +115,17 @@
     const preguntasPagina = window.preguntasTotales.slice(inicio, fin);
     questionsContainer.innerHTML = preguntasPagina.join('');
 
-    // Añadir eventos a los botones de radio de la página actual para guardar la respuesta
     agregarEventosGuardado();
-
+    
     const botonEnviar = document.getElementById('enviarRespuestas');
     if (pagina === totalPaginas - 1) {
-      botonEnviar.textContent = "Enviar Respuestas";
+      botonEnviar.textContent = "Terminar Formulario";
       botonEnviar.onclick = enviarFormulario;
     } else {
       botonEnviar.textContent = "Siguiente Página";
       botonEnviar.onclick = () => verificarRespuestasPaginaActual() && cambiarPagina(1);
     }
+    
   }
 
   function agregarEventosGuardado() {
@@ -161,7 +169,6 @@
 
   async function enviarFormulario() {
     if (verificarRespuestasPaginaActual()) {
-      console.log("Enviando respuestas...");
       let formLleno = true
       try {
         const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
@@ -180,9 +187,9 @@
         if (!formLleno){
           showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
         }else{
-          actualizarBaseDeDatos("formulario", true)
+          actualizarBaseDeDatos("formularioC", true)
           setTimeout(() => {
-            window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
+            window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
         }, 1000);
         }
       } catch (error) {
@@ -204,6 +211,7 @@
       window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
       document.querySelector('header').style.opacity = 1;
+      verificarFormularioC();
       cargarRespuestas();
     }
   }
@@ -219,8 +227,6 @@
       for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
         if ((respuesta == true || respuesta == false) && pregunta != "formularioC") {
           const valueToSelect = respuesta ? 'true' : 'false';
-          console.log(pregunta);
-          console.log(valueToSelect);
           const radioButton = document.querySelector(`input[name="${pregunta}"][value="${valueToSelect}"]`);
           if (radioButton) {
             radioButton.checked = true;
@@ -236,6 +242,41 @@
     localStorage.removeItem('access_token');
     window.location.href = 'http://127.0.0.1:8000/Skillmap/';
   });
+
+  async function verificarFormularioC() {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      });
+      const respuestasUsuario = await response.json();
+      if (respuestasUsuario.formularioC === true) {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        const botonAnterior = document.getElementById('anterior');
+        const botonSiguiente = document.getElementById('siguiente');
+        const botonRegresar = document.getElementById('regresar');
+        const botonEnviar = document.getElementById('enviarRespuestas');
+        const botonEnviarPre = document.getElementById('enviarRespuestasPRE');
+        const botonEnviarPos = document.getElementById('enviarRespuestasPOS');
+        radioButtons.forEach(radioButton => {
+          radioButton.disabled = true; 
+        });
+        botonEnviar.classList.add('hidden');
+        botonEnviarPre.classList.add('hidden');
+        botonEnviarPos.classList.add('hidden');
+        botonAnterior.onclick = () => verificarFormularioC() && cambiarPagina(-1);
+        botonSiguiente.onclick = () => verificarFormularioC() && cambiarPagina(1);
+        botonRegresar.onclick = () => window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones'; 
+        botonAnterior.classList.remove('hidden');        
+        botonSiguiente.classList.remove('hidden');       
+        botonRegresar.classList.remove('hidden');
+      }
+    } catch (error) {
+      console.error('Error al verificar formularioC:', error.message);
+    }
+  }
 
   async function actualizarBaseDeDatos(parametro, valor) {
     console.log(parametro);

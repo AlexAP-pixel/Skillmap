@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
     <title>Mi cuenta</title>
-    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Actualizar/style.css">
     <style>header{opacity: 0;}</style>
 </head>
@@ -52,11 +51,12 @@
     <div id = indicacion2 style="font-size: 11px">&nbspSi desea cambiar la contraseña rellene el campo "Nueva contraseña"</div>
   </div>
   <footer>
-    <p>
-        <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
-        <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
-    </p>
-    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+      <p>
+          </i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+          </i> <a href="tel:5611670871"> 5611670871</a>
+          
+      </p>
+      <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
   </footer>
 </body>
 <script>
@@ -118,7 +118,6 @@
             ...userData
           }),
       });
-      console.log("Pasamos del update")
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -129,6 +128,65 @@
         showCustomPopup(data.error,2000,"#ec5353")
       }else{
         showCustomPopup(data.exito,2000,"#12a14b")
+        if (correo != window.data.correo) {
+          try {
+            const response = await fetch(`http://127.0.0.1:8000/answersC/updateCorreo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  userCorreo: window.data.correo,
+                  newCorreo: correo
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+      
+            await response.json();
+          } catch (error) {
+            console.error('Error during registration:', error);
+          }
+          try {
+            const response = await fetch(`http://127.0.0.1:8000/answersK/updateCorreo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  userCorreo: window.data.correo,
+                  newCorreo: correo
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+      
+            await response.json();
+          } catch (error) {
+            console.error('Error during registration:', error);
+          }
+          try {
+            const response = await fetch(`http://127.0.0.1:8000/answersH/updateCorreo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  userCorreo: window.data.correo,
+                  newCorreo: correo
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+      
+            await response.json();
+          } catch (error) {
+            console.error('Error during registration:', error);
+          }
+        }
         setTimeout(() => {
           window.location.href = 'http://127.0.0.1:8000/Skillmap/Dashboard';
         }, 1500);

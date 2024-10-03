@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
     <title>Mi cuenta</title>
-    <script src="https://kit.fontawesome.com/3a2cbdeb4d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Actualizar/style.css">
     <style>header{opacity: 0;}</style>
 </head>
@@ -51,11 +50,12 @@
     </div>
   </div>
   <footer>
-    <p>
-        <i class="fa-solid fa-envelope"></i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
-        <i class="fa fa-phone"></i> <a href="tel:5611670871"> 5611670871</a>
-    </p>
-    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+      <p>
+          </i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+          </i> <a href="tel:5611670871"> 5611670871</a>
+          
+      </p>
+      <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
   </footer>
 </body>
 <script>
@@ -104,6 +104,9 @@
       ...Object.fromEntries(
           Array.from({ length: 98 }, (_, i) => [`res${i + 1}`, null])
       ),
+      ...Object.fromEntries(
+          Array.from({ length: 98 }, (_, i) => [`res${i + 1}_time`, null])
+      ),
       formularioC: null
     };
 
@@ -112,6 +115,9 @@
         ...Object.fromEntries(
             Array.from({ length: 168 * 2 }, (_, i) => [`res${Math.floor(i / 2) + 1}_${i % 2 + 1}`, " "])
         ),
+        ...Object.fromEntries(
+            Array.from({ length: 168 * 2 }, (_, i) => [`res${Math.floor(i / 2) + 1}_${i % 2 + 1}_time`, null])
+        ),
         formularioK: null
     };
     
@@ -119,7 +125,13 @@
     const userTestH = {
         user_email: email,
         ...Object.fromEntries(
-            Array.from({ length: 86 }, (_, i) => [`res${i + 1}`, " "])
+            Array.from({ length: 45 }, (_, i) => [`res${i + 1}`, false])
+        ),
+        ...Object.fromEntries(
+            Array.from({ length: 41 }, (_, i) => [`res${i + 46}`, " "])
+        ),
+        ...Object.fromEntries(
+            Array.from({ length: 86 }, (_, i) => [`res${i + 1}_time`, null])
         ),
         formularioH: null
     };
