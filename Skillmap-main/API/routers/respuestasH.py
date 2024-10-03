@@ -1,8 +1,12 @@
 from fastapi import APIRouter
+from fastapi import Request
 from db.models.answersH import AnswersH
 from db.schemas.answersH import answersH_schema
+from db.models.questionsH import QuestionsH
+from db.schemas.questionsH import questionsH_schema
 from db.client import db_client
 from bson import ObjectId
+from datetime import datetime, timezone
 
 router = APIRouter(prefix="/answersH")
 
@@ -10,6 +14,13 @@ def search_answers(field: str, key):
     try:
         answer = db_client.answersH.find_one({field: key})
         return AnswersH(**answersH_schema(answer))
+    except:
+        return False
+    
+def get_questions():
+    try:
+        question = db_client.questionsH.find_one({"_id": ObjectId("66faf5acc9c1f239f1feb863")})
+        return QuestionsH(**questionsH_schema(question))
     except:
         return False
 
@@ -36,6 +47,9 @@ async def updateDBans(correo:str, parametro:str, valor):
     answer = search_answers("user_email",correo)
     answer_dict = dict(answer)
     answer_dict[parametro] = valor
+    if parametro != "formularioH":
+        time = datetime.now(timezone.utc).isoformat()
+        answer_dict[f"{parametro}_time"] = time
     answer_id = ObjectId(answer.id)
     try:
         db_client.answersH.update_one({"_id": answer_id}, {"$set": answer_dict})
@@ -47,3 +61,24 @@ async def updateDBans(correo:str, parametro:str, valor):
 async def answers(correo):
     answer_dict = dict(search_answers("user_email", correo))
     return answer_dict
+
+@router.get("/preguntas")
+async def questions():
+    question_dict = dict(get_questions())
+    return question_dict
+
+@router.post("/updateCorreo")
+async def update(request: Request):
+    req_data = await request.json()
+    userCorreo = req_data.get("userCorreo")
+    newCorreo = req_data.get("newCorreo")
+        
+    answer = search_answers("user_email", userCorreo)
+    answer_dict = dict(answer)
+    answer_dict["user_email"] = newCorreo
+    answer_id = ObjectId(answer.id)
+    try:
+        db_client.answersH.update_one({"_id": answer_id}, {"$set": answer_dict})
+    except:
+        return {"error": "No se ha actualizado"}
+    return {"exito": "Datos actualizados"}

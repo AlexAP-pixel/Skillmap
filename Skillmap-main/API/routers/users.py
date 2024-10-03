@@ -209,13 +209,14 @@ async def updateUser(request: Request):
     newPass = req_data.get("newPass")
     newUser = User(**req_data)
     
+    if not crypt.verify(newUser.password, user.password):
+        return {"error": "Contraseña incorrecta"}
+    
     user = search_user("correo", newUser.correo)
     if newUser.correo != userCorreo:
         if type(search_user("correo", userCorreo)) == User:
             print("Correo ya registrado")
             return {"error": "El correo ya está registrado"}
-    if not crypt.verify(newUser.password, user.password):
-        return {"error": "Contraseña incorrecta"}
     user_dict = dict(user)
     if newPass != "":
         user_dict["password"] = crypt.hash(newPass)

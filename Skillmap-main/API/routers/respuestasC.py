@@ -1,10 +1,12 @@
 from fastapi import APIRouter
+from fastapi import Request
 from db.models.answersC import AnswersC
 from db.schemas.answersC import answersC_schema
 from db.models.questionsC import QuestionsC
 from db.schemas.questionsC import questionsC_schema
 from db.client import db_client
 from bson import ObjectId
+from datetime import datetime, timezone
 
 router = APIRouter(prefix="/answersC")
 
@@ -39,12 +41,16 @@ async def createDBans(answer: AnswersC):
 @router.patch("/")
 async def updateDBans(correo:str, parametro:str, valor):
     valorf = False
-    print(valor)
     if valor == "true":
         valorf = True
+    elif valor != "false":
+        valorf = valor
     answer = search_answers("user_email",correo)
     answer_dict = dict(answer)
     answer_dict[parametro] = valorf
+    if parametro != "formularioC":
+        time = datetime.now(timezone.utc).isoformat()
+        answer_dict[f"{parametro}_time"] = time
     answer_id = ObjectId(answer.id)
     try:
         db_client.answersC.update_one({"_id": answer_id}, {"$set": answer_dict})
@@ -61,3 +67,20 @@ async def answers(correo):
 async def questions():
     question_dict = dict(get_questions())
     return question_dict
+
+@router.post("/updateCorreo")
+async def update(request: Request):
+    req_data = await request.json()
+    userCorreo = req_data.get("userCorreo")
+    newCorreo = req_data.get("newCorreo")
+        
+        
+    answer = search_answers("user_email", userCorreo)
+    answer_dict = dict(answer)
+    answer_dict["user_email"] = newCorreo
+    answer_id = ObjectId(answer.id)
+    try:
+        db_client.answersC.update_one({"_id": answer_id}, {"$set": answer_dict})
+    except:
+        return {"error": "No se ha actualizado"}
+    return {"exito": "Datos actualizados"}
