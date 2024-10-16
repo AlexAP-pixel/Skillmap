@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
+    <title>Empezar</title>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/Actividad_1/styles.css">
+    <style>header{opacity: 0;}</style>
+</head>
+<body>
+  <header>
+    <img class="logoimg" src="http://127.0.0.1:8000/static/Login/Logo.png">
+    <span class="logo">Skillmap</span>
+    <nav>
+        <div id="navbar">
+            <a href="http://127.0.0.1:8000/Skillmap/Inicio">Inicio</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Dashboard">Mi cuenta</a>
+            <a href="http://127.0.0.1:8000/Skillmap/AboutUs">Acerca de</a>
+            <a href="http://127.0.0.1:8000/Skillmap/Contacto">Contacto</a>
+            <a href="#" id="cerrar_sesion">Cerrar sesión</a>
+        </div>
+    </nav>
+  </header>
+  <br><br>
+  <div class="centered-container">
+    <div class="options-container">
+        <h1>A continuación ve el siguiente video:</h1>
+        <!--
+          <video class="video.mp4" controls>
+            <source src="http://127.0.0.1:8000/static/Empezar/video.mp4" type="video/mp4">
+          </video>
+        -->
+          <br><br><br>
+          <button class="enviar" onClick="terminarActividad_video_1()">Finalizar</button>
+      </section>
+    </div>
+  </div>
+  <footer>
+    <p>
+        </i> <a href="mailto:skillmap2024@gmail.com"> skillmap2024@outlook.com</a><span style="margin-right: 100px;"></span>
+        </i> <a href="tel:5611670871"> 5611670871</a>
+        
+    </p>
+    <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
+  </footer>
+</body>
+<script>
+  async function verificarAutenticacion() {
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) {
+      window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+      document.querySelector('header').style.opacity = 1;
+      let chaside = true;
+      let kuder = true;
+      let holland = true;
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          }
+        });
+        const respuestasUsuario = await response.json();
+        const chaside = respuestasUsuario.formulario;
+      } catch (error) {
+        console.error('Error al cargar respuestas: ', error.message);
+      }
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          }
+        });
+        const respuestasUsuario = await response.json();
+        kuder = respuestasUsuario.formularioK;
+      } catch (error) {
+        console.error('Error al cargar respuestas: ', error.message);
+      }
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+          }
+        });
+        const respuestasUsuario = await response.json();
+        holland = respuestasUsuario.formularioH;
+      } catch (error) {
+        console.error('Error al cargar respuestas: ', error.message);
+      }
+      if (!chaside || !kuder || !holland){
+        var activitiesOptions = document.querySelector('.options-member-activities');
+        activitiesOptions.style.transform = 'none'
+        activitiesOptions.style.border ='#333';
+        activitiesOptions.style.boxShadow = '0 4px 8px #666';
+        activitiesOptions.style.cursor = 'default';
+        var acitivitiesName = activitiesOptions.querySelector('.options-member-name');
+        acitivitiesName.style.color = '#333';
+        var acitivitiesTitle = activitiesOptions.querySelector('.options-member-title');
+        acitivitiesTitle.style.color = '#666';
+        var resultsOptions = document.querySelector('.options-member-results');
+        resultsOptions.style.transform = 'none'
+        resultsOptions.style.border ='#333';
+        resultsOptions.style.boxShadow = '0 4px 8px #666';
+        resultsOptions.style.cursor = 'default';
+        var resultsName = resultsOptions.querySelector('.options-member-name');
+        resultsName.style.color = '#333';
+        var resultsTitle = resultsOptions.querySelector('.options-member-title');
+        resultsTitle.style.color = '#666';
+      }else {
+        if (respuestasUsuario.actividades == false){
+          var resultsOptions = document.querySelector('.options-member-results');
+          resultsOptions.style.transform = 'none'
+          resultsOptions.style.border ='#333';
+          resultsOptions.style.boxShadow = '0 4px 8px #666';
+          resultsOptions.style.cursor = 'default';
+          var resultsName = resultsOptions.querySelector('.options-member-name');
+          resultsName.style.color = '#333';
+          var resultsTitle = resultsOptions.querySelector('.options-member-title');
+          resultsTitle.style.color = '#666';
+        }
+      }
+    }
+  }
+  function redirigir(url){
+    window.location.href = url
+  }
+  verificarAutenticacion();
+  document.getElementById('cerrar_sesion').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+  });
+</script>
+</html>
