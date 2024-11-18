@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">  
     <title>Mi cuenta</title>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Actividades/styles.css">
+    <script src="http://127.0.0.1:8000/static/Actividades/script.js"></script>
     <style>header{opacity: 0;}</style>
 </head>
 
@@ -27,71 +28,13 @@
 
     <div class="activity1">
         <section id="hero">
-            <h1>Actividad 1</h1>
-            <b><p>Clasifica los elementos mostrados en software y hardware.</p></b>
+            <h1>Actividad</h1>
+            <b><p>Visualiza el siguiente video</p></b>
+            <video id="videoPlayer" width="854" height="480" controls>
+                <source src="" type="video/mp4">
+            </video>
         </section>
-        <div class="dragg_element">
-            <div class="element"  id="element1" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Antivirus.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element2" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Camara.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element3" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Chrome.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element4" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Excel.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element5" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Impresora.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element6" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Linux.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element7" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Monitor.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element8" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Procesador.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element9" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Ram.jpg" alt="elemento">
-            </div>
-            <div class="element" id="element10" draggable="true" ondragstart="drag(event)">
-                <img class="image" src="http://127.0.0.1:8000/static/Windows.jpg" alt="elemento">
-            </div>
-        </div>
-        <div class="droppClass">
-            <div class="drop_element1">
-                <h2>Software</h2>
-                <div class="names" id="sw1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('sw1')">X</button>
-                <div class="names" id="sw2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('sw2')">X</button>
-                <div class="names" id="sw3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('sw3')">X</button>
-                <div class="names" id="sw4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('sw4')">X</button>
-                <div class="names" id="sw5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('sw5')">X</button>
-            </div>
-            <div class="drop_element2">
-                <h2>Hardware</h2>
-                <div class="names" id="hw1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('hw1')">X</button>
-                <div class="names" id="hw2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('hw2')">X</button>
-                <div class="names" id="hw3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('hw3')">X</button>
-                <div class="names" id="hw4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('hw4')">X</button>
-                <div class="names" id="hw5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <button onclick="resetBackground('hw5')">X</button>
-            </div>
-            <br>
-        </div>
-        <button class="enviar" onclick="terminarActividad1()">Finalizar</button>
+        <button id="finalizarBtn" class="enviar" onclick="terminarActividad()" disabled>Finalizar</button>
     </div>
     <footer>
         <p>
@@ -102,149 +45,4 @@
         <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
     </footer>
 </body>
-
-<script>
-    async function verificarAutenticacion() {
-        const response = await fetch('http://127.0.0.1:8000/user/me', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-            }
-        });
-        window.data = await response.json();
-        data = window.data
-        if (!response.ok || data.error) {
-            window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-        } else {
-            document.querySelector('header').style.opacity = 1;
-        }
-    }
-    verificarAutenticacion();
-    document.getElementById('cerrar_sesion').addEventListener('click', function () {
-        localStorage.removeItem('access_token');
-        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-    });
-
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function drag(event) {
-        event.dataTransfer.setData("text/plain", event.target.id);
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        const data = event.dataTransfer.getData("text/plain");
-        const draggedElement = document.getElementById(data);
-        const dropZone = event.target;
-        console.log(dropZone.class)
-        const draggElements = document.querySelectorAll('.dragg_element .element');
-        draggElements.forEach(element => {
-            textInside =element.innerHTML
-            if (textInside.includes(data)){
-                element.style.display = 'none';
-            }
-        });
-        dropZone.style.cssText = `background-image: url('${data}'); background-repeat: no-repeat; background-size: cover;`;
-    }
-    function resetBackground(dropElementId) {
-        const dropZone = document.getElementById(dropElementId);
-        const backgroundImage = dropZone.style.backgroundImage;
-        const draggElements = document.querySelectorAll('.dragg_element .element');
-        const imageUrl = backgroundImage.replace('url("', '').replace('")', '');
-        draggElements.forEach(element => {
-            textInside =element.innerHTML
-            if (textInside.includes(imageUrl)){
-                element.style.display = 'inline-block';
-            }
-        });
-        dropZone.style.cssText = '';
-    }
-    async function terminarActividad1(){
-        const sw1 = document.getElementById('sw1').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const sw2 = document.getElementById('sw2').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const sw3 = document.getElementById('sw3').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const sw4 = document.getElementById('sw4').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const sw5 = document.getElementById('sw5').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const hw1 = document.getElementById('hw1').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const hw2 = document.getElementById('hw2').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const hw3 = document.getElementById('hw3').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const hw4 = document.getElementById('hw4').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        const hw5 = document.getElementById('hw5').style.backgroundImage.replace('url("http://127.0.0.1:8000/static/', '').replace('")', '').replace('.jpg', '');
-        let result = 0
-        if (software(sw1)){
-            result += 1
-        }
-        if (software(sw2)){
-            result += 1
-        }
-        if (software(sw3)){
-            result += 1
-        }
-        if (software(sw4)){
-            result += 1
-        }
-        if (software(sw5)){
-            result += 1
-        }
-        if (hardware(hw1)){
-            result += 1
-        }
-        if (hardware(hw2)){
-            result += 1
-        }
-        if (hardware(hw3)){
-            result += 1
-        }
-        if (hardware(hw4)){
-            result += 1
-        }
-        if (hardware(hw5)){
-            result += 1
-        }
-        try {
-            const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(data.correo)}`, {
-              method: 'GET',
-              headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-              }
-            });
-            const respuestasUsuario = await response.json();
-            console.log("form_completo")
-            actualizarBaseDeDatos("act1", result)
-            actualizarBaseDeDatos("actividades", true)
-            setTimeout(() => {
-                window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
-            }, 1000);
-          } catch (error) {
-            console.error('Error al cargar respuestas:', error.message);
-          }
-    }
-    function software(sw){
-        if(sw=="Antivirus" || sw=="Chrome" || sw=="Excel" || sw=="Linux" || sw=="Windows"){
-            return true
-        }
-        return false
-    }
-    function hardware(hw){
-        if(hw=="Camara" || hw=="Impresora" || hw=="Monitor" || hw=="Procesador" || hw=="Ram"){
-            return true
-        }
-        return false
-    }
-    async function actualizarBaseDeDatos(parametro, valor) {
-        correo = (window.data).correo
-        const response = await fetch(`http://127.0.0.1:8000/answers?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
-          method: 'PATCH',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    }
-</script>
-
 </html>

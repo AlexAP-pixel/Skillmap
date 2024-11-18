@@ -96,7 +96,6 @@ async def user(id: str):
 async def create_user(user: User):
     if type(search_user("correo", user.correo)) == User:
         return {"error": "El correo ya está registrado"}
-    print("Inicio de post")
     hashed_password = crypt.hash(user.password)
     user_dict = dict(user)
     user_dict["password"] = hashed_password

@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
     <title>Empezar</title>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/Empezar/styles.css">
+    <script src="http://127.0.0.1:8000/static/Empezar/script.js"></script>
     <style>header{opacity: 0;}</style>
 </head>
 <body>
@@ -34,13 +35,13 @@
                   <p class="options-member-title">Tomate tu tiempo respondiendo las preguntas</p>
               </div>
   
-              <div class="options-member-activities" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Activity')">
+              <div class="options-member-activities" onclick="redirigir2('http://127.0.0.1:8000/Skillmap/Empezar/Activity')">
                   <img src="http://127.0.0.1:8000/static/activity.png" alt="Activity" class="options-member-icon">
                   <h3 class="options-member-name">Actividades</h3>
                   <p class="options-member-title">Resuelve las actividades y dinos que te parecieron</p>
               </div>
   
-              <div class="options-member-results" onclick="redirigir('http://127.0.0.1:8000/Skillmap/Empezar/Resultados')">
+              <div class="options-member-results" onclick="redirigir3('http://127.0.0.1:8000/Skillmap/Empezar/Resultados')">
                   <img src="http://127.0.0.1:8000/static/result.png" alt="Results" class="options-member-icon">
                   <h3 class="options-member-name">Resultados</h3>
                   <p class="options-member-title">Conoce las carreras que te recomendamos</p>
@@ -61,99 +62,4 @@
     <p>&copy; 2023 Skillmap. Todos los derechos reservados</p>
   </footer>
 </body>
-<script>
-  async function verificarAutenticacion() {
-    const response = await fetch('http://127.0.0.1:8000/user/me', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-      }
-    });
-    const data = await response.json();
-    if (!response.ok || data.error) {
-      window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-    }else{
-      document.querySelector('header').style.opacity = 1;
-      let chaside = true;
-      let kuder = true;
-      let holland = true;
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-          }
-        });
-        const respuestasUsuario = await response.json();
-        const chaside = respuestasUsuario.formulario;
-      } catch (error) {
-        console.error('Error al cargar respuestas: ', error.message);
-      }
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-          }
-        });
-        const respuestasUsuario = await response.json();
-        kuder = respuestasUsuario.formularioK;
-      } catch (error) {
-        console.error('Error al cargar respuestas: ', error.message);
-      }
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-          }
-        });
-        const respuestasUsuario = await response.json();
-        holland = respuestasUsuario.formularioH;
-      } catch (error) {
-        console.error('Error al cargar respuestas: ', error.message);
-      }
-      if (!chaside || !kuder || !holland){
-        var activitiesOptions = document.querySelector('.options-member-activities');
-        activitiesOptions.style.transform = 'none'
-        activitiesOptions.style.border ='#333';
-        activitiesOptions.style.boxShadow = '0 4px 8px #666';
-        activitiesOptions.style.cursor = 'default';
-        var acitivitiesName = activitiesOptions.querySelector('.options-member-name');
-        acitivitiesName.style.color = '#333';
-        var acitivitiesTitle = activitiesOptions.querySelector('.options-member-title');
-        acitivitiesTitle.style.color = '#666';
-        var resultsOptions = document.querySelector('.options-member-results');
-        resultsOptions.style.transform = 'none'
-        resultsOptions.style.border ='#333';
-        resultsOptions.style.boxShadow = '0 4px 8px #666';
-        resultsOptions.style.cursor = 'default';
-        var resultsName = resultsOptions.querySelector('.options-member-name');
-        resultsName.style.color = '#333';
-        var resultsTitle = resultsOptions.querySelector('.options-member-title');
-        resultsTitle.style.color = '#666';
-      }else {
-        if (respuestasUsuario.actividades == false){
-          var resultsOptions = document.querySelector('.options-member-results');
-          resultsOptions.style.transform = 'none'
-          resultsOptions.style.border ='#333';
-          resultsOptions.style.boxShadow = '0 4px 8px #666';
-          resultsOptions.style.cursor = 'default';
-          var resultsName = resultsOptions.querySelector('.options-member-name');
-          resultsName.style.color = '#333';
-          var resultsTitle = resultsOptions.querySelector('.options-member-title');
-          resultsTitle.style.color = '#666';
-        }
-      }
-    }
-  }
-  function redirigir(url){
-    window.location.href = url
-  }
-  verificarAutenticacion();
-  document.getElementById('cerrar_sesion').addEventListener('click', function() {
-    localStorage.removeItem('access_token');
-    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-  });
-</script>
 </html>

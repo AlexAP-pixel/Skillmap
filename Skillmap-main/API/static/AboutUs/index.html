@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="http://127.0.0.1:8000/static/Logo.ico">
     <title>Acerca de nosotros</title>
     <link rel="stylesheet" href="http://127.0.0.1:8000/static/AboutUs/styles.css">
+    <script src="http://127.0.0.1:8000/static/AboutUs/script.js"></script>
     <style>header{opacity: 0;}</style>
 </head>
 <body>
@@ -88,25 +89,4 @@
     </footer>
 
 </body>
-<script>
-    async function verificarAutenticacion() {
-        const response = await fetch('http://127.0.0.1:8000/user/me', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-            }
-        });
-        const data = await response.json();
-        if (!response.ok || data.error) {
-            window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-        }else{
-            document.querySelector('header').style.opacity = 1;
-        }
-    }
-    verificarAutenticacion();
-    document.getElementById('cerrar_sesion').addEventListener('click', function() {
-        localStorage.removeItem('access_token');
-        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-    });
-</script>
 </html>

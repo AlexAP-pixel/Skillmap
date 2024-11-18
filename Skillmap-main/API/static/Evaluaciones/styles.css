@@ -162,6 +162,7 @@ footer a {
   text-decoration: underline;
 }
 .evaluaciones-main {
+  align-items: center;
   background: #fff;
   padding: 20px;
   margin-top: 15px;
