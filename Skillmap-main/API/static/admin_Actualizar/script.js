@@ -1,7 +1,4 @@
 async function verificarAutenticacion() {
-const nombre = document.getElementById('nombre');
-const apellido = document.getElementById('apellido');
-const correo = document.getElementById('email');
 const response = await fetch('http://127.0.0.1:8000/admin/me', {
     method: 'GET',
     headers: {
@@ -13,13 +10,17 @@ data = window.data
 if (!response.ok || data.error) {
     window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin';
 }else{
+    const nombre = document.getElementById('nombre');
+    const apellido = document.getElementById('apellido');
+    const correo = document.getElementById('email');
     document.querySelector('header').style.opacity = 1;
-    nombretxt = data.name
-    apellidotxt = data.surname
-    correotxt = data.correo
+    let nombretxt = data.name
+    let apellidotxt = data.surname
+    let correotxt = data.correo
     nombre.value = nombretxt
     apellido.value = apellidotxt
     correo.value = correotxt
+    console.log(nombre)
 }
 }
 verificarAutenticacion();

@@ -1,22 +1,22 @@
 async function verificarAutenticacion() {
-const nombre = document.getElementById('nombre');
-const correo = document.getElementById('email');
-const response = await fetch('http://127.0.0.1:8000/admin/me', {
-    method: 'GET',
-    headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    const response = await fetch('http://127.0.0.1:8000/admin/me', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) {
+        window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin';
+    }else{
+        const nombre = document.getElementById('nombre');
+        const correo = document.getElementById('email');
+        document.querySelector('header').style.opacity = 1;
+        let nombretxt = "Nombre: "+data.name+" "+data.surname
+        let correotxt = "Correo: "+data.correo
+        nombre.textContent = nombretxt
+        correo.textContent = correotxt
     }
-});
-const data = await response.json();
-if (!response.ok || data.error) {
-    window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin';
-}else{
-    document.querySelector('header').style.opacity = 1;
-    nombretxt = "Nombre: "+data.name+" "+data.surname
-    correotxt = "Correo: "+data.correo
-    nombre.textContent = nombretxt
-    correo.textContent = correotxt
-}
 }
 verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
