@@ -1,14 +1,12 @@
 import os
+import matplotlib.pyplot as plt
+import math
 from fastapi import APIRouter
 from fastapi import Request
 from db.models.results import Result
 from db.schemas.results import result_schema
 from db.models.user import User
 from db.schemas.user import user_schema
-from db.models.carreras import Carrera
-from db.schemas.carreras import carrera_schema
-from db.models.escuelas import Escuela
-from db.schemas.escuelas import escuela_schema
 from db.client import db_client
 from bson import ObjectId
 from moviepy.editor import VideoFileClip, concatenate_videoclips
@@ -55,7 +53,74 @@ async def get_results(correo: str):
     if not result:
         return {"error": "No se encontro el usuario"}
     return {"exito": result}
-    
+
+@router.get("/info")
+async def get_info(correo: str):
+    user = search_user("correo", correo)
+    idUsuario = user.id
+    result = calculated_result("id_usuario", idUsuario)
+    if not result:
+        return {"error": "No se encontro el usuario"}
+    carrera_ids = [
+        result.id_carrera1,
+        result.id_carrera2,
+        result.id_carrera3,
+        result.id_carrera4,
+        result.id_carrera5,
+        result.id_carrera6,
+        result.id_carrera7,
+        result.id_carrera8
+    ]
+    carreras_info = []
+    for carrera_id in carrera_ids:
+        carrera = db_client.carreras.find_one({"_id": ObjectId(carrera_id)})
+        if carrera:
+            escuela_info = []
+            for cct in carrera.get("CCTs", []):
+                escuela = db_client.escuelas.find_one({"CCT": cct})
+                if escuela:
+                    escuela_info.append({
+                        "nombre": escuela.get("nombre"),
+                        "mision": escuela.get("mision"),
+                        "vision": escuela.get("vision"),
+                        "direccion": escuela.get("direccion"),
+                    })
+            carreras_info.append({
+                "nombre": carrera.get("nombre"),
+                "objetivo": carrera.get("objetivo"),
+                "perfilIngreso": carrera.get("perfilIngreso"),
+                "perfilEgreso": carrera.get("perfilEgreso"),
+                "escuelas": escuela_info
+            })
+        
+    res_test = [
+        result.In1,
+        result.Ha1,
+        result.D1,
+        result.D2,
+        result.EI1,
+        result.EI2,
+    ]
+    descripciones = []
+    i = 1
+    valor = ""
+    for resT in res_test:
+        if resT[1] in ['I', 'A']:
+            info = db_client.descripciones.find_one({"valor": resT[0]})
+        else:
+            info = db_client.descripciones.find_one({"valor": resT})
+        des = info.get("Descripcion")
+        if valor != des:
+            descripciones.append({
+                "test": info.get("test")+str(i),
+                "descripcion": info.get("Descripcion"),
+            })
+            valor = des
+        if i == 2:
+            i = 1
+        else:
+            i = 2
+    return {"exito": carreras_info, "descripciones": descripciones}
     
 @router.put("/video")
 async def set_video(correo: str):
@@ -68,7 +133,6 @@ async def set_video(correo: str):
         resultados = calculated_result("id_usuario", idUsuario)
         
         if not resultados:
-            print("No se encontraron resultados")
             return {"error": "No se encontraron resultados para este usuario"}
         
         video_path = os.path.join(directorio, f"{idUsuario}.mp4")
@@ -91,7 +155,6 @@ async def set_video(correo: str):
         for video in videos:
             video_path = os.path.join(directorio, video)
             if not os.path.exists(video_path):
-                print(f"Error: El archivo {video} no existe en la ruta {video_path}")
                 return {"error": f"El archivo de video {video} no se encuentra."}
             clip = VideoFileClip(video_path)
             clips.append(clip)
@@ -103,18 +166,19 @@ async def set_video(correo: str):
         return {"exito": f"{idUsuario}.mp4"}
     
     except Exception as e:
-        print(f"Error al procesar los videos: {str(e)}")
         return {"error": f"Ocurrió un error: {str(e)}"}
-    
-    
+
 @router.post("/")
 async def create_results(result: Result):
     user = search_user("correo", result.id_usuario)
     idUsuario = user.id
     consultaResult = search_result("id_usuario", idUsuario)
+    
     if consultaResult:
         return {"error": "El usuario ya tiene base de resultados"}
     
+    directorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'Imagenes_Resultados')
+    directorio = os.path.normpath(directorio)
     carreras = list(db_client.carreras.find())
     IA = [(i / 28) * 10 for i in range(7, 0, -1)]
     D = [(i / 21) * 10 for i in range(6, 0, -1)]
@@ -123,6 +187,144 @@ async def create_results(result: Result):
     A1, A2, A3, A4, A5, A6, A7 = IA
     D1, D2, D3, D4, D5, D6 = D
     EI1, EI2, EI3, EI4, EI5, EI6, EI7, EI8, EI9, EI10 = EI
+    chasideI = [
+        (result.In1, I1),
+        (result.In2, I2),
+        (result.In3, I3),
+        (result.In4, I4),
+        (result.In5, I5),
+        (result.In6, I6),
+        (result.In7, I7),
+    ]
+    chasideH = [
+        (result.Ha1, A1),
+        (result.Ha2, A2),
+        (result.Ha3, A3),
+        (result.Ha4, A4),
+        (result.Ha5, A5),
+        (result.Ha6, A6),
+        (result.Ha7, A7)
+    ]
+    holland = [
+        (result.D1, D1),
+        (result.D2, D2),
+        (result.D3, D3),
+        (result.D4, D4),
+        (result.D5, D5),
+        (result.D6, D6),
+    ]
+    kudder = [
+        (result.EI1, EI1),
+        (result.EI2, EI2),
+        (result.EI3, EI3),
+        (result.EI4, EI4),
+        (result.EI5, EI5),
+        (result.EI6, EI6),
+        (result.EI7, EI7),
+        (result.EI8, EI8),
+        (result.EI9, EI9),
+        (result.EI10, EI10)
+    ]
+    
+    #Imagen de Chaside
+    chaside = []
+    for c in chasideI:
+        for c2 in chasideH:
+            if c[0][0]== c2[0][0]:
+                suma = c[1] + c2[1]
+                chaside.append((c[0][0], suma))
+    orden = ["C", "H", "A", "S", "I", "D", "E"]
+    descripciones = {
+        "C": "Área administrativa",
+        "H": "Área de humanidades y ciencias sociales jurídicas",
+        "A": "Área artística",
+        "S": "Área de ciencias de la salud",
+        "I": "Área de enseñanzas técnicas",
+        "D": "Área de defensa y seguridad",
+        "E": "Área de ciencias experimentales"
+    }
+    chaside = sorted(chaside, key=lambda x: orden.index(x[0]))
+    letras = [x[0] for x in chaside]
+    valores = [x[1] for x in chaside]
+    categories = letras
+    num_categories = len(categories)
+    angles = [(2 * math.pi * i / num_categories) for i in range(num_categories)]
+    valores.append(valores[0])
+    angles.append(angles[0])
+    fig, ax = plt.subplots(figsize=(6, 7), subplot_kw=dict(polar=True))
+    ax.plot(angles, valores, linewidth=2, linestyle='solid', color='blue')
+    ax.fill(angles, valores, color='blue', alpha=0.25)
+    ax.set_yticklabels([])
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories)
+    plt.title("Resultados Chaside", size=16)
+    descripcion_texto = "\n".join([f"{letra}: {descripciones[letra]}" for letra in letras])
+    plt.figtext(0.5, -0.1, descripcion_texto, wrap=True, horizontalalignment='center', fontsize=13)
+    output_path = os.path.join(directorio, f"C{idUsuario}.png")
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    
+    #Imagen de Holland
+    orden = ["D1", "D2", "D3", "D4", "D5", "D6"]
+    descripciones = {
+        "D1": "Realista",
+        "D2": "Investigador",
+        "D3": "Social",
+        "D4": "Convencional",
+        "D5": "Emprendedor",
+        "D6": "Artistico"
+    }
+    holland = sorted(holland, key=lambda x: orden.index(x[0]))
+    categories = [x[0] for x in holland]
+    valores = [x[1] for x in holland]
+    num_categories = len(categories)
+    angles = [(2 * math.pi * i / num_categories) for i in range(num_categories)]
+    valores.append(valores[0])
+    angles.append(angles[0])
+    fig, ax = plt.subplots(figsize=(6, 7), subplot_kw=dict(polar=True))
+    ax.plot(angles, valores, linewidth=2, linestyle='solid', color='blue')
+    ax.fill(angles, valores, color='blue', alpha=0.25)
+    ax.set_yticklabels([])
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories)
+    plt.title("Resultados Holland", size=16)
+    descripcion_texto = "\n".join([f"{category}: {descripciones[category]}" for category in categories])
+    plt.figtext(0.5, -0.1, descripcion_texto, wrap=True, horizontalalignment='center', fontsize=13)
+    output_path = os.path.join(directorio, f"H{idUsuario}.png")
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    
+    #Imagen de Kudder
+    orden = ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9"]
+    descripciones = {
+        "P0": "Aire libre",
+        "P1": "Mecanica",
+        "P2": "Numerica - Cálculo",
+        "P3": "Cientifica",
+        "P4": "Persuasivo",
+        "P5": "Artistico",
+        "P6": "Literario",
+        "P7": "Musical",
+        "P8": "Social",
+        "P9": "Oficina",
+    }
+    kudder = sorted(kudder, key=lambda x: orden.index(x[0]))
+    categories = [x[0] for x in kudder]
+    valores = [x[1] for x in kudder]
+    num_categories = len(categories)
+    angles = [(2 * math.pi * i / num_categories) for i in range(num_categories)]
+    valores.append(valores[0])
+    angles.append(angles[0])
+    fig, ax = plt.subplots(figsize=(6, 8), subplot_kw=dict(polar=True))
+    ax.plot(angles, valores, linewidth=2, linestyle='solid', color='blue')
+    ax.fill(angles, valores, color='blue', alpha=0.25)
+    ax.set_yticklabels([])
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories)
+    plt.title("Resultados Kudder", size=16)
+    descripcion_texto = "\n".join([f"{category}: {descripciones[category]}" for category in categories])
+    plt.figtext(0.5, -0.1, descripcion_texto, wrap=True, horizontalalignment='center', fontsize=13)
+    output_path = os.path.join(directorio, f"K{idUsuario}.png")
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        
     valores =[
         (result.In1, I1),
         (result.In2, I2),
@@ -156,7 +358,6 @@ async def create_results(result: Result):
         (result.EI10, EI10)
     ]
     listCarreras = []
-    
     for carrera in carreras:
         puntaje = 0
         id = str(carrera.get("_id", "Campo no encontrado"))
@@ -203,7 +404,6 @@ async def update_resultados(correo: str):
     idUsuario = user.id
     resultados = calculated_result("id_usuario", idUsuario)
     if not resultados:
-        print("No se encontraron resultados")
         return {"error": "No se encontraron resultados para este usuario"}
 
     try:

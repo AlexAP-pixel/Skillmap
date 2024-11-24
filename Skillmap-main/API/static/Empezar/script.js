@@ -75,7 +75,7 @@ if (!response.ok || data.error) {
         redireccionar3 = false;
     }else {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/resultados/?correo=${encodeURIComponent((window.data).correo)}`, {
+            const response = await fetch(`http://127.0.0.1:8000/resultados?correo=${encodeURIComponent((window.data).correo)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
