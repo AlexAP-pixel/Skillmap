@@ -1,3 +1,4 @@
+let info;
 let redireccionar2 = true;
 let redireccionar3 = true;
 async function verificarAutenticacion() {
@@ -7,8 +8,8 @@ const response = await fetch('http://127.0.0.1:8000/user/me', {
     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
 });
-window.data = await response.json();
-data = window.data
+info = await response.json();
+data = info
 if (!response.ok || data.error) {
     window.location.href = 'http://127.0.0.1:8000/Skillmap/';
 }else{
@@ -17,19 +18,19 @@ if (!response.ok || data.error) {
     let kuder = true;
     let holland = true;
     try {
-    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}&formulario=false`, {
         method: 'GET',
         headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
     });
     const respuestasUsuario = await response.json();
-    const chaside = respuestasUsuario.formulario;
+    const chaside = respuestasUsuario.formularioC;
     } catch (error) {
     console.error('Error al cargar respuestas: ', error.message);
     }
     try {
-    const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
         method: 'GET',
         headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -41,7 +42,7 @@ if (!response.ok || data.error) {
     console.error('Error al cargar respuestas: ', error.message);
     }
     try {
-    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
         method: 'GET',
         headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -75,7 +76,7 @@ if (!response.ok || data.error) {
         redireccionar3 = false;
     }else {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/resultados?correo=${encodeURIComponent((window.data).correo)}`, {
+            const response = await fetch(`http://127.0.0.1:8000/resultados?correo=${encodeURIComponent((info).correo)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

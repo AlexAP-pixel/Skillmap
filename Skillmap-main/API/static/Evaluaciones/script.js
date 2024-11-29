@@ -14,7 +14,7 @@ if (!response.ok || data.error) {
     let respuestasHUsuario;
     let respuestasKUsuario;
     try {
-        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}&formulario=false`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -25,7 +25,7 @@ if (!response.ok || data.error) {
         console.error('Error al cargar respuestas:', error.message);
     }
     try {
-        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}&formulario=false`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -36,7 +36,7 @@ if (!response.ok || data.error) {
         console.error('Error al cargar respuestas:', error.message);
     }
     try {
-        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}&formulario=false`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')

@@ -14,7 +14,8 @@ def search_answers(field: str, key):
     try:
         answer = db_client.answersC.find_one({field: key})
         return AnswersC(**answersC_schema(answer))
-    except:
+    except Exception as e:
+        print(e)
         return False
     
 def get_questions():
@@ -59,8 +60,12 @@ async def updateDBans(correo:str, parametro:str, valor):
     return {"exito": "Respuestas actualizadas exitosamente"}
 
 @router.get("/")
-async def answers(correo):
+async def answers(correo:str, formulario:bool):
     answer_dict = dict(search_answers("user_email", correo))
+    usaurio = db_client.users.find_one({"correo": correo})
+    if formulario:
+        id = str(usaurio.get("id"))
+        db_client.banda.update_one({"id_usuario": id}, {"$set": {"status": True}})
     return answer_dict
 
 @router.get("/preguntas")

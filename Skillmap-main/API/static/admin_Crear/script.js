@@ -1,3 +1,4 @@
+let info;
 async function verificarAutenticacion() {
 const nombre = document.getElementById('nombre');
 const apellido = document.getElementById('apellido');
@@ -8,8 +9,8 @@ const response = await fetch('http://127.0.0.1:8000/admin/me', {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
 });
-window.data = await response.json();
-data = window.data
+info = await response.json();
+data = info
 if (!response.ok || data.error) {
     window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin';
 }else{
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({
                 editorPass: editor_contrasena,
-                editorCorreo: window.data.correo,
+                editorCorreo: info.correo,
                 ...userData
                 }),
             });
@@ -96,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
         
-            window.data = await response.json();
-            const data = window.data
+            info = await response.json();
+            const data = info
             if (data.error){
                 showCustomPopup(data.error,2000,"#ec5353")
             }else{
@@ -175,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 body: JSON.stringify({
                 editorPass: editor_contrasena,
-                editorCorreo: window.data.correo,
+                editorCorreo: info.correo,
                 ...userData
                 }),
             });

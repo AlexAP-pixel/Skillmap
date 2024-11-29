@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 await cargarPreguntas();
 mostrarPagina(0);
 });
-
+let info = "";
 const preguntasPorPagina = 30;
 let paginaActual = 0;
 let totalPaginas = 0;
@@ -141,70 +141,86 @@ async function enviarFormulario() {
 if (verificarRespuestasPaginaActual()) {
     let formLleno = true
     try {
-    const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
-        method: 'GET',
-        headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        correo = info.correo
+        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(correo)}&formulario=false`, {
+            method: 'GET',
+            headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+            }
+        });
+        const respuestasUsuario = await response.json();
+        for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
+            if (respuesta === " "){
+            formLleno = false;
+            break;
+            }
         }
-    });
-    const respuestasUsuario = await response.json();
-    for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
-        if (respuesta === " "){
-        formLleno = false;
-        break;
+        if (!formLleno){
+            showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
+        }else{
+            const response = await fetch(`http://127.0.0.1:8000/banda/svmTest`, {
+                method: 'PUT',
+                headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                },
+                body: JSON.stringify({
+                    email: correo,
+                    test: "C"
+                })
+            });
+            data = await response.json();
+            if (data.exito) {
+                actualizarBaseDeDatos("formularioK", true)
+                setTimeout(() => {
+                    window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
+                }, 1000);
+            }
         }
-    }
-    if (!formLleno){
-        showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
-    }else{
-        actualizarBaseDeDatos("formularioK", true)
-        setTimeout(() => {
-        window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
-    }, 1000);
-    }
     } catch (error) {
-    console.error('Error al cargar respuestas:', error.message);
+        console.error('Error al cargar respuestas:', error.message);
     }
 }
 }
 
 async function verificarAutenticacion() {
-const response = await fetch('http://127.0.0.1:8000/user/me', {
-    method: 'GET',
-    headers: {
-    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-    }
-});
-window.data = await response.json();
-data = window.data
-if (!response.ok || data.error) {
-    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-}else{
-    document.querySelector('header').style.opacity = 1;
-    verificarFormularioK();
-    cargarRespuestas();
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+        method: 'GET',
+        headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+    });
+    data = await response.json();
+    if (!response.ok || data.error) {
+        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+        info = data;
+        document.querySelector('header').style.opacity = 1;
+        verificarFormularioK();
+        setTimeout(function() {
+            cargarRespuestas();
+        }, 5100);
 }
 }
 async function cargarRespuestas() {
-try {
-    const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
-    method: 'GET',
-    headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-    }
-    });
-    const respuestasUsuario = await response.json();
-    for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
-    if (/^[a-z]$/.test(respuesta)) {
-        const radioButton = document.querySelector(`input[name="${pregunta}"][value="${respuesta}"]`);
-        if (radioButton) {
-        radioButton.checked = true;
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}&formulario=false`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
+        });
+        const respuestasUsuario = await response.json();
+        for (const [pregunta, respuesta] of Object.entries(respuestasUsuario)) {
+        if (/^[a-z]$/.test(respuesta)) {
+            const radioButton = document.querySelector(`input[name="${pregunta}"][value="${respuesta}"]`);
+            if (radioButton) {
+            radioButton.checked = true;
+            }
+        }
+        }
+    } catch (error) {
+        console.error('Error al cargar respuestas:', error.message);
     }
-    }
-} catch (error) {
-    console.error('Error al cargar respuestas:', error.message);
-}
 }
 verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
@@ -221,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function verificarFormularioK() {
 try {
-    const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}&formulario=false`, {
     method: 'GET',
     headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -255,34 +271,35 @@ try {
 }
 
 async function actualizarBaseDeDatos(parametro, valor) {
-correo = (window.data).correo
-const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
-    method: 'PATCH',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-}
-}
+    const correo = info.correo
+    console.log(correo)
+    const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    }
 
-function showCustomPopup(message, duration, backgroundColor) {
-const customPopup = document.getElementById('customPopup');
-const popupMessage = document.getElementById('popupMessage');
+    function showCustomPopup(message, duration, backgroundColor) {
+    const customPopup = document.getElementById('customPopup');
+    const popupMessage = document.getElementById('popupMessage');
 
-customPopup.style.backgroundColor = backgroundColor;
+    customPopup.style.backgroundColor = backgroundColor;
 
-popupMessage.textContent = message;
-customPopup.style.display = 'block';
+    popupMessage.textContent = message;
+    customPopup.style.display = 'block';
 
-customPopup.style.animation = 'slideDown 0.5s';
+    customPopup.style.animation = 'slideDown 0.5s';
 
-setTimeout(() => {
-    customPopup.style.animation = 'slideUp 0.5s';
     setTimeout(() => {
-        customPopup.style.display = 'none';
-        customPopup.style.animation = '';
-    }, 500);
-}, duration);
+        customPopup.style.animation = 'slideUp 0.5s';
+        setTimeout(() => {
+            customPopup.style.display = 'none';
+            customPopup.style.animation = '';
+        }, 500);
+    }, duration);
 }

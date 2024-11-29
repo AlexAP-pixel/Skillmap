@@ -110,8 +110,9 @@ mostrarPagina(paginaActual);
 async function enviarFormulario() {
 if (verificarRespuestasPaginaActual()) {
     let formLleno = true
+    const correo = info.correo
     try {
-    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(correo)}&formulario=false`, {
         method: 'GET',
         headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -128,9 +129,22 @@ if (verificarRespuestasPaginaActual()) {
         showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
     }else{
         actualizarBaseDeDatos("formularioC", true)
-        setTimeout(() => {
-        window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
-    }, 1000);
+        const response = await fetch(`http://127.0.0.1:8000/banda/svmTest`, {
+            method: 'PUT',
+            headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+            },
+            body: JSON.stringify({
+                email: correo,
+                test: "C"
+            })
+        });
+        data = await response.json();
+        if (data.exito) {
+            setTimeout(() => {
+                window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
+            }, 1000);
+        }
     }
     } catch (error) {
     console.error('Error al cargar respuestas:', error.message);
@@ -139,25 +153,27 @@ if (verificarRespuestasPaginaActual()) {
 }
 
 async function verificarAutenticacion() {
-const response = await fetch('http://127.0.0.1:8000/user/me', {
-    method: 'GET',
-    headers: {
-    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-    }
-});
-window.data = await response.json();
-data = window.data
-if (!response.ok || data.error) {
-    window.location.href = 'http://127.0.0.1:8000/Skillmap/';
-}else{
-    document.querySelector('header').style.opacity = 1;
-    verificarFormularioC();
-    cargarRespuestas();
+    const response = await fetch('http://127.0.0.1:8000/user/me', {
+        method: 'GET',
+        headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+    });
+    data = await response.json();
+    if (!response.ok || data.error) {
+        window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+    }else{
+        info = data
+        document.querySelector('header').style.opacity = 1;
+        verificarFormularioC();
+        setTimeout(function() {
+            cargarRespuestas();
+        }, 5100);
 }
 }
 async function cargarRespuestas() {
 try {
-    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
     method: 'GET',
     headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -192,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function verificarFormularioC() {
 try {
-    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
     method: 'GET',
     headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -226,17 +242,16 @@ try {
 }
 
 async function actualizarBaseDeDatos(parametro, valor) {
-console.log(parametro);
-correo = (window.data).correo
-const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
-    method: 'PATCH',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-}
+    correo = (info).correo
+    const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 }
 
 function showCustomPopup(message, duration, backgroundColor) {

@@ -1,4 +1,4 @@
-let respuestasUsuarioH, respuestasUsuarioC, respuestasUsuarioK;
+let respuestasUsuarioH, respuestasUsuarioC, respuestasUsuarioK, horaExacta, info;
 async function verificarAutenticacion() {
     const response = await fetch('http://127.0.0.1:8000/user/me', {
         method: 'GET',
@@ -6,8 +6,8 @@ async function verificarAutenticacion() {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
     });
-    window.data = await response.json();
-    data = window.data
+    info = await response.json();
+    data = info
     if (!response.ok || data.error) {
         window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
@@ -16,7 +16,7 @@ async function verificarAutenticacion() {
         let kuder = true;
         let holland = true;
         try {
-        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(data.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(info.correo)}`, {
             method: 'GET',
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -28,7 +28,7 @@ async function verificarAutenticacion() {
         console.error('Error al cargar respuestas: ', error.message);
         }
         try {
-        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(data.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(info.correo)}`, {
             method: 'GET',
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -40,7 +40,7 @@ async function verificarAutenticacion() {
         console.error('Error al cargar respuestas: ', error.message);
         }
         try {
-        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(info.correo)}`, {
             method: 'GET',
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -55,7 +55,7 @@ async function verificarAutenticacion() {
             window.location.href = "http://127.0.0.1:8000/Skillmap/Empezar";
         } else {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/resultados/calculos/?correo=${encodeURIComponent(data.correo)}`, {
+                const response = await fetch(`http://127.0.0.1:8000/resultados/calculos/?correo=${encodeURIComponent(info.correo)}`, {
                     method: 'GET',
                     headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -1001,7 +1001,7 @@ function calcularResultadosK() {
 
 async function crearBson (resC, resH, resK) {
     const resultados = {
-        id_usuario: (window.data).correo,
+        id_usuario: (info).correo,
         In1: resC[0],
         In2: resC[1],
         In3: resC[2],
@@ -1064,9 +1064,6 @@ async function crearBson (resC, resH, resK) {
         }
 
         const data = await response.json();
-        if (data.error){
-            showCustomPopup(data.error,2000,"#ec5353")
-        }
     } catch (error) {
         console.error('Error during registration:', error);
     }
@@ -1074,7 +1071,7 @@ async function crearBson (resC, resH, resK) {
 
 async function cargarVideo () {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/resultados/video?correo=${encodeURIComponent((window.data).correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/resultados/video?correo=${encodeURIComponent((info).correo)}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -1087,8 +1084,14 @@ async function cargarVideo () {
 
         const data = await response.json();
         if (data.error){
-            showCustomPopup(data.error,2000,"#ec5353")
+            console.log(data.error)
         }else {
+            ocultarEmergente();
+            if (data.estado) {
+                const botonRegresar = document.getElementById("regresar")
+                botonRegresar.classList.remove('hidden');
+                botonRegresar.classList.add('enviar');
+            }
             const videoUrl = `http://127.0.0.1:8000/static/Videos/${data.exito}`;
             const videoElement = document.querySelector('video');
             videoElement.src = videoUrl;
@@ -1100,7 +1103,9 @@ async function cargarVideo () {
 
 async function terminarActividad() {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/resultados/?correo=${encodeURIComponent(data.correo)}`, {
+        abrirEmergente("Se estan procesando sus datos, no cierre esta ventana")
+        let correo = info.correo
+        const response = await fetch(`http://127.0.0.1:8000/resultados/?correo=${encodeURIComponent(correo)}`, {
             method: 'PUT',
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -1108,11 +1113,52 @@ async function terminarActividad() {
         });
         data = await response.json();
         if (data.exito) {
-            window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
+            const response = await fetch(`http://127.0.0.1:8000/banda/svmVideo`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: correo,
+                    horaExacta: horaExacta.toISOString()
+                })
+            });
+            data = await response.json();
+            if (data.exito) {
+                ocultarEmergente();
+                window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
+            }
+            
         }
     } catch (error) {
         console.error('Error al cargar respuestas: ', error.message);
     }
+
+}
+
+function regresar() {
+    window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
+}
+
+
+function abrirEmergente(msg) {
+    const emergente = document.getElementById('miEmergente');
+    const mensaje = document.getElementById('Mensaje');
+    mensaje.innerText = msg;
+    emergente.style.display = "block";
+}
+
+function ocultarEmergente() {
+    const emergente = document.getElementById('miEmergente');
+    if (emergente) {
+        emergente.style.display = "none";
+    }
+}
+
+function valRegresar() {
+    const botonRegresar = document.getElementById("regresar");
+    return botonRegresar.classList.contains('enviar')
 
 }
 
@@ -1122,6 +1168,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     const videoPlayer = document.getElementById('videoPlayer');
     const finalizarBtn = document.getElementById('finalizarBtn');
+    const emergente = document.getElementById('miEmergente');
+    const mensaje = document.getElementById('Mensaje');
+
+    if (emergente && mensaje) {
+        abrirEmergente("Tome un respiro mientras espera por su video");
+    }
 
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {
@@ -1133,8 +1185,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (videoPlayer){
-        videoPlayer.addEventListener('ended', function() {
-            finalizarBtn.disabled = false;
-        });
-    }
+        if (valRegresar()) {
+            videoPlayer.addEventListener('ended', function() {
+                finalizarBtn.disabled = false;
+                finalizarBtn.style.display = "block";
+            });
+            videoPlayer.addEventListener('pause', function(event) {
+                if (videoPlayer.paused) {
+                    videoPlayer.play();
+                }
+            });
+            videoPlayer.addEventListener('play', function() {
+                horaExacta = new Date();
+            });
+        }
+    }    
 });

@@ -7,7 +7,6 @@ async function verificarAutenticacion() {
     });
     const data = await response.json();
     if (!response.ok || data.error) {
-        // Puedes manejar el error aquí, si es necesario
     } else {
         window.location.href = 'http://127.0.0.1:8000/Skillmap/Inicio';
     }

@@ -1,3 +1,4 @@
+let info;
 async function verificarAutenticacion() {
 const nombre = document.getElementById('nombre');
 const apellido = document.getElementById('apellido');
@@ -8,8 +9,8 @@ const response = await fetch('http://127.0.0.1:8000/user/me', {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
 });
-window.data = await response.json();
-data = window.data
+info = await response.json();
+data = info
 if (!response.ok || data.error) {
     window.location.href = 'http://127.0.0.1:8000/Skillmap/';
 }else{
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                correo: window.data.correo,
+                correo: info.correo,
                 newPass: nuevaContrasena,
                 ...userData
                 }),
@@ -70,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showCustomPopup(data.error,2000,"#ec5353")
             }else{
             showCustomPopup(data.exito,2000,"#12a14b")
-            if (correo != window.data.correo) {
+            if (correo != info.correo) {
                 try {
                 const response = await fetch(`http://127.0.0.1:8000/answersC/updateCorreo`, {
                     method: 'POST',
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userCorreo: window.data.correo,
+                        userCorreo: info.correo,
                         newCorreo: correo
                     }),
                 });
@@ -97,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userCorreo: window.data.correo,
+                        userCorreo: info.correo,
                         newCorreo: correo
                     }),
                 });
@@ -116,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userCorreo: window.data.correo,
+                        userCorreo: info.correo,
                         newCorreo: correo
                     }),
                 });

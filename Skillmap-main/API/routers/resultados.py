@@ -137,7 +137,7 @@ async def set_video(correo: str):
         
         video_path = os.path.join(directorio, f"{idUsuario}.mp4")
         if os.path.exists(video_path):
-            return {"exito": f"{idUsuario}.mp4"}
+            return {"exito": f"{idUsuario}.mp4", "estado": True}
         
         videos = []
         for i in range(1, 6):
@@ -152,13 +152,26 @@ async def set_video(correo: str):
                 videos.append(video)
         
         clips = []
-        for video in videos:
+        videos_tiempo = [] 
+        db_client.banda.update_one({"id_usuario": idUsuario}, {"$set": {"status": True}})
+        for i, video in enumerate(videos):
             video_path = os.path.join(directorio, video)
             if not os.path.exists(video_path):
                 return {"error": f"El archivo de video {video} no se encuentra."}
             clip = VideoFileClip(video_path)
+            if i % 2 == 1:
+                segundos = clip.duration + 3
+                videos_tiempo.append(segundos)
             clips.append(clip)
-        
+        videos = {
+            "id_usuario": idUsuario,
+            "video1": videos_tiempo[0],
+            "video2": videos_tiempo[1],
+            "video3": videos_tiempo[2],
+            "video4": videos_tiempo[3],
+            "video5": videos_tiempo[4]
+        }
+        db_client.video.insert_one(videos)
         final_video = concatenate_videoclips(clips)
         output_path = os.path.join(directorio, f"{idUsuario}.mp4")
         final_video.write_videofile(output_path, codec="libx264", threads=4, preset='ultrafast')
@@ -166,6 +179,7 @@ async def set_video(correo: str):
         return {"exito": f"{idUsuario}.mp4"}
     
     except Exception as e:
+        print("error", e)
         return {"error": f"Ocurrió un error: {str(e)}"}
 
 @router.post("/")
@@ -408,6 +422,7 @@ async def update_resultados(correo: str):
 
     try:
         db_client.results.update_one({"_id": ObjectId(resultados.id)},{"$set": {"Actividad": True}})
+        db_client.banda.update_one({"id_usuario": idUsuario}, {"$set": {"status": False}})
     except:
         return {"error": "No se actualizo el estatus de actividad"}
     

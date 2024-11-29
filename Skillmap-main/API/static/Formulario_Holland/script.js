@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 await cargarPreguntas();
 mostrarPagina(0);
 });
-
+let info;
 const preguntasPorPagina =45;
 let paginaActual = 0;
 const totalPaginas = 4;
@@ -260,7 +260,7 @@ async function enviarFormulario() {
 if (verificarRespuestasPaginaActual()) {
     let formLleno = true
     try {
-    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
         method: 'GET',
         headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -276,10 +276,23 @@ if (verificarRespuestasPaginaActual()) {
     if (!formLleno){
         showCustomPopup("Completa el formulario antes de continuar",2000,"#ec5353")
     }else{
-        actualizarBaseDeDatos("formularioH", true)
-        setTimeout(() => {
-        window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
-    }, 1000);
+        const response = await fetch(`http://127.0.0.1:8000/banda/svmTest`, {
+            method: 'PUT',
+            headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+            },
+            body: JSON.stringify({
+                email: info.correo,
+                test: "K"
+            })
+        });
+        data = await response.json();
+        if (data.exito) {
+            actualizarBaseDeDatos("formularioH", true)
+            setTimeout(() => {
+                window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar/Evaluaciones';
+            }, 1000);
+        }
     }
     } catch (error) {
     console.error('Error al cargar respuestas:', error.message);
@@ -294,19 +307,21 @@ const response = await fetch('http://127.0.0.1:8000/user/me', {
     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
 });
-window.data = await response.json();
-data = window.data
+info = await response.json();
+data = info
 if (!response.ok || data.error) {
     window.location.href = 'http://127.0.0.1:8000/Skillmap/';
 }else{
     document.querySelector('header').style.opacity = 1;
     verificarFormularioH();
-    cargarRespuestas();
+    setTimeout(function() {
+        cargarRespuestas();
+    }, 5100);
 }
 }
 async function cargarRespuestas() {
 try {
-    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
     method: 'GET',
     headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -338,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function verificarFormularioH() {
 try {
-    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(data.correo)}`, {
+    const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
     method: 'GET',
     headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -376,7 +391,7 @@ try {
 }
 
 async function actualizarBaseDeDatos(parametro, valor) {
-correo = (window.data).correo
+correo = (info).correo
 const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(correo)}&parametro=${parametro}&valor=${valor}`,{
     method: 'PATCH',
     headers: {

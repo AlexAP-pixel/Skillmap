@@ -1,3 +1,4 @@
+let info;
 async function verificarAutenticacion() {
 const response = await fetch('http://127.0.0.1:8000/admin/me', {
     method: 'GET',
@@ -5,8 +6,8 @@ const response = await fetch('http://127.0.0.1:8000/admin/me', {
     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
 });
-window.data = await response.json();
-data = window.data;
+info = await response.json();
+data = info;
 if (!response.ok || data.error) {
     window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin';
 } else {
@@ -114,7 +115,7 @@ try {
         body: JSON.stringify({
         correo: userCorreo,
         editorPass: editor_contrasena,
-        editorCorreo: window.data.correo,
+        editorCorreo: info.correo,
         ...userData
         }),
     });
@@ -137,7 +138,7 @@ try {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                userCorreo: window.data.correo,
+                userCorreo: info.correo,
                 newCorreo: correo
                 }),
             });
@@ -156,7 +157,7 @@ try {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                userCorreo: window.data.correo,
+                userCorreo: info.correo,
                 newCorreo: correo
                 }),
             });
@@ -175,7 +176,7 @@ try {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                userCorreo: window.data.correo,
+                userCorreo: info.correo,
                 newCorreo: correo
                 }),
             });
@@ -217,7 +218,7 @@ try {
         body: JSON.stringify({
         correo: userCorreo,
         editorPass: editor_contrasena,
-        editorCorreo: window.data.correo,
+        editorCorreo: info.correo,
         }),
     });
     if (!response.ok) {

@@ -1,3 +1,4 @@
+let info;
 async function verificarAutenticacion() {
 const response = await fetch('http://127.0.0.1:8000/admin/me', {
     method: 'GET',
@@ -5,10 +6,10 @@ const response = await fetch('http://127.0.0.1:8000/admin/me', {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
 });
-window.data = await response.json();
-data = window.data
+info = await response.json();
+data = info
 if (!response.ok || data.error) {
-    window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin';
+    info.location.href = 'http://127.0.0.1:8000/Skillmap/Admin';
 }else{
     const nombre = document.getElementById('nombre');
     const apellido = document.getElementById('apellido');
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                correo: window.data.correo,
+                correo: info.correo,
                 newPass: nuevaContrasena,
                 ...userData
                 }),
@@ -72,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
             showCustomPopup(data.exito,2000,"#12a14b")
             setTimeout(() => {
-                window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin/Dashboard';
+                info.location.href = 'http://127.0.0.1:8000/Skillmap/Admin/Dashboard';
             }, 1500);
             }
         } catch (error) {
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {
             localStorage.removeItem('access_token');
-            window.location.href = 'http://127.0.0.1:8000/Skillmap/';
+            info.location.href = 'http://127.0.0.1:8000/Skillmap/';
         });
     } else {
         console.error('El botón con id "cerrar_sesion" no se encontró.');

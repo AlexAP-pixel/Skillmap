@@ -1,3 +1,4 @@
+let info;
 async function verificarAutenticacion() {
     const response = await fetch('http://127.0.0.1:8000/user/me', {
         method: 'GET',
@@ -5,15 +6,15 @@ async function verificarAutenticacion() {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
     });
-    window.data = await response.json();
-    user = window.data.id
-    data = window.data
+    info = await response.json();
+    user = info.id
+    data = info
     if (!response.ok || data.error) {
         window.location.href = 'http://127.0.0.1:8000/Skillmap/';
     }else{
         document.querySelector('header').style.opacity = 1;
         try {
-            const response = await fetch(`http://127.0.0.1:8000/resultados/info?correo=${encodeURIComponent(data.correo)}`, {
+            const response = await fetch(`http://127.0.0.1:8000/resultados/info?correo=${encodeURIComponent(info.correo)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -131,6 +132,8 @@ function abrirEmergente(escuela) {
 function abrirEmergente2(test) {
     document.getElementById('nombreEscuela').innerText = test.nombre;
     document.getElementById('misionEscuela').innerHTML = `<strong>Resultado: </strong>${test.resultado}`;
+    document.getElementById('visionEscuela').innerHTML = "";
+    document.getElementById('direccionEscuela').innerHTML = "";
 
     document.getElementById('miEmergente').style.display = "block";
 }
