@@ -16,7 +16,7 @@ async function verificarAutenticacion() {
         let kuder = true;
         let holland = true;
         try {
-        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(info.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersC?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
             method: 'GET',
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -28,7 +28,7 @@ async function verificarAutenticacion() {
         console.error('Error al cargar respuestas: ', error.message);
         }
         try {
-        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(info.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersK?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
             method: 'GET',
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -40,7 +40,7 @@ async function verificarAutenticacion() {
         console.error('Error al cargar respuestas: ', error.message);
         }
         try {
-        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(info.correo)}`, {
+        const response = await fetch(`http://127.0.0.1:8000/answersH?correo=${encodeURIComponent(info.correo)}&formulario=false`, {
             method: 'GET',
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -65,7 +65,7 @@ async function verificarAutenticacion() {
                 if (base.error) {
                     resC = calcularResultadosC();
                     resH = calcularResultadosH();
-                    resK = calcularResultadosK();
+                    resK = calcularResultadosK();                    
                     crearBson(resC, resH, resK);
                 }
                 
