@@ -7,7 +7,6 @@ from db.schemas.user import user_schema
 from db.client import db_client
 from datetime import datetime, timedelta
 from sklearn.svm import SVC
-import numpy as np
 
 router = APIRouter(prefix="/banda")
 
@@ -20,13 +19,10 @@ def search_banda(field: str, key):
 
 @router.post("/")
 async def create_banda(banda: Banda):
-    user = User(**user_schema(db_client.users.find_one({"correo": banda.id_usuario})))
-    id = user.id
-    if type(search_banda("id_usuario", id)) == Banda:
+    if type(search_banda("id_usuario", banda.id_usuario)) == Banda:
         return {"error": "El usuario tiene base de banda registrada"}
     
     banda_dict = dict(banda)
-    banda_dict["id_usuario"] = id
     banda_dict.pop("id", None)
     db_client.banda.insert_one(banda_dict).inserted_id
     
@@ -41,7 +37,7 @@ async def get_status(request: Request):
         return {"exito": result.status}
     return{"error": "No se encontro el registro"}
         
-router.put("/")
+@router.put("/")
 async def submit_data(request: Request):
     req_data = await request.json()
     usuario = req_data.get("user")
@@ -112,15 +108,22 @@ async def svm_test(request: Request):
                                 "lowGamma": result.lowGamma[i],
                                 "highGamma": result.highGamma[i],
                             }
+                        
+                        '''Aqui va el procesamieto de datos'''
+
                         model = SVC()
                         model.load('modelo_svm_atencion.pkl')
+                        # Convertir el diccionario en un array NumPy (ajusta los nombres de las claves según tu modelo)
                         X = np.array([valores_banda['delta'], valores_banda['theta'], ...])
-                        verdad = model.predict(X)
+                        # Realizar la predicción
+                        verdad = model.predict(X)  # Asegúrate de que la forma sea compatible con el modelo
+
+                        #verdad = 0 #Resultado de la SVM
                         verdades.append(verdad)
                         break
-                else:
-                    verdades.append(1)
-                    
+                    else:
+                        verdades.append(1)
+
             for i, ver in enumerate(verdades):
                 campo = f"res{i + 1}"
                 if ver == 0:
@@ -149,14 +152,10 @@ async def svm_test(request: Request):
                                 "lowGamma": result.lowGamma[i],
                                 "highGamma": result.highGamma[i],
                             }
-                        model = SVC()
-                        model.load('modelo_svm_atencion.pkl')
-                        X = np.array([valores_banda['delta'], valores_banda['theta'], ...])
-                        verdad = model.predict(X)
+                        '''Aqui va el procesamieto de datos'''
+                        verdad = 0 #Resultado de la SVM
                         verdades.append(verdad)
                         break
-                else:
-                    verdades.append(1)
                     
             j = 1
             for i, ver in enumerate(verdades):
@@ -189,14 +188,10 @@ async def svm_test(request: Request):
                                 "lowGamma": result.lowGamma[i],
                                 "highGamma": result.highGamma[i],
                             }
-                        model = SVC()
-                        model.load('modelo_svm_atencion.pkl')
-                        X = np.array([valores_banda['delta'], valores_banda['theta'], ...])
-                        verdad = model.predict(X)
+                        '''Aqui va el procesamieto de datos'''
+                        verdad = 0 #Resultado de la SVM
                         verdades.append(verdad)
                         break
-                else:
-                    verdades.append(1)
                     
             for i, ver in enumerate(verdades):
                 campo = f"res{i + 1}"
@@ -247,6 +242,15 @@ async def svm_video(request: Request):
                     '''Aqui va el procesamieto de datos
                     en la lista videos se guardará el resultado de la SVM y el video en el que esta
                     si esta atento se guarda 1 y si no se guarda 0'''
+                    
+                    modelAtencion = SVC()
+                    modelAtencion.load('modelo_svm_atencion.pkl')
+                    
+                    # Convertir el diccionario en un array NumPy (ajusta los nombres de las claves según tu modelo)
+                    XA = np.array([valores_banda['delta'], valores_banda['theta'], ...])
+                    # Realizar la predicción
+                    atencion = model.predict(XA) 
+                    
                     atencion = 0 #Resultado de la SVM
                     atencion_video.append(atencion)
             videos.append({"video_id": j, "atencion": atencion_video})

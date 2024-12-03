@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import users, templates, respuestasC, respuestasK, respuestasH, admins, resultados
+from routers import users, templates, respuestasC, respuestasK, respuestasH, admins, resultados, banda
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -24,3 +24,4 @@ app.include_router(respuestasK.router)
 app.include_router(respuestasH.router)
 app.include_router(admins.router)
 app.include_router(resultados.router)
+app.include_router(banda.router)

@@ -166,7 +166,7 @@ if (verificarRespuestasPaginaActual()) {
                 },
                 body: JSON.stringify({
                     email: correo,
-                    test: "C"
+                    test: "K"
                 })
             });
             data = await response.json();

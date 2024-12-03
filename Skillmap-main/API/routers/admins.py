@@ -109,7 +109,7 @@ async def update_pass(correo: str):
         
         subject = "Recuperación de contraseña"
         body = f"Hola {admin.name} \n\nEsta es tu nueva contraseña {password}, te recomendamos cambiarla tras ingresar en el apartado de Mi cuenta"
-        send_mail(admin.correo, subject, body, 1)
+        send_mail(admin.correo, subject, body)
     else:
         return {"error": "Correo no registrado"}
     return {"éxito": "Contraseña restaurada"}
@@ -169,7 +169,7 @@ async def create_user(request: Request):
     
     subject = "Bienvenido"
     body = f"Hola {user.name}, gracias por registrarte en SkillMap\n\nEste es tu código de verificación: {code}\n\nY esta es tu contraseña {password}, te recomendamos cambiarla tras ingresar en el apartado de Mi cuenta"
-    send_mail(user.correo, subject, body, 1)
+    send_mail(user.correo, subject, body)
     
     return "Usuario creado"
 
@@ -207,7 +207,7 @@ async def create_admin(request: Request):
     
     subject = "Bienvenido"
     body = f"Hola {admin.name}, gracias por registrarte en SkillMap\n\nEste es tu código de verificación: {code}\n\nY esta es tu contraseña {password}, te recomendamos cambiarla tras ingresar en el apartado de Mi cuenta"
-    send_mail(admin.correo, subject, body, 1)
+    send_mail(admin.correo, subject, body)
     
     return "Usuario creado"
 
@@ -232,21 +232,22 @@ async def validar_usuario(code:int):
             return {"exito": "Codigo validado"}
     else:
         return {"error":"Codigo invalido"}
-    
+   
 @router.get("/codigoValido")
 async def existencia_codigo(correo:str):
     admin = search_admin("correo", correo)
     try:
         code = db_client.codes.find_one({"user_id": admin.id})
     except:
-        print("Usuario no encontrado")
-    if code.get("expiration_time") > datetime.utcnow():
-        print("codigo activo")
-        return {"exito": "Codigo activo"}
-    else:
-        code = db_client.codes.find_one_and_delete({"user_id": admin.id})
-        print("codigo inactivo")
-        return {"error":"Codigo inactivo"}    
+        return {"error":"Usuario no encontrado"}
+    if code:
+        if code.get("expiration_time") > datetime.utcnow():
+            return {"exito": "Codigo activo"}
+        else:
+            code = db_client.codes.find_one_and_delete({"user_id": admin.id})
+            print("codigo inactivo")
+            return {"error":"Codigo inactivo"}
+    return {"error": "Codigo inactivo"} 
 
 @router.get("/me")
 async def me(admin: Admin = Depends(current_admin)):
@@ -266,7 +267,7 @@ async def mail(correo: str):
     
     subject = "Bienvenido"
     body = f" Hola {admin.name} gracias por registrarte en SkillMap\n\nEste es tu código de verificación: {code}"
-    send_mail(admin.correo, subject, body, 1)
+    send_mail(admin.correo, subject, body)
     return {"Correo enviado"}
 
 @router.post("/update")
