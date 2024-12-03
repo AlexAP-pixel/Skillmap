@@ -1,7 +1,4 @@
-import smtplib
 import random
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from fastapi import APIRouter, Depends
 from fastapi import Request
 from passlib.context import CryptContext
@@ -14,6 +11,7 @@ from db.schemas.codes import codes_schema
 from db.client import db_client
 from bson import ObjectId
 from datetime import datetime, timedelta
+from mailjet_rest import Client
 
 router = APIRouter(prefix="/user")
 
@@ -36,37 +34,35 @@ def remove_password_field(user_dict):
     user_dict_copy.pop("password", None)
     return user_dict_copy
 
-def send_mail(correo, subject, body, attemp):
-    HOST = "smtp-mail.outlook.com"
-    PORT = 587
+def send_mail(correo, subject, body):
+    api_key = "afc76f2c3e5ed7398bbb8c9f73827c20"
+    api_secret = "280a6ce7e88638f7cd0f91dc3e8b858c"
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
-    if attemp == 1:
-        FROM_EMAIL = "skillmap2024@outlook.com"
-    elif attemp == 2:
-        FROM_EMAIL = "skillmap2025@outlook.com"
-    elif attemp == 3:
-        FROM_EMAIL = "skillmap2026@outlook.com"
-    elif attemp == 4:
-        FROM_EMAIL = "skillmap2027@outlook.com"
-    TO_EMAIL = correo
-    PASSWORD = "Tarjetasfunables3420"
-
-    message = MIMEMultipart()
-    message["From"] = FROM_EMAIL
-    message["To"] = TO_EMAIL
-    message["Subject"] = subject
-
-    # Agregar el cuerpo del mensaje como texto plano
-    message.attach(MIMEText(body, "plain"))
-    try:
-        with smtplib.SMTP(HOST, PORT) as smtp:
-            smtp.starttls()
-            smtp.login(FROM_EMAIL, PASSWORD)
-            smtp.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
-            print("Correo enviado con éxito.")
-    except Exception as e:
-        send_mail(correo, subject, body, attemp+1)
-        return {"error": f"Error al enviar el correo: {str(e)}"}
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": "your-verified-email@mailjet.com",  # Correo verificado de Mailjet
+                    "Name": "Tu nombre o nombre de tu aplicación"
+                },
+                "To": [
+                    {
+                        "Email": correo,  # Correo del destinatario
+                        "Name": ""
+                    }
+                ],
+                "Subject": subject,  # Asunto del correo
+                "TextPart": body,  # Cuerpo del correo en texto plano
+                "HTMLPart": f"<h3>{body}</h3>"  # Cuerpo del correo en formato HTML
+            }
+        ]
+    }
+    result = mailjet.send.create(data=data)
+    if result.status_code == 200:
+        print("Correo enviado exitosamente.")
+    else:
+        print(f"Error al enviar el correo: {result.status_code}, {result.text}")
 
 async def auth_user(token: str = Depends(oauth2)):
     try:
@@ -122,7 +118,7 @@ async def mail(correo: str):
     
     subject = "Bienvenido"
     body = f" Hola {user.name} gracias por registrarte en SkillMap\n\nEste es tu código de verificación: {code}"
-    send_mail(user.correo, subject, body, 1)
+    send_mail(user.correo, subject, body)
     return {"Correo enviado"}
 
 @router.put("/contraseña")
@@ -135,7 +131,7 @@ async def update_pass(correo: str):
         
         subject = "Recuperacion de contraseña"
         body = f" Hola {user.name} \n\nEste es tu nueva contraseña {password}, te recomendamos cambiarla tras ingresar en el apartado de Mi cuenta"
-        send_mail(user.correo, subject, body, 1)
+        send_mail(user.correo, subject, body)
     else:
         return {"error":"Correo no registrado"}
     return {"exito":"Contraseña restaurada"}
@@ -168,13 +164,15 @@ async def existencia_codigo(correo:str):
         code = db_client.codes.find_one({"user_id": user.id})
     except:
         print("Usuario no encontrado")
-    if code.get("expiration_time") > datetime.utcnow():
-        print("codigo activo")
-        return {"exito": "Codigo activo"}
-    else:
-        code = db_client.codes.find_one_and_delete({"user_id": user.id})
-        print("codigo inactivo")
-        return {"error":"Codigo inactivo"}
+    if code:
+        if code.get("expiration_time") > datetime.utcnow():
+            print("codigo activo")
+            return {"exito": "Codigo activo"}
+        else:
+            code = db_client.codes.find_one_and_delete({"user_id": user.id})
+            print("codigo inactivo")
+            return {"error":"Codigo inactivo"}
+    return {"error": "Codigo inactivo"}
 
 @router.delete("/")
 async def delete_user(id: str):
@@ -208,10 +206,11 @@ async def updateUser(request: Request):
     newPass = req_data.get("newPass")
     newUser = User(**req_data)
     
+    user = search_user("correo", newUser.correo)
+    
     if not crypt.verify(newUser.password, user.password):
         return {"error": "Contraseña incorrecta"}
     
-    user = search_user("correo", newUser.correo)
     if newUser.correo != userCorreo:
         if type(search_user("correo", userCorreo)) == User:
             print("Correo ya registrado")

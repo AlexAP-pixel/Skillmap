@@ -137,7 +137,7 @@ async def set_video(correo: str):
         
         video_path = os.path.join(directorio, f"{idUsuario}.mp4")
         if os.path.exists(video_path):
-            return {"exito": f"{idUsuario}.mp4", "estado": True}
+            return {"exito": f"{idUsuario}.mp4", "estado": resultados.Actividad}
         
         videos = []
         for i in range(1, 6):

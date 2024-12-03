@@ -12,8 +12,8 @@ async function verificarAutenticacion() {
         window.location.href = 'http://127.0.0.1:8000/Skillmap/Admin/Inicio';
     }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const loginForm = document.getElementById('loginForm');
 
     if (loginForm) {

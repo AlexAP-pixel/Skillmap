@@ -15,16 +15,17 @@ if (!response.ok || data.error) {
     window.location.href = 'http://127.0.0.1:8000/Skillmap/';
 }else{
     document.querySelector('header').style.opacity = 1;
-    nombretxt = data.name
-    apellidotxt = data.surname
-    correotxt = data.correo
+    const nombretxt = info.name
+    const apellidotxt = info.surname
+    const correotxt = info.correo
     nombre.value = nombretxt
     apellido.value = apellidotxt
     correo.value = correotxt
 }
 }
-verificarAutenticacion();
+
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     const guardarCambiosBtn = document.getElementById('guardarCambiosButton');
     if(guardarCambiosBtn){

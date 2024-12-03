@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
-await cargarPreguntas();
-mostrarPagina(0);
+    verificarAutenticacion();
+    await cargarPreguntas();
+    mostrarPagina(0);
 });
 
 const preguntasPorPagina = 14;
@@ -193,7 +194,6 @@ try {
     console.error('Error al cargar respuestas:', error.message);
 }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     if (cerrarSesionBtn) {

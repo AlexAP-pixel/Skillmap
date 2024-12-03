@@ -155,6 +155,7 @@ async function respuesta(uPregunta, uRespuesta) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     const formBtn = document.getElementById('messageForm');
     if (formBtn) {
@@ -189,5 +190,3 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('El botón con id "cerrar_sesion" no se encontró.');
     }
 });
-
-verificarAutenticacion();

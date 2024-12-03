@@ -15,8 +15,8 @@ if (!response.ok || data.error) {
 function redirigir(url){
 window.location.href = url
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {

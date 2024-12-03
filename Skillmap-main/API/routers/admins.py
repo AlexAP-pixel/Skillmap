@@ -16,6 +16,7 @@ from db.schemas.codes import codes_schema
 from db.client import db_client
 from bson import ObjectId
 from datetime import datetime, timedelta
+from mailjet_rest import Client
 
 router = APIRouter(prefix="/admin")
 
@@ -44,38 +45,35 @@ def remove_password_field(admin_dict):
     admin_dict_copy.pop("password", None)
     return admin_dict_copy
 
-def send_mail(correo, subject, body, attempt):
-    HOST = "smtp-mail.outlook.com"
-    PORT = 587
+def send_mail(correo, subject, body):
+    api_key = "afc76f2c3e5ed7398bbb8c9f73827c20"
+    api_secret = "280a6ce7e88638f7cd0f91dc3e8b858c"
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
-    FROM_EMAILS = {
-        1: "skillmap2024@outlook.com",
-        2: "skillmap2025@outlook.com",
-        3: "skillmap2026@outlook.com",
-        4: "skillmap2027@outlook.com"   
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": "skillmap2024@outlook.com", 
+                    "Name": "SkillMap"
+                },
+                "To": [
+                    {
+                        "Email": correo,
+                        "Name": ""
+                    }
+                ],
+                "Subject": subject,
+                "TextPart": body,
+                "HTMLPart": f"<h3>{body}</h3>"
+            }
+        ]
     }
-
-    FROM_EMAIL = FROM_EMAILS.get(attempt, "skillmap2024@outlook.com")
-    TO_EMAIL = correo
-    PASSWORD = "Tarjetasfunables3420"
-
-    message = MIMEMultipart()
-    message["From"] = FROM_EMAIL
-    message["To"] = TO_EMAIL
-    message["Subject"] = subject
-
-    # Agregar el cuerpo del mensaje como texto plano
-    message.attach(MIMEText(body, "plain"))
-    try:
-        with smtplib.SMTP(HOST, PORT) as smtp:
-            smtp.starttls()
-            smtp.login(FROM_EMAIL, PASSWORD)
-            smtp.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
-            print("Correo enviado con éxito.")
-    except Exception as e:
-        if attempt < 4:
-            send_mail(correo, subject, body, attempt + 1)
-        return {"error": f"Error al enviar el correo: {str(e)}"}
+    result = mailjet.send.create(data=data)
+    if result.status_code == 200:
+        print("Correo enviado exitosamente.")
+    else:
+        print(f"Error al enviar el correo: {result.status_code}, {result.text}")
 
 async def auth_admin(token: str = Depends(oauth2)):
     try:

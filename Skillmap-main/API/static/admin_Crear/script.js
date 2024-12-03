@@ -17,8 +17,8 @@ if (!response.ok || data.error) {
     document.querySelector('header').style.opacity = 1;
 }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     const crearUsuarioBtn = document.getElementById('crearUsuarioButton')
     if (crearUsuarioBtn) {

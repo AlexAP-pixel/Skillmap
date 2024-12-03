@@ -18,8 +18,8 @@ async function verificarAutenticacion() {
         correo.textContent = correotxt
     }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {

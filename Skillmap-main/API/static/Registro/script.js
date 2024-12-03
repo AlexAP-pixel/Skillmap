@@ -12,8 +12,8 @@ async function verificarAutenticacion() {
         window.location.href = 'http://127.0.0.1:8000/Skillmap/Inicio';
     }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
         registerForm.addEventListener('submit', function(event) {
@@ -179,8 +179,34 @@ async function registerUser() {
                                 if (data.error){
                                     showCustomPopup(data.error,2000,"#ec5353")
                                 }else{
-                                    showCustomPopup("Usuario creado",2000,"#12a14b")
-                                    mail(email);
+                                    const bandaData = {
+                                        id_usuario: email,
+                                        delta: [],
+                                        theta: [],
+                                        lowAlpha: [],
+                                        highAlpha: [],
+                                        lowBeta: [],
+                                        highBeta: [],
+                                        lowGamma: [],
+                                        highGamma: [],
+                                        times: [],
+                                        status: false
+                                    };
+                                    
+                                    fetch("http://127.0.0.1:8000/", {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(bandaData)
+                                    })
+                                    const data = await response.json();
+                                    if (data.error){
+                                        showCustomPopup(data.error,2000,"#ec5353")
+                                    }else {                                   
+                                        showCustomPopup("Usuario creado",2000,"#12a14b")
+                                        mail(email);
+                                    }
                                 }
                             } catch (error) {
                                 console.error('Error during registration:', error);

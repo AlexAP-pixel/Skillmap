@@ -12,9 +12,9 @@ async function verificarAutenticacion() {
         document.querySelector('header').style.opacity = 1;
     }
 }
-verificarAutenticacion();
 
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {

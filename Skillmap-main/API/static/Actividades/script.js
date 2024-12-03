@@ -1,4 +1,4 @@
-let respuestasUsuarioH, respuestasUsuarioC, respuestasUsuarioK, horaExacta, info;
+let respuestasUsuarioH, respuestasUsuarioC, respuestasUsuarioK, horaExacta, info, estado;
 async function verificarAutenticacion() {
     const response = await fetch('http://127.0.0.1:8000/user/me', {
         method: 'GET',
@@ -1083,11 +1083,12 @@ async function cargarVideo () {
         }
 
         const data = await response.json();
+        estado = data.estado;
         if (data.error){
             console.log(data.error)
         }else {
             ocultarEmergente();
-            if (data.estado) {
+            if (estado) {
                 const botonRegresar = document.getElementById("regresar")
                 botonRegresar.classList.remove('hidden');
                 botonRegresar.classList.add('enviar');
@@ -1095,6 +1096,25 @@ async function cargarVideo () {
             const videoUrl = `http://127.0.0.1:8000/static/Videos/${data.exito}`;
             const videoElement = document.querySelector('video');
             videoElement.src = videoUrl;
+            if (!estado){
+                videoElement.addEventListener('ended', function() {
+                    const finalizarBtn = document.getElementById('finalizarBtn');
+                    finalizarBtn.classList.remove('hidden');
+                    finalizarBtn.classList.add('enviar');
+                    videoElement.removeEventListener('pause', preventPause);
+                });
+
+                function preventPause() {
+                    if (videoElement.paused) {
+                        videoElement.play();
+                    }
+                }
+                videoElement.addEventListener('pause', preventPause);
+
+                videoElement.addEventListener('play', function() {
+                    horaExacta = new Date();
+                });
+            }
         }
     } catch (error) {
         console.error('Error:', error);
@@ -1162,12 +1182,9 @@ function valRegresar() {
 
 }
 
-verificarAutenticacion();
-
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
-    const videoPlayer = document.getElementById('videoPlayer');
-    const finalizarBtn = document.getElementById('finalizarBtn');
     const emergente = document.getElementById('miEmergente');
     const mensaje = document.getElementById('Mensaje');
 
@@ -1182,22 +1199,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
         console.error('El botón con id "cerrar_sesion" no se encontró.');
-    }
-
-    if (videoPlayer){
-        if (valRegresar()) {
-            videoPlayer.addEventListener('ended', function() {
-                finalizarBtn.disabled = false;
-                finalizarBtn.style.display = "block";
-            });
-            videoPlayer.addEventListener('pause', function(event) {
-                if (videoPlayer.paused) {
-                    videoPlayer.play();
-                }
-            });
-            videoPlayer.addEventListener('play', function() {
-                horaExacta = new Date();
-            });
-        }
     }    
 });

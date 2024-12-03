@@ -144,9 +144,8 @@ window.onclick = function(event) {
     }
 }
 
-verificarAutenticacion();
-
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     const cerrarButton = document.querySelector('.cerrar');
     

@@ -60,8 +60,8 @@ if (!response.ok || data.error) {
     }
 }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {

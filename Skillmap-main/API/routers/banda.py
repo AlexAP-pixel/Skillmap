@@ -18,10 +18,14 @@ def search_banda(field: str, key):
 
 @router.post("/")
 async def create_banda(banda: Banda):
-    if type(search_banda("id_usuario", banda.id_usuario)) == Banda:
+    user = User(**user_schema(db_client.users.find_one({"correo": banda.id_usuario})))
+    id = user.id
+    if type(search_banda("id_usuario", id)) == Banda:
         return {"error": "El usuario tiene base de banda registrada"}
     
     banda_dict = dict(banda)
+    print(id)
+    banda_dict["id_usuario"] = id
     banda_dict.pop("id", None)
     db_client.banda.insert_one(banda_dict).inserted_id
     

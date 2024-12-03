@@ -240,8 +240,8 @@ try {
 }
 }
 
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     const buscarUsuarios = documento.getElementById('hero');
     if (buscarUsuarios){

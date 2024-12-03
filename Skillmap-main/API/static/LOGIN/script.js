@@ -12,9 +12,8 @@ async function verificarAutenticacion() {
     }
 }
 
-verificarAutenticacion();
-
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const loginForm = document.getElementById('loginForm');
 
     if (loginForm) {

@@ -88,7 +88,7 @@ if (!response.ok || data.error) {
             }
     
             const data = await response.json();
-            if (!data.exito.Actividad){
+            if (data.error || !data.exito.Actividad){
                 var resultsOptions = document.querySelector('.options-member-results');
                 resultsOptions.style.transform = 'none'
                 resultsOptions.style.border ='#333';
@@ -120,8 +120,8 @@ if (redireccionar3) {
     window.location.href = url
 }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {

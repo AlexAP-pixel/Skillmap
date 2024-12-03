@@ -24,8 +24,8 @@ if (!response.ok || data.error) {
     console.log(nombre)
 }
 }
-verificarAutenticacion();
 document.addEventListener('DOMContentLoaded', () => {
+    verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
     const guardarCambiosBtn = document.getElementById('guardarCambiosButton')
     if (guardarCambiosBtn) {
