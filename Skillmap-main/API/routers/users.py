@@ -43,8 +43,8 @@ def send_mail(correo, subject, body):
         'Messages': [
             {
                 "From": {
-                    "Email": "your-verified-email@mailjet.com",  # Correo verificado de Mailjet
-                    "Name": "Tu nombre o nombre de tu aplicación"
+                    "Email": "skillmap2024@outlook.com", 
+                    "Name": "SkillMap"
                 },
                 "To": [
                     {
