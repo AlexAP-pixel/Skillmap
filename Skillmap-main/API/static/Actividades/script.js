@@ -1145,11 +1145,8 @@ async function terminarActividad() {
                 })
             });
             data = await response.json();
-            if (data.exito) {
-                ocultarEmergente();
-                window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';
-            }
-            
+            ocultarEmergente();
+            window.location.href = 'http://127.0.0.1:8000/Skillmap/Empezar';            
         }
     } catch (error) {
         console.error('Error al cargar respuestas: ', error.message);
