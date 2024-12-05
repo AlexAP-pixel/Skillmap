@@ -166,7 +166,7 @@ async def procesar_video(correo: str, hora_exacta: datetime, result):
                     }
                 model = SVC()
                 model.load('modelo_svm_atencion.pkl')
-                X = np.array([valores_banda['delta'], valores_banda['theta']])
+                X = np.array([valores_banda['delta'], valores_banda['theta'], valores_banda['lowAlpha'], valores_banda['highAlpha'], valores_banda['lowBeta'], valores_banda['highBeta'], valores_banda['lowGamma'], valores_banda['highGamma']])
                 atencion = model.predict(X)
                 atencion_video.append(atencion)
         videos.append({"video_id": j, "atencion": atencion_video})
