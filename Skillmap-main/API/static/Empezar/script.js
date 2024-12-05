@@ -74,6 +74,8 @@ if (!response.ok || data.error) {
         resultsTitle.style.color = '#666';
         redireccionar2 = false;
         redireccionar3 = false;
+        
+        abrirEmergente("Recuerde tener la interfaz iniciada para obtener mejores resultados con la banda");
     }else {
         try {
             const response = await fetch(`http://127.0.0.1:8000/resultados?correo=${encodeURIComponent((info).correo)}`, {
@@ -120,9 +122,26 @@ if (redireccionar3) {
     window.location.href = url
 }
 }
+
+function abrirEmergente(msg) {
+    const emergente = document.getElementById('miEmergente');
+    const mensaje = document.getElementById('Mensaje');
+    mensaje.innerText = msg;
+    emergente.style.display = "block";
+}
+
+function ocultarEmergente() {
+    const emergente = document.getElementById('miEmergente');
+    if (emergente) {
+        emergente.style.display = "none";
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     verificarAutenticacion();
     const cerrarSesionBtn = document.getElementById('cerrar_sesion');
+    const cerrarButton = document.querySelector('.cerrar');
+
     if (cerrarSesionBtn) {
         cerrarSesionBtn.addEventListener('click', function() {
             localStorage.removeItem('access_token');
@@ -130,5 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
         console.error('El botón con id "cerrar_sesion" no se encontró.');
+    }
+
+    if (cerrarButton) {
+        cerrarButton.onclick = function() {
+            document.getElementById('miEmergente').style.display = "none";
+        };
+    }else {
+        console.error('El botón con clase "cerrar" no se encontró.');
     }
 });
