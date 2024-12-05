@@ -1087,7 +1087,6 @@ async function cargarVideo () {
         if (data.error){
             console.log(data.error)
         }else {
-            ocultarEmergente();
             if (estado) {
                 const botonRegresar = document.getElementById("regresar")
                 botonRegresar.classList.remove('hidden');
@@ -1095,7 +1094,18 @@ async function cargarVideo () {
             }
             const videoUrl = `http://127.0.0.1:8000/static/Videos/${data.exito}`;
             const videoElement = document.querySelector('video');
-            videoElement.src = videoUrl;
+
+            while (true) {
+                const response = await fetch(videoUrl, { method: 'HEAD' });
+                if (response.ok) {
+                    videoElement.src = videoUrl;
+                    break;
+                } else {
+                    await new Promise(resolve => setTimeout(resolve, 20000));
+                }
+            }
+            ocultarEmergente();
+            
             if (!estado){
                 videoElement.addEventListener('ended', function() {
                     const finalizarBtn = document.getElementById('finalizarBtn');
