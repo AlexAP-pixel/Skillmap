@@ -179,6 +179,7 @@ async function registerUser() {
                                 if (data.error){
                                     showCustomPopup(data.error,2000,"#ec5353")
                                 }else{
+                                    mail(email);
                                     const bandaData = {
                                         id_usuario: email,
                                         delta: [],
@@ -200,13 +201,8 @@ async function registerUser() {
                                         },
                                         body: JSON.stringify(bandaData)
                                     })
-                                    const data = await response.json();
-                                    if (data.error){
-                                        showCustomPopup(data.error,2000,"#ec5353")
-                                    }else {                                   
-                                        showCustomPopup("Usuario creado",2000,"#12a14b")
-                                        mail(email);
-                                    }
+                                    showCustomPopup("Usuario creado",2000,"#12a14b")
+                                    window.location.href = "https://api-2y57.onrender.com/Skillmap/Autenticar";
                                 }
                             } catch (error) {
                                 console.error('Error during registration:', error);
